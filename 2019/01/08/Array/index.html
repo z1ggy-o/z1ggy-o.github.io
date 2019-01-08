@@ -6,17 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="数组 ArrayBasic ArrayArray 可能是我们最先接触到的数据结构。Array 是非常简单的线性存储结构，所谓的 multi-dimensional array 的实际形态也是线性的。 在使用 array 的时候，我们就是向系统索取了一定量的连续内存空间。在 C 语言中，声明数组之后得到的就是第一个内存地址。 对内存空间之内的内容我们都可以直接的进行各类操作。 所以数组的优点就是对于">
+    <meta name="description" content="数组 ArrayBasic ArrayArray 可能是我们最先接触到的数据结构。 Array 是非常简单的线性存储结构，所谓的 multi-dimensional array 的实际形态也是线性的。 在使用 array 的时候，我们就是向系统索取了一定量的连续内存空间。在 C 语言中，声明数组之后得到的就是第一个 内存地址。 对内存空间之内的内容我们都可以直接的进行各类操作。 所以数组的优点就是">
+<meta name="keywords" content="Array">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Array">
 <meta property="og:url" content="http://yoursite.com/2019/01/08/Array/index.html">
 <meta property="og:site_name" content="z1ggy-o&#39;s blog">
-<meta property="og:description" content="数组 ArrayBasic ArrayArray 可能是我们最先接触到的数据结构。Array 是非常简单的线性存储结构，所谓的 multi-dimensional array 的实际形态也是线性的。 在使用 array 的时候，我们就是向系统索取了一定量的连续内存空间。在 C 语言中，声明数组之后得到的就是第一个内存地址。 对内存空间之内的内容我们都可以直接的进行各类操作。 所以数组的优点就是对于">
+<meta property="og:description" content="数组 ArrayBasic ArrayArray 可能是我们最先接触到的数据结构。 Array 是非常简单的线性存储结构，所谓的 multi-dimensional array 的实际形态也是线性的。 在使用 array 的时候，我们就是向系统索取了一定量的连续内存空间。在 C 语言中，声明数组之后得到的就是第一个 内存地址。 对内存空间之内的内容我们都可以直接的进行各类操作。 所以数组的优点就是">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-01-08T04:18:48.316Z">
+<meta property="og:updated_time" content="2019-01-08T05:29:16.629Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Array">
-<meta name="twitter:description" content="数组 ArrayBasic ArrayArray 可能是我们最先接触到的数据结构。Array 是非常简单的线性存储结构，所谓的 multi-dimensional array 的实际形态也是线性的。 在使用 array 的时候，我们就是向系统索取了一定量的连续内存空间。在 C 语言中，声明数组之后得到的就是第一个内存地址。 对内存空间之内的内容我们都可以直接的进行各类操作。 所以数组的优点就是对于">
+<meta name="twitter:description" content="数组 ArrayBasic ArrayArray 可能是我们最先接触到的数据结构。 Array 是非常简单的线性存储结构，所谓的 multi-dimensional array 的实际形态也是线性的。 在使用 array 的时候，我们就是向系统索取了一定量的连续内存空间。在 C 语言中，声明数组之后得到的就是第一个 内存地址。 对内存空间之内的内容我们都可以直接的进行各类操作。 所以数组的优点就是">
     
     
         
@@ -130,14 +131,21 @@
 
 
       
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Array/">Array</a>
+    </div>
+
 
     </div>
   </header>
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="数组-Array"><a href="#数组-Array" class="headerlink" title="数组 Array"></a>数组 Array</h1><h2 id="Basic-Array"><a href="#Basic-Array" class="headerlink" title="Basic Array"></a>Basic Array</h2><p>Array 可能是我们最先接触到的数据结构。<br>Array 是非常简单的线性存储结构，所谓的 multi-dimensional array 的实际形态也是线性的。</p>
-<p>在使用 array 的时候，我们就是向系统索取了一定量的连续内存空间。在 C 语言中，声明数组之后得到的就是第一个<br>内存地址。 对内存空间之内的内容我们都可以直接的进行各类操作。 所以数组的优点就是对于数组内的任意位置进行直接操作。</p>
+    <h1 id="数组-Array"><a href="#数组-Array" class="headerlink" title="数组 Array"></a>数组 Array</h1><h2 id="Basic-Array"><a href="#Basic-Array" class="headerlink" title="Basic Array"></a>Basic Array</h2><p>Array 可能是我们最先接触到的数据结构。
+Array 是非常简单的线性存储结构，所谓的 multi-dimensional array 的实际形态也是线性的。</p>
+<p>在使用 array 的时候，我们就是向系统索取了一定量的连续内存空间。在 C 语言中，声明数组之后得到的就是第一个
+内存地址。 对内存空间之内的内容我们都可以直接的进行各类操作。 所以数组的优点就是对于数组内的任意位置进行直接操作。</p>
 <p>由此，我们可以得到几个常见 array 操作的复杂度：</p>
 <ul>
 <li>Add First: $O(n)$. 在向头部添加元素时，要将原来的已有的每一个元素向后位移。</li>
@@ -149,7 +157,8 @@
 <li>Get value of given index: $O(1)$. Random access 是 Array 的长处。</li>
 <li>Get index of given value: $O(n)$. 需要挨个对比。</li>
 </ul>
-<h2 id="Dynamic-Array"><a href="#Dynamic-Array" class="headerlink" title="Dynamic Array"></a>Dynamic Array</h2><p>因为 array 的空间大小是提前指定的，其大小就制约了我们对数组的使用。为了应对这个问题，我们可以建立一个<br>动态数组，让它根据数组内元素数量的变动自己对内存空间进行伸缩。</p>
+<h2 id="Dynamic-Array"><a href="#Dynamic-Array" class="headerlink" title="Dynamic Array"></a>Dynamic Array</h2><p>因为 array 的空间大小是提前指定的，其大小就制约了我们对数组的使用。为了应对这个问题，我们可以建立一个
+动态数组，让它根据数组内元素数量的变动自己对内存空间进行伸缩。</p>
 <p>在进行空间调整的时候也十分简单：</p>
 <ol>
 <li>按照我们的需求，索取一个新的 array</li>
@@ -157,16 +166,24 @@
 <li>将原 array 的空间释放</li>
 </ol>
 <p>我们将这个过程作成一个 <code>resize</code> 的函数，然后添加到其他对 array 进行操作的函数中就可以了。</p>
-<p>因为 <code>resize</code> 要复制 array 中的元素，所以其复杂度为 $O(n)$。但根据空间调整的临界值和新空间的大小，<br>实际使用时的复杂度会有很大的不同。</p>
-<p>首先，不建议将新添加或缩小的空间值定为一个常量。因为我们不知道 array 本身的 size 有多大，一个常量对于<br>原本的 size 来说很可能是不实用的。比如，array 有 10,000 个元素，我们 resize 的时候每次只增加 10<br>个位置，那么我们就可能经常需要进行 <code>resize</code>，其效率就大打折扣。</p>
+<p>因为 <code>resize</code> 要复制 array 中的元素，所以其复杂度为 $O(n)$。但根据空间调整的临界值和新空间的大小，
+实际使用时的复杂度会有很大的不同。</p>
+<p>首先，不建议将新添加或缩小的空间值定为一个常量。因为我们不知道 array 本身的 size 有多大，一个常量对于
+原本的 size 来说很可能是不实用的。比如，array 有 10,000 个元素，我们 resize 的时候每次只增加 10
+个位置，那么我们就可能经常需要进行 <code>resize</code>，其效率就大打折扣。</p>
 <p>通常新空间的大小会是原空间大小的倍数。假设我们设定：</p>
 <ul>
 <li>当 array 满时，大小扩充为现在大小的 2 倍</li>
 <li>当 array 的元素数量小于空间的 1/4 时，大小缩小为现在的 1/2</li>
 </ul>
-<p>这么设定有两个好处。第一，空间大小的变化和现有元素的实际数量有了相关性，这样会让 <code>resize</code> 的实际复杂度<br>降低许多。假如初始空间大小 capacity 是 10，我们要连续进行 11 次的 <code>add first</code> 的操作才需要一次 <code>resize</code>。<br>平均下来 <code>resize</code> 的复杂度就均摊到了 <code>add first</code> 中，成了$O(1)$.</p>
-<p>第二，增加和缩减 capacity 的临界值不同，避免复杂度震荡。想象一下，如果 array 在元素数量小于 capacity<br>的 1/2 的时候就进行空间调整的话，万一在临界值处重复进行 <code>add</code> 和 <code>delete</code>， 我们就会不断的进行<br><code>resize</code> 操作，整个复杂度就大大提高了。</p>
-<p>数组的内容并不复杂，这里是一些简单的<a href="https://github.com/z1ggy-o/DataStructure-example/tree/master/Array" target="_blank" rel="noopener">示例代码</a>,<br>实现了一些很基本的操作。</p>
+<p>这么设定有两个好处。第一，空间大小的变化和现有元素的实际数量有了相关性，这样会让 <code>resize</code> 的实际复杂度
+降低许多。假如初始空间大小 capacity 是 10，我们要连续进行 11 次的 <code>add first</code> 的操作才需要一次 <code>resize</code>。
+平均下来 <code>resize</code> 的复杂度就均摊到了 <code>add first</code> 中，成了$O(1)$.</p>
+<p>第二，增加和缩减 capacity 的临界值不同，避免复杂度震荡。想象一下，如果 array 在元素数量小于 capacity
+的 1/2 的时候就进行空间调整的话，万一在临界值处重复进行 <code>add</code> 和 <code>delete</code>， 我们就会不断的进行
+<code>resize</code> 操作，整个复杂度就大大提高了。</p>
+<p>数组的内容并不复杂，这里是一些简单的<a href="https://github.com/z1ggy-o/DataStructure-example/tree/master/Array" target="_blank" rel="noopener">示例代码</a>,
+实现了一些很基本的操作。</p>
 
   </div>
 </article>
