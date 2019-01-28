@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Queue 常和 Stack 挽着手出现的朋友就是 Queue 了。 Queue 可以说正好和 Stack 的特质相反——Stack 是 LIFO，而 Queue 是 FIFO(First in first out) 先入先出，就和生活中的队列一样。 Stack 只在顶部的一侧进行操作，而 Queue 则一侧进，一侧出。入队的操作叫做 enqueue，出队的操作叫做dequeue。对于队列中间的元">
+<meta name="keywords" content="Data Structure,Queue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Queue">
+<meta property="og:url" content="https://z1ggy-o.github.io/2019/01/28/Queue/index.html">
+<meta property="og:site_name" content="z1ggy&#39;s blog">
+<meta property="og:description" content="Queue 常和 Stack 挽着手出现的朋友就是 Queue 了。 Queue 可以说正好和 Stack 的特质相反——Stack 是 LIFO，而 Queue 是 FIFO(First in first out) 先入先出，就和生活中的队列一样。 Stack 只在顶部的一侧进行操作，而 Queue 则一侧进，一侧出。入队的操作叫做 enqueue，出队的操作叫做dequeue。对于队列中间的元">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://i.loli.net/2019/01/28/5c4e8fc955e28.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/28/5c4e8fc97eabc.png">
+<meta property="og:image" content="https://i.loli.net/2019/01/28/5c4e8fc9816f8.png">
+<meta property="og:updated_time" content="2019-01-28T05:19:51.459Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Queue">
+<meta name="twitter:description" content="Queue 常和 Stack 挽着手出现的朋友就是 Queue 了。 Queue 可以说正好和 Stack 的特质相反——Stack 是 LIFO，而 Queue 是 FIFO(First in first out) 先入先出，就和生活中的队列一样。 Stack 只在顶部的一侧进行操作，而 Queue 则一侧进，一侧出。入队的操作叫做 enqueue，出队的操作叫做dequeue。对于队列中间的元">
+<meta name="twitter:image" content="https://i.loli.net/2019/01/28/5c4e8fc955e28.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Queue</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/01/21/Stack/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://z1ggy-o.github.io/2019/01/28/Queue/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://z1ggy-o.github.io/2019/01/28/Queue/&text=Queue"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://z1ggy-o.github.io/2019/01/28/Queue/&title=Queue"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://z1ggy-o.github.io/2019/01/28/Queue/&is_video=false&description=Queue"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Queue&body=Check out this article: https://z1ggy-o.github.io/2019/01/28/Queue/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://z1ggy-o.github.io/2019/01/28/Queue/&title=Queue"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://z1ggy-o.github.io/2019/01/28/Queue/&title=Queue"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://z1ggy-o.github.io/2019/01/28/Queue/&title=Queue"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://z1ggy-o.github.io/2019/01/28/Queue/&title=Queue"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://z1ggy-o.github.io/2019/01/28/Queue/&name=Queue&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Queue"><span class="toc-number">1.</span> <span class="toc-text">Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Simple-Array-Queue"><span class="toc-number">1.1.</span> <span class="toc-text">Simple Array Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Operation-Complexity"><span class="toc-number">1.1.1.</span> <span class="toc-text">Operation Complexity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现-SimplyArrayQueue"><span class="toc-number">1.1.2.</span> <span class="toc-text">实现 SimplyArrayQueue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Circular-Array-Queue"><span class="toc-number">1.2.</span> <span class="toc-text">Circular Array Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#状态判定和头尾位置计算"><span class="toc-number">1.2.1.</span> <span class="toc-text">状态判定和头尾位置计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Operation-Complexity-1"><span class="toc-number">1.2.2.</span> <span class="toc-text">Operation Complexity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现-CircularArrayQueue"><span class="toc-number">1.2.3.</span> <span class="toc-text">实现 CircularArrayQueue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linked-List-Queue"><span class="toc-number">1.3.</span> <span class="toc-text">Linked List Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Operation-Complexity-2"><span class="toc-number">1.3.1.</span> <span class="toc-text">Operation Complexity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现-LinkedListQueue"><span class="toc-number">1.3.2.</span> <span class="toc-text">实现 LinkedListQueue</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Queue
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">z1ggy's blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-01-28T05:18:43.000Z" itemprop="datePublished">2019-01-28</time>
+        
+        (Updated: <time datetime="2019-01-28T05:19:51.459Z" itemprop="dateModified">2019-01-28</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Data-Structure/">Data Structure</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Data-Structure/">Data Structure</a>, <a class="tag-link" href="/tags/Queue/">Queue</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h1><p><img src="https://i.loli.net/2019/01/28/5c4e8fc955e28.png" alt="queue"></p>
+<p>常和 Stack 挽着手出现的朋友就是 <a href="https://en.wikipedia.org/wiki/Queue_(abstract_data_type)" target="_blank" rel="noopener">Queue</a> 了。 Queue 可以说正好和 Stack 的特质相反——Stack 是 LIFO，而 Queue 是 FIFO(First in first out) 先入先出，就和生活中的队列一样。</p>
+<p>Stack 只在顶部的一侧进行操作，而 Queue 则一侧进，一侧出。入队的操作叫做 <code>enqueue</code>，出队的操作叫做<code>dequeue</code>。对于队列中间的元素，我们一般情况下是不关注的。</p>
+<p>和之前谈到的 Stack 一样，只要满足特性，如何实现 Queue 都是可以的，User 不需要知道那些内容。但是不同的底层实现对操作的效率可能是有着极大的影响的。接下来我们用三种底层结构分别实现一下 Queu。</p>
+<hr>
+<h2 id="Simple-Array-Queue"><a href="#Simple-Array-Queue" class="headerlink" title="Simple Array Queue"></a>Simple Array Queue</h2><p>首先呢，是使用最简单的 Array 来实现。Array 可以用静态的，也可以用动态的。不过在我看来，如果使用 Array 来实现的话，可能还是使用静态的就足够了，如果需要动态结构，Linked List 可能会更合适一些。</p>
+<h3 id="Operation-Complexity"><a href="#Operation-Complexity" class="headerlink" title="Operation Complexity"></a>Operation Complexity</h3><p>先来看一下常用操作的复杂度：</p>
+<ul>
+<li>enqueue: $O(1)$</li>
+<li>dequeue: $O(n)$</li>
+<li>getFirst: $O(1)$</li>
+<li>getSize: $O(1)$</li>
+<li>isEmpty: $O(1)$</li>
+</ul>
+<p>大多数的操作都很快，除了 <code>dequeue</code>。因为 <code>enqueue</code> 就是直接调用了 Array 的 <code>addLast</code> 操作，而 <code>dequeue</code> 是 <code>removeFirst</code>。在移除了第一个元素之后，还需要将其余的元素向前移动一次。</p>
+<h3 id="实现-SimplyArrayQueue"><a href="#实现-SimplyArrayQueue" class="headerlink" title="实现 SimplyArrayQueue"></a>实现 SimplyArrayQueue</h3><p>为了方便，我们在这里先直接使用 Java 的 ArrayList，动态扩缩容的部分也就交给它，不用自己写了。如果不知道如何实现自己的动态数组，可以看<a href="/2019/01/08/Array/" title="这里">这里</a>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleArrayQueue</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">Queue</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    ArrayList&lt;E&gt; array;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">enqueue</span><span class="params">(E item)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> array.add(item);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">dequeue</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> array.remove(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">getFront</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> array.get(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> array.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> array.isEmpty();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>非常简单的实现，所有的操作都由底层的 Array 提供了，我们只是包装了新的 API 而已。</p>
+<hr>
+<h2 id="Circular-Array-Queue"><a href="#Circular-Array-Queue" class="headerlink" title="Circular Array Queue"></a>Circular Array Queue</h2><p>我们之前提到，单纯使用 Array 的操作的话，<code>dequeue</code> 的复杂度难尽人意。不过在依旧使用 Array 的前提下，我们也可以对其进行优化，实现一个<em>循环队列</em>。</p>
+<p>循环队列，顾名思义，就是把线性的 Array 看做一个首尾相连的环，那么原来 Array 的头尾部的界限就消失了。可是，如果 Array 的头尾界限消失了，那如何来标识我们 Queue 的头尾呢？答案很简单，我们可以添加其他的变量来帮助我们记录队列的首尾。</p>
+<p><img src="https://i.loli.net/2019/01/28/5c4e8fc97eabc.png" alt="circularqueue"></p>
+<p>维护 <code>head</code> 和 <code>tail</code> 两个新的变量来记录队列首尾，继而可以直接对头尾进行操作。</p>
+<h3 id="状态判定和头尾位置计算"><a href="#状态判定和头尾位置计算" class="headerlink" title="状态判定和头尾位置计算"></a>状态判定和头尾位置计算</h3><p>想要正确使用循环队列，我们就要维护好 <code>head</code> 和 <code>tail</code> 两个变量。维护的方法其实很直接，在 dequeue 和 enqueue 之后分别将 head 和 tail 后移一位。因为我们的环是一个首尾相接的 Array，当达到 Array 的尾部之后我们就得移动回 Array 的开头。</p>
+<p>因为底层是 Array，我们直接使用其 index 来表示 head 和 tail。大家应该都想到了，使用简单的 mod 运算，我们就能得到正确的 index。有</p>
+<ul>
+<li><code>head = (head+1) % capacity</code></li>
+<li><code>tail = (tail+1) % capacity</code></li>
+</ul>
+<p>得到了正确的 head 和 tail 我们就能判断队列的状态是空，还是满。<br><strong>空</strong>的时候 <code>head == tail</code>，因为一个元素都没有。但是<strong>满</strong>的时候如何判定呢？tail 指示的是下一个将要插入的元素的位置，当新进元素占用到最后一个空位时，head 和 tail 的值就相等。即，空 满 两个状态的判定条件重复了。</p>
+<p>【满空图】</p>
+<p>为了解决这个问题，我们可以添加一个空位，或者说浪费一个位置来将 head 和 tail 隔开。这样，空 满 状态的判定条件就分割开来了。即，<code>(tail + 1) % capacity == head</code> 时为满。</p>
+<h3 id="Operation-Complexity-1"><a href="#Operation-Complexity-1" class="headerlink" title="Operation Complexity"></a>Operation Complexity</h3><ul>
+<li>enqueue: $O(1)$</li>
+<li>dequeue: $O(1)$</li>
+<li>getFirst: $O(1)$</li>
+<li>getSize: $O(1)$</li>
+<li>isEmpty: $O(1)$</li>
+</ul>
+<p>循环队列的 <code>dequeue</code> 操作降到了最低。因为在删除了队首元素之后，我们不再把剩余的元素前移，而是简单的移动 <code>head</code> 去指向新的的头部元素。这样， Queue 就在我们 Array 做成的环中「循环」了起来。 </p>
+<h3 id="实现-CircularArrayQueue"><a href="#实现-CircularArrayQueue" class="headerlink" title="实现 CircularArrayQueue"></a>实现 CircularArrayQueue</h3><p>有了以上的知识之后，我们就可以开始 coding 了。之前在 SimpleArrayQueue 部分我们使用了 Java 的 ArrayList，这次我们使用基本的 Array 来进行实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CircularArrayQueue</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">Queue</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> E[] array;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> head, tail;  <span class="comment">// queue head and tail indicator</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> head == tail;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">enqueue</span><span class="params">(E item)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ((tail+<span class="number">1</span>) % array.length == head)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        array[tail] = item;</span><br><span class="line">        tail = (tail+<span class="number">1</span>) % array.length;</span><br><span class="line">        size++;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">dequeue</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isEmpty())</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Cannot dequeue from a empty queue."</span>);</span><br><span class="line"></span><br><span class="line">        E front = array[head];</span><br><span class="line">        array[head] = <span class="keyword">null</span>;  <span class="comment">// help free resources</span></span><br><span class="line">        head = (head+<span class="number">1</span>) % array.length;</span><br><span class="line">        size--;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> front;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">getFront</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isEmpty())</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Queue is empty."</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> array[head];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Linked-List-Queue"><a href="#Linked-List-Queue" class="headerlink" title="Linked List Queue"></a>Linked List Queue</h2><p><img src="https://i.loli.net/2019/01/28/5c4e8fc9816f8.png" alt="linkedlistQueue"></p>
+<p>之前提到，我们也可以使用 Linked List 来实现 Queue，从而省去空间管理的操作。不同的 Linked List 可能会对某些操作的效率造成影响，下面就简单讨论一下。</p>
+<h3 id="Operation-Complexity-2"><a href="#Operation-Complexity-2" class="headerlink" title="Operation Complexity"></a>Operation Complexity</h3><ul>
+<li>enqueue: $O(1)$ 或 $O(n)$</li>
+<li>dequeue: $O(1)$</li>
+<li>getFirst: $O(1)$</li>
+<li>getSize: $O(1)$</li>
+<li>isEmpty: $O(1)$</li>
+</ul>
+<p><code>dequeue</code> 调用 Linked List 的 <code>removeFirst</code> 操作就可以实现。但是 <code>enqueue</code> 则根据底层 Linked List 的实现有着不同的效率。</p>
+<p>有一些 Lined List 只维护了一个 head reference 或 pointer 去指向头部，因为 linked list 没有 random access 的能力，在插入时，只能遍历整个 list 去找到尾部，复杂度就成了 $O(n)$。如果 linked list 还维护了一个 tail 去指向尾部的话，那么复杂度就成了 $O(1)$。所以建议使用同时维护了 head 和 tail 两个 reference 的 linked list 来构建 Queue。</p>
+<p>Linked list 的简单实现可以看。</p>
+<h3 id="实现-LinkedListQueue"><a href="#实现-LinkedListQueue" class="headerlink" title="实现 LinkedListQueue"></a>实现 LinkedListQueue</h3><p>为了方便，直接使用 Java 库中的 LinkedList。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedListQueue</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">Queue</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> LinkedList&lt;E&gt; linkedList;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinkedListQueue</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        linkedList = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(E item)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        linkedList.addLast(item);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">dequeue</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> linkedList.removeFirst();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">getFront</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> linkedList.getFirst();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>Queue 的简单内容就到这里 ^^</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Queue"><span class="toc-number">1.</span> <span class="toc-text">Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Simple-Array-Queue"><span class="toc-number">1.1.</span> <span class="toc-text">Simple Array Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Operation-Complexity"><span class="toc-number">1.1.1.</span> <span class="toc-text">Operation Complexity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现-SimplyArrayQueue"><span class="toc-number">1.1.2.</span> <span class="toc-text">实现 SimplyArrayQueue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Circular-Array-Queue"><span class="toc-number">1.2.</span> <span class="toc-text">Circular Array Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#状态判定和头尾位置计算"><span class="toc-number">1.2.1.</span> <span class="toc-text">状态判定和头尾位置计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Operation-Complexity-1"><span class="toc-number">1.2.2.</span> <span class="toc-text">Operation Complexity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现-CircularArrayQueue"><span class="toc-number">1.2.3.</span> <span class="toc-text">实现 CircularArrayQueue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linked-List-Queue"><span class="toc-number">1.3.</span> <span class="toc-text">Linked List Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Operation-Complexity-2"><span class="toc-number">1.3.1.</span> <span class="toc-text">Operation Complexity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现-LinkedListQueue"><span class="toc-number">1.3.2.</span> <span class="toc-text">实现 LinkedListQueue</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://z1ggy-o.github.io/2019/01/28/Queue/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://z1ggy-o.github.io/2019/01/28/Queue/&text=Queue"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://z1ggy-o.github.io/2019/01/28/Queue/&title=Queue"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://z1ggy-o.github.io/2019/01/28/Queue/&is_video=false&description=Queue"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Queue&body=Check out this article: https://z1ggy-o.github.io/2019/01/28/Queue/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://z1ggy-o.github.io/2019/01/28/Queue/&title=Queue"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://z1ggy-o.github.io/2019/01/28/Queue/&title=Queue"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://z1ggy-o.github.io/2019/01/28/Queue/&title=Queue"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://z1ggy-o.github.io/2019/01/28/Queue/&title=Queue"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://z1ggy-o.github.io/2019/01/28/Queue/&name=Queue&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019
+    z1ggy
+    | Theme: <a href="https://github.com/probberechts/hexo-theme-cactus">Cactus</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
