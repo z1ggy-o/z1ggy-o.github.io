@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Lambda Expression 是干嘛的?最近学习 Java 的时候在 Exercism 上做题。有一题，mentor 提醒我可以使用 Java Stream 去简化代码。查询了之后发现 Stream 是和 lambda expression 一起使用的。今天就把查到的内容记录一下。 学习资料参见官方的 Java Tutorials。还可以看看 YouTube 上的这个视频去了解一下 Lamb">
+<meta name="keywords" content="Java,Lambda Expression">
+<meta property="og:type" content="article">
+<meta property="og:title" content="什么是 lambda expression?">
+<meta property="og:url" content="https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/index.html">
+<meta property="og:site_name" content="z1ggy&#39;s blog">
+<meta property="og:description" content="Lambda Expression 是干嘛的?最近学习 Java 的时候在 Exercism 上做题。有一题，mentor 提醒我可以使用 Java Stream 去简化代码。查询了之后发现 Stream 是和 lambda expression 一起使用的。今天就把查到的内容记录一下。 学习资料参见官方的 Java Tutorials。还可以看看 YouTube 上的这个视频去了解一下 Lamb">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-02-19T11:01:09.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="什么是 lambda expression?">
+<meta name="twitter:description" content="Lambda Expression 是干嘛的?最近学习 Java 的时候在 Exercism 上做题。有一题，mentor 提醒我可以使用 Java Stream 去简化代码。查询了之后发现 Stream 是和 lambda expression 一起使用的。今天就把查到的内容记录一下。 学习资料参见官方的 Java Tutorials。还可以看看 YouTube 上的这个视频去了解一下 Lamb">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>什么是 lambda expression?</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/02/27/java-generic/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/01/28/Queue/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&text=什么是 lambda expression?"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&title=什么是 lambda expression?"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&is_video=false&description=什么是 lambda expression?"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=什么是 lambda expression?&body=Check out this article: https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&title=什么是 lambda expression?"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&title=什么是 lambda expression?"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&title=什么是 lambda expression?"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&title=什么是 lambda expression?"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&name=什么是 lambda expression?&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Lambda-Expression-是干嘛的"><span class="toc-number">1.</span> <span class="toc-text">Lambda Expression 是干嘛的?</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Nested-Class"><span class="toc-number">1.1.</span> <span class="toc-text">Nested Class</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda-Expression-和-Anonymous-Class"><span class="toc-number">1.2.</span> <span class="toc-text">Lambda Expression 和 Anonymous Class</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda-Expression-具体是什么"><span class="toc-number">1.3.</span> <span class="toc-text">Lambda Expression 具体是什么?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Functional-Interface"><span class="toc-number">1.3.1.</span> <span class="toc-text">Functional Interface</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Syntax"><span class="toc-number">1.3.2.</span> <span class="toc-text">Syntax</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Standard-Functional-Interface"><span class="toc-number">1.3.3.</span> <span class="toc-text">Standard Functional Interface</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-Stream-和-Functional-Programming"><span class="toc-number">1.3.4.</span> <span class="toc-text">Java Stream 和 Functional Programming</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        什么是 lambda expression?
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">z1ggy's blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-02-19T01:15:21.000Z" itemprop="datePublished">2019-02-19</time>
+        
+        (Updated: <time datetime="2019-02-19T11:01:09.924Z" itemprop="dateModified">2019-02-19</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Java/">Java</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Lambda-Expression/">Lambda Expression</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Lambda-Expression-是干嘛的"><a href="#Lambda-Expression-是干嘛的" class="headerlink" title="Lambda Expression 是干嘛的?"></a>Lambda Expression 是干嘛的?</h1><p>最近学习 Java 的时候在 Exercism 上做题。有一题，mentor 提醒我可以使用 Java Stream 去简化代码。查询了之后发现 Stream 是和 lambda expression 一起使用的。今天就把查到的内容记录一下。</p>
+<p>学习资料参见官方的 <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html" target="_blank" rel="noopener">Java Tutorials</a>。还可以看看 YouTube 上的<a href="https://www.youtube.com/watch?v=e4MT_OguDKg&amp;t=1983s" target="_blank" rel="noopener">这个视频</a>去了解一下 Lambda Expression 的魅力。</p>
+<hr>
+<h2 id="Nested-Class"><a href="#Nested-Class" class="headerlink" title="Nested Class"></a>Nested Class</h2><p>要谈 lambda expression，就先要来简单说一说 nested class。</p>
+<p>Nested class 指的就是在其他 class 中声明的 class。Java 中的 nested class 可以分为那么几类：</p>
+<ul>
+<li>static nested class</li>
+<li>non-static nested class (inner class)<ul>
+<li>local nested class</li>
+<li>anonymous nested class</li>
+</ul>
+</li>
+</ul>
+<p>它们的使用方法大致上来看和 top-level class 没有很大区别，就是先声明 class，创建 instance，然后通过创建出的 instance 来调用方法。Anonymous class 因为是一个 expression，在同一时间完成了 declaration 和 instantiate，相比之下减少一步。</p>
+<p>Local nested class 和 anonymous class 相比 inner class 能在更小的 scope——block——中进行声明。</p>
+<p>常常使用 anonymous class 的一个场景就是，一个 method 接收一个 object 为 parameter，因为这个 object 并不在其他地方使用，我们就直接在调用 method 的时候利用 anonymous class 创建一个 object。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hello</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Language</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">say</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(Language language)</span> </span>&#123;</span><br><span class="line">        language.say();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        sayHello(<span class="keyword">new</span> Language() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">say</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"English: Hello!"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样子，在不改变其他结构的前提下，在调用修改 anonymous class 的实现就能说出不同语言的 Hello。效果虽好，还是有一些不尽人意之处。比如 anonymous class 是 interface 的具体实现或其他 class 的继承，那么我们就必须要定义 interface 或 class。再者，其可读性也很差，相信很多人和我一样，在头几次见到匿名类的时候根本就不懂这么写是什么意思。</p>
+<p>Lambda expression 的出现就缓解了这些个问题。</p>
+<h2 id="Lambda-Expression-和-Anonymous-Class"><a href="#Lambda-Expression-和-Anonymous-Class" class="headerlink" title="Lambda Expression 和 Anonymous Class"></a>Lambda Expression 和 Anonymous Class</h2><p>很多人说，lambda expression 的出现大大降低了 anonymous class 的使用频率。特别是在我们仅仅想要传递一个方法的时候，Lambda expression 可以让我们将一个功能当做方法参数来使用。</p>
+<p>回看一下上面的代码，我们实际上只想使用 <code>Language</code> 中的 <code>say()</code> 这个方法，object 本身我们并不需要。在这种时候，连 anonymous class 都让人觉得比较繁杂，更别说像使用 named class 一样去定义 class，new 一个 instance 再将其传入使用的方式了。</p>
+<p>还是上面的代码，让我们来看看如何使用 lambda expression 对代码进行再简化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hello</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Language</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">say</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(Language language)</span> </span>&#123;</span><br><span class="line">        language.say();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        sayHello(</span><br><span class="line">            () -&gt; System.out.println(<span class="string">"English: Hello!"</span>)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们在调用 <code>sayHello</code> 的时候使用了 lambda expression <code>() -&gt; System.out.println(&quot;English: Hello!&quot;)</code> 这简单的一行就实现了需求。可见，相对于匿名类我们的代码变得更加简洁，而且<strong>没有创建</strong>object。这打破了 Java OOP 中声明 class -&gt; 构造 instance -&gt; 通过 instance 调用方法的 pattern。</p>
+<p>在 Java 8 之前，一切都是 object，就算我们只需要一个单独的方法，也只能依靠一个 object reference 去调用，而 lambda expression 的出现打破了这个限制。下一次，当你想要构建一个十分简单的匿名类，例如只是一个实现了 interface 中单个方法的情况时，就考虑用 lambda expression 来实现吧。</p>
+<p>有一点需要注意的是，lambda expression 对外部 scope 的访问权限和 local class 和 anonymous class 是相似的，可以直接访问 enclosing class 的 member 和 final local variable。但是 lambda expression 在 local scope 中没有 <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html#shadowing" target="_blank" rel="noopener">shadowing</a> 的问题。即，它和它所在的 local scope 是同级的，variable name 不能重复。</p>
+<h2 id="Lambda-Expression-具体是什么"><a href="#Lambda-Expression-具体是什么" class="headerlink" title="Lambda Expression 具体是什么?"></a>Lambda Expression 具体是什么?</h2><p>上面我们花了些时间引入 lambda expression，讲了它的优点，使用场景,写了简单的例子，但是还没有说明它到底是什么，为什么在原来写匿名类的地方换上那一句带箭头的 statement 就能等效运行。现在我们就来看一看。</p>
+<p><code>sayHello()</code> 的 parameter 是一个 <code>Language</code> interface 的具体实现，而我们的 lambda expression 正好出现在了那个位置，说明它充当了那个角色。可是在那应该传入一个实现 interface 的 class 的 object，我们又说 lambda expression 没有创建 object，这又该怎么解释呢？</p>
+<h3 id="Functional-Interface"><a href="#Functional-Interface" class="headerlink" title="Functional Interface"></a>Functional Interface</h3><p>Lambda expression 其实很简单，是 <em>functional interface</em> 的实现。  Functional interface 指的是只有一个 abstract method 的 interface。我们的 <code>Language</code> interface 正好就是这么一个 functional interface。</p>
+<p>因为 functional interface 中只有一个 abstract method，不写明 method 的名字，编译器也知道我们在实现哪个方法，所以在我们的 lambda expression 中没有出现我们想要实现的方法的名字——<code>say</code>。</p>
+<p>现在我们知道了 lambda expression 是什么，为什么它可以出现在之前代码的那个位置。接下来就来看一下它的语法。</p>
+<h3 id="Syntax"><a href="#Syntax" class="headerlink" title="Syntax"></a>Syntax</h3><p>Lambda expression 以 <code>-&gt;</code> 分割左右，左侧为参数，右侧为方法的 body 部分。</p>
+<p>参数由括号括起来，由逗号隔开，如果只有一个参数的话，可以省略括号。</p>
+<p>方法 body 部分依据其情况分为两种写法。如果是 statement block 的话用大括号<code>{}</code>包起来；如果只是一个简单的 expression，就可以省略大括号。</p>
+<p>我们之前的 lambda expression <code>() -&gt; System.out.println(&quot;English: Hello!&quot;)</code>，因为 <code>say()</code> 没有参数，所以参数括号内是空的，而右侧是简单的 expression，也就没用使用大括号。</p>
+<h3 id="Standard-Functional-Interface"><a href="#Standard-Functional-Interface" class="headerlink" title="Standard Functional Interface"></a>Standard Functional Interface</h3><p>等等，如果每次用 lambda expression 都要写一个 functional interface，那好像用起来也不省事儿啊？别担心，设计者已经帮我们想过这个问题啦。</p>
+<p>与 lambda expression 一同而来的，还有一个叫做 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html" target="_blank" rel="noopener"><code>java.util.founction</code></a> 的包，它给我们提供一些可以拿来即用的 interface。在使用 lambda expression 的时候，看看自己的表达式想要实现的方法和哪个 interface 的 abstract method 的 pattern 相吻合，在做方法的声明的时候就用那个 interface 做 parameter 就好了。</p>
+<p>常用的 interface 有：</p>
+<ul>
+<li><code>Consumer&lt;T&gt;</code><ul>
+<li>它的 method 是 <code>void accept(T t)</code>, 用来将特定的操作用到给入的 argument 上。</li>
+</ul>
+</li>
+<li><code>Predicate&lt;T&gt;</code><ul>
+<li>它的 method 是 <code>boolean test(T t)</code>, 看给入 argument 是否满足某种判定。</li>
+</ul>
+</li>
+<li><code>Function&lt;R, T&gt;</code><ul>
+<li>它的 method 是 <code>R apply(T t)</code>, 将这个 function 应用到给入的 argument 上, 并返回值。</li>
+</ul>
+</li>
+</ul>
+<p>假如我们想要写一个简单的方法，让它输出满足特定条件的书，就可以用 <code>Predicate</code> 这个 interface。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFilter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">printNum</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        Iterable&lt;T&gt; source,</span></span></span><br><span class="line"><span class="function"><span class="params">        Predicate&lt;T&gt; filter)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (T n : source) &#123;</span><br><span class="line">            <span class="keyword">if</span> (filter.test(n)) &#123;</span><br><span class="line">                System.out.print(<span class="string">""</span> + n + <span class="string">" "</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">""</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// print all numbers</span></span><br><span class="line">        printNum( numbers, e -&gt; <span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// print odd numbers</span></span><br><span class="line">        printNum(numbers, e -&gt; e % <span class="number">2</span> != <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// print even numbers</span></span><br><span class="line">        printNum(numbers, e -&gt; e % <span class="number">2</span> == <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里在不改变 <code>printNum</code> 的前提下，很轻松的就实现了对奇数和偶数的过滤输出。实际上，因为是 genetic method，实现了 <code>Iterable</code> 接口的对象我们都可以用这一个方法进行同样的过滤操作。如果使用原来 OOP 的方式来实现，要么写三个不同的 print 方法，要么创建一个新类去实现三个 filter，相对来说就要复杂许多了。</p>
+<h3 id="Java-Stream-和-Functional-Programming"><a href="#Java-Stream-和-Functional-Programming" class="headerlink" title="Java Stream 和 Functional Programming"></a>Java Stream 和 Functional Programming</h3><p><code>java.util.stream</code> 向我们提供了一些叫做 <code>aggregate operation</code> 的东西，来帮助我们实现类 FP 的代码。</p>
+<p>常见的 operation 有</p>
+<ul>
+<li><code>Stream&lt;E&gt; stream()</code><ul>
+<li>将 object collection 转为 stream 流</li>
+</ul>
+</li>
+<li><code>Stream&lt;T&gt; filter(Predicate&lt;? super T&gt; predicate)</code><ul>
+<li>筛选符合 predicate 的 object</li>
+</ul>
+</li>
+<li><code>&lt;R&gt; Stream&lt;R&gt; map(Function&lt;? super T,? extends R&gt; mapper)</code><ul>
+<li>将 object 作为 function 的 input, 得到对应 output</li>
+</ul>
+</li>
+<li><code>void forEach(Consumer&lt;? super T&gt; action)</code><ul>
+<li>对 object 进行某种操作</li>
+</ul>
+</li>
+</ul>
+<p>在上面的 operation 的 parameter 里我们可以见到刚刚说到的几个 standard functional interface。所以可知，Aggregate operations 以 lambda expression 为 parameter，去实现那些 interface。也因具体实现的不同而产生不一样的效果。</p>
+<p>Functional programming 中的 function 指的就是数学上的 function：给定一个 input，function 给出 output，没有状态记录。但是可以将各个 operation 连接形成 pipeline，以前歩的 output 作为后步的 input，从而得到我们最终想要的结果。</p>
+<p>让我们结合 Stream，重写一下刚刚的代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// get odd numbers</span></span><br><span class="line">    numbers</span><br><span class="line">        .stream()</span><br><span class="line">        .filter(</span><br><span class="line">            e -&gt; e % <span class="number">2</span> != <span class="number">0</span>)</span><br><span class="line">        .forEach(</span><br><span class="line">            e -&gt; System.out.print(e + <span class="string">" "</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不需要再提前定义方法，直接利用 aggregate operations 就实现了对奇数的输出。</p>
+<hr>
+<p>对 lambda expression 的简单介绍就到这儿啦。写的内容很简单，一是因为个人水平不高，二是官方文档里有很详尽的内容。希望以后自己能多多利用新的特性。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Lambda-Expression-是干嘛的"><span class="toc-number">1.</span> <span class="toc-text">Lambda Expression 是干嘛的?</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Nested-Class"><span class="toc-number">1.1.</span> <span class="toc-text">Nested Class</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda-Expression-和-Anonymous-Class"><span class="toc-number">1.2.</span> <span class="toc-text">Lambda Expression 和 Anonymous Class</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda-Expression-具体是什么"><span class="toc-number">1.3.</span> <span class="toc-text">Lambda Expression 具体是什么?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Functional-Interface"><span class="toc-number">1.3.1.</span> <span class="toc-text">Functional Interface</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Syntax"><span class="toc-number">1.3.2.</span> <span class="toc-text">Syntax</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Standard-Functional-Interface"><span class="toc-number">1.3.3.</span> <span class="toc-text">Standard Functional Interface</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-Stream-和-Functional-Programming"><span class="toc-number">1.3.4.</span> <span class="toc-text">Java Stream 和 Functional Programming</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&text=什么是 lambda expression?"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&title=什么是 lambda expression?"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&is_video=false&description=什么是 lambda expression?"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=什么是 lambda expression?&body=Check out this article: https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&title=什么是 lambda expression?"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&title=什么是 lambda expression?"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&title=什么是 lambda expression?"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&title=什么是 lambda expression?"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://z1ggy-o.github.io/2019/02/19/what-is-lambda-expression/&name=什么是 lambda expression?&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019
+    z1ggy
+    | Theme: <a href="https://github.com/probberechts/hexo-theme-cactus">Cactus</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

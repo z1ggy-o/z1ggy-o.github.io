@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="以前没有好好看过 Java， Generic 也是随便看了下就拿来用， 好多地方都不明白。 今天花时间看了下， 解决了一些自己以前的疑问， 所以来记一下。 Generic 的意义在引入 Generic(泛型) 之前， 我们想要写一些抽象到 type 以上层级的代码的时候只能用 Object 类型去引用具体的实现类， 到需要使用的地方再 casting 回来。 这样有一个问题， 就是在类型方面出现问">
+<meta name="keywords" content="Generic,Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Generic 小记">
+<meta property="og:url" content="https://z1ggy-o.github.io/2019/02/27/java-generic/index.html">
+<meta property="og:site_name" content="z1ggy&#39;s blog">
+<meta property="og:description" content="以前没有好好看过 Java， Generic 也是随便看了下就拿来用， 好多地方都不明白。 今天花时间看了下， 解决了一些自己以前的疑问， 所以来记一下。 Generic 的意义在引入 Generic(泛型) 之前， 我们想要写一些抽象到 type 以上层级的代码的时候只能用 Object 类型去引用具体的实现类， 到需要使用的地方再 casting 回来。 这样有一个问题， 就是在类型方面出现问">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-02-26T15:09:31.169Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java Generic 小记">
+<meta name="twitter:description" content="以前没有好好看过 Java， Generic 也是随便看了下就拿来用， 好多地方都不明白。 今天花时间看了下， 解决了一些自己以前的疑问， 所以来记一下。 Generic 的意义在引入 Generic(泛型) 之前， 我们想要写一些抽象到 type 以上层级的代码的时候只能用 Object 类型去引用具体的实现类， 到需要使用的地方再 casting 回来。 这样有一个问题， 就是在类型方面出现问">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Java Generic 小记</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/02/19/what-is-lambda-expression/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://z1ggy-o.github.io/2019/02/27/java-generic/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&text=Java Generic 小记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&title=Java Generic 小记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&is_video=false&description=Java Generic 小记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java Generic 小记&body=Check out this article: https://z1ggy-o.github.io/2019/02/27/java-generic/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&title=Java Generic 小记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&title=Java Generic 小记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&title=Java Generic 小记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&title=Java Generic 小记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&name=Java Generic 小记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Generic-的意义"><span class="toc-number">1.</span> <span class="toc-text">Generic 的意义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generic-的使用"><span class="toc-number">2.</span> <span class="toc-text">Generic 的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generic-的核心-Type-Erasure"><span class="toc-number">3.</span> <span class="toc-text">Generic 的核心 Type Erasure</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#替换-type-parameters"><span class="toc-number">3.1.</span> <span class="toc-text">替换 type parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bridge-Method"><span class="toc-number">3.2.</span> <span class="toc-text">Bridge Method</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generic-的局限"><span class="toc-number">4.</span> <span class="toc-text">Generic 的局限</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Java Generic 小记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">z1ggy's blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-02-26T15:07:21.000Z" itemprop="datePublished">2019-02-27</time>
+        
+        (Updated: <time datetime="2019-02-26T15:09:31.169Z" itemprop="dateModified">2019-02-27</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Java/">Java</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Generic/">Generic</a>, <a class="tag-link" href="/tags/Java/">Java</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>以前没有好好看过 Java， Generic 也是随便看了下就拿来用， 好多地方都不明白。 今天花时间看了下， 解决了一些自己以前的疑问， 所以来记一下。</p>
+<h2 id="Generic-的意义"><a href="#Generic-的意义" class="headerlink" title="Generic 的意义"></a>Generic 的意义</h2><p>在引入 Generic(泛型) 之前， 我们想要写一些抽象到 type 以上层级的代码的时候只能用 Object 类型去引用具体的实现类， 到需要使用的地方再 casting 回来。 这样有一个问题， 就是在类型方面出现问题的时候我们只能到 runtime 的时候才能发现问题被触发， debug 就很困难。</p>
+<p>在引入了 Generic 之后， data type 也可以当做 parameter 来使用， 这样在 compile time 就可以发现类型方面的错误， 大大降低了出错的可能性， debug 也方便了许多。</p>
+<h2 id="Generic-的使用"><a href="#Generic-的使用" class="headerlink" title="Generic 的使用"></a>Generic 的使用</h2><p>我们常在抽象到 type 以上的层面上使用泛型。 比如 sorting 的时候， sorting 的逻辑是共用的， 只有比较的部分才涉及到具体的 type。 我们在 container 中也常常使用泛型， 因为 container 的职能和其存放的元素是无关的。</p>
+<p>泛型可以用在两个层面上， 一个是 Class 级别， 一个是 method 级别。 下面是简单的例子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Class level</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> T data;</span><br><span class="line">    <span class="keyword">private</span> Node&lt;T&gt; next;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">        <span class="keyword">this</span>.next = <span class="keyword">null</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// method level</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;K， V&gt; <span class="function"><span class="keyword">boolean</span> <span class="title">compare</span><span class="params">(Pair&lt;K， V&gt; p1， Pair&lt;K， V&gt; p2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> p1.getKey().equals(p2.getKey()) &amp;&amp;</span><br><span class="line">           p1.getValue().equals(p2.getValue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>type parameter 用 <code>&lt;&gt;</code> 包裹起来。 和其他 parameter 一样， parameter 可以在指定的 scope 内使用。 也是因为我们在使用的时候传入了具体的 type argument， compiler 得以帮助我们在 compile time 发现错误。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; sl = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br></pre></td></tr></table></figure>
+<p>在 type inference 的帮助下， 我们在创建具体类的时候可以略去 type argument。</p>
+<h2 id="Generic-的核心-Type-Erasure"><a href="#Generic-的核心-Type-Erasure" class="headerlink" title="Generic 的核心 Type Erasure"></a>Generic 的核心 Type Erasure</h2><p>如果仅仅是使用 Generic， 那么了解一下基本的语法就可以了。 因为我们大部分时间都是在使用库里提供好的 container。</p>
+<p>但是要想避免一些常见的使用错误的话， 还是要对 type erasure 有所了解。 Type erasure 是 Java 实现 generic 的具体方法。 它的具体表现在以下几个方面</p>
+<ul>
+<li>把 generic type 中的 type parameters 替换为它们的 bounds 或者 Object</li>
+<li>在必要的时候自动添加 type cast 去维护 type safety</li>
+<li>生成 bridge method 去维护多态机能</li>
+</ul>
+<h3 id="替换-type-parameters"><a href="#替换-type-parameters" class="headerlink" title="替换 type parameters"></a>替换 type parameters</h3><p>先来看代码， 这是一个 Oracle Java tutorial 里的例子， 只是我把 method 的内容隐去了:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// no bound</span></span><br><span class="line">pubic <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> T data;</span><br><span class="line">    <span class="keyword">private</span> Node&lt;T&gt; next;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(T data， Node&lt;T&gt; next)</span> </span>&#123;...&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getData</span><span class="params">()</span> </span>&#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// has bound</span></span><br><span class="line">pubic <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> T data;</span><br><span class="line">    <span class="keyword">private</span> Node&lt;T&gt; next;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(T data， Node&lt;T&gt; next)</span> </span>&#123;...&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getData</span><span class="params">()</span> </span>&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在经过 compiler 的辛勤工作后， 它们变成了这样子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// no bounds</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">     </span><br><span class="line">     <span class="keyword">private</span> Object data;</span><br><span class="line">     <span class="keyword">private</span> Node next;</span><br><span class="line">     </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(Object data， Node next)</span> </span>&#123;...&#125;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> Object <span class="title">getData</span><span class="params">()</span> </span>&#123;...&#125;;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="comment">// has bounds</span></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">     </span><br><span class="line">     <span class="keyword">private</span> Comparable data;</span><br><span class="line">     <span class="keyword">private</span> Node next;</span><br><span class="line">     </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(Comparable data， Node next)</span> </span>&#123;...&#125;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> Comparable <span class="title">getData</span><span class="params">()</span> </span>&#123;...&#125;;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>可见， 整体结构不变， 只是之前我们写 type parameter 的地方做了相应的替换。 利用多态的观点来想， 这样子替换之后， 程序是应当正确运行的。</p>
+<h3 id="Bridge-Method"><a href="#Bridge-Method" class="headerlink" title="Bridge Method"></a>Bridge Method</h3><p>Type erasure 虽然帮助我们实现了 generic， 但是刚刚上面的 type parameter 替换也带来了问题。 来具体看一个例子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">pubic <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> T data;</span><br><span class="line">    <span class="keyword">private</span> Node&lt;T&gt; next;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(T data， Node&lt;T&gt; next)</span> </span>&#123;...&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// caution! </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data = data;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">pubic <span class="class"><span class="keyword">class</span> <span class="title">MyNode</span> <span class="keyword">extends</span> <span class="title">Node</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyNode</span><span class="params">(Integer data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(data);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// caution! not an override method</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(Integer data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.setData(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们来用上面的两个 Class 做一些操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MyNode mn = <span class="keyword">new</span> MyNode(<span class="number">5</span>);</span><br><span class="line">Node n = mn;  <span class="comment">// A raw type - unchecked warning</span></span><br><span class="line">n.setData(<span class="string">"Hello"</span>);</span><br><span class="line">Integer x = mn.data;  <span class="comment">// ClassCastException</span></span><br></pre></td></tr></table></figure>
+<p>在执行最后一行会抛出异常， 为什么呢?</p>
+<p>这就是 type erasure 的问题。 我们返回去看一下 <code>setData()</code> 这个 method， 想一想 type erasure 之后它成了什么样子。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in Node， T -&gt; Object</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data = data;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in MyNode</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(Integer data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.setData(data);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>发现了吗? 原来的 type parameter 被替换成了 Object， 这可不好了， 因为两个 method 的 pattern 这下子不一样了， <code>MyNode</code> 中的 <code>setData</code> 并没有 Override <code>Node</code> 中的对应 method， 而是新建了一个 method。</p>
+<p>所以在上面使用 <code>MyNode</code> 和 <code>Node</code> 的代码中， 我们通过 <code>n</code> 调用的 <code>setData</code> 是 <code>Node</code> 中的， 不然 String 是无法被存入的。 这就和我们平时熟悉的多态发生了冲突。</p>
+<p>为了解决这个问题， type erasure 就在它的工作过程中添加了一个步骤。 在编译期， 如果一个 class 或 interface 继承/实现了 parameterized class 或 parameterized interface， 那么就自动生成 bridge methods 来让多态往常工作。 </p>
+<p>注意， 只有继承或实现 parameterized class/interface 的时候才有。 (即， <code>Node&lt;Integer&gt;</code>， <code>List&lt;String&gt;</code> 这样有具体 type argument 的 class 或 interface)</p>
+<p>Bridge method 长这个样子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyNode</span> <span class="keyword">extends</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Bridge method</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">        setData((Integer) data);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(Integer data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.setData(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可见， bridge method 和原来父类中的对应 method 的 pattern 是相同的， 这样就实现了 Override。 其内部调用了子类自己的对应 method， 只是在传 argument 的时候做了一个 casting， 这样子就保证了 type safety。 现在， 如果我们再像之前一样想向其中添加 String， compiler 就能报错了。</p>
+<h2 id="Generic-的局限"><a href="#Generic-的局限" class="headerlink" title="Generic 的局限"></a>Generic 的局限</h2><p>Generic 的局限其实就是来源于 type erasure 的。 <a href="https://docs.oracle.com/javase/tutorial/java/generics/restrictions.html" target="_blank" rel="noopener">这里</a>有文档里具体给出的条目和例子。</p>
+<p>简单的来说， compiler 在编译期间将关于 type parameter 和 type argument 的信息抹去， 那些 generic type 就成了 non-reifiable type (type 信息被 type erasure 抹去后， 在 runtime 期间 type 信息不完全)</p>
+<p>比如像 <code>Node&lt;String&gt;</code> 和 <code>Node&lt;Number&gt;</code>， JVM 无法区分它们的不同， 继而发生了这样那样的问题。 比如不能创建 type parameter 的 instance 啊; 不能对 parameterized types 使用 <code>instanceof</code> 啦。 都是因为 type 信息不全导致的， 我不知道具体的 type 是什么， 怎么造对象， 怎么告诉你对象的类型信息嘛。 </p>
+<p>大致上就是这个样子， 详细的内容还请阅读官方的文档和教程， 一定会更加详细和正确。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Generic-的意义"><span class="toc-number">1.</span> <span class="toc-text">Generic 的意义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generic-的使用"><span class="toc-number">2.</span> <span class="toc-text">Generic 的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generic-的核心-Type-Erasure"><span class="toc-number">3.</span> <span class="toc-text">Generic 的核心 Type Erasure</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#替换-type-parameters"><span class="toc-number">3.1.</span> <span class="toc-text">替换 type parameters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bridge-Method"><span class="toc-number">3.2.</span> <span class="toc-text">Bridge Method</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generic-的局限"><span class="toc-number">4.</span> <span class="toc-text">Generic 的局限</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://z1ggy-o.github.io/2019/02/27/java-generic/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&text=Java Generic 小记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&title=Java Generic 小记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&is_video=false&description=Java Generic 小记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java Generic 小记&body=Check out this article: https://z1ggy-o.github.io/2019/02/27/java-generic/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&title=Java Generic 小记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&title=Java Generic 小记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&title=Java Generic 小记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&title=Java Generic 小记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://z1ggy-o.github.io/2019/02/27/java-generic/&name=Java Generic 小记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019
+    z1ggy
+    | Theme: <a href="https://github.com/probberechts/hexo-theme-cactus">Cactus</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
