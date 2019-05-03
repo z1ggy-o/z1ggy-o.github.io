@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="最近在做 socket 编程作业的时候遇到了一个小问题。作业要求在 console 输入 Ctrl-C 之后程序能够正常处理好 socket 的关闭，最后再正常退出。思路上就是常见的，先 catch signal 之后再用相应的 handler 部分来做资源关闭。但尝试了几个方法之后，发现在给入 signal 之后，要么程序停住，等待 client 侧断开；要么 main thread 没有退出。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Multithreading 退出的小问题">
+<meta property="og:url" content="https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/index.html">
+<meta property="og:site_name" content="z1ggy&#39;s blog">
+<meta property="og:description" content="最近在做 socket 编程作业的时候遇到了一个小问题。作业要求在 console 输入 Ctrl-C 之后程序能够正常处理好 socket 的关闭，最后再正常退出。思路上就是常见的，先 catch signal 之后再用相应的 handler 部分来做资源关闭。但尝试了几个方法之后，发现在给入 signal 之后，要么程序停住，等待 client 侧断开；要么 main thread 没有退出。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-03T03:16:53.069Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python Multithreading 退出的小问题">
+<meta name="twitter:description" content="最近在做 socket 编程作业的时候遇到了一个小问题。作业要求在 console 输入 Ctrl-C 之后程序能够正常处理好 socket 的关闭，最后再正常退出。思路上就是常见的，先 catch signal 之后再用相应的 handler 部分来做资源关闭。但尝试了几个方法之后，发现在给入 signal 之后，要么程序停住，等待 client 侧断开；要么 main thread 没有退出。">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Python Multithreading 退出的小问题</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/02/27/java-generic/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&text=Python Multithreading 退出的小问题"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&title=Python Multithreading 退出的小问题"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&is_video=false&description=Python Multithreading 退出的小问题"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Python Multithreading 退出的小问题&body=Check out this article: https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&title=Python Multithreading 退出的小问题"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&title=Python Multithreading 退出的小问题"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&title=Python Multithreading 退出的小问题"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&title=Python Multithreading 退出的小问题"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&name=Python Multithreading 退出的小问题&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#我的-「错误」-思路"><span class="toc-number">1.</span> <span class="toc-text">我的 「错误」 思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题点"><span class="toc-number">2.</span> <span class="toc-text">问题点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#join-带来的问题"><span class="toc-number">2.1.</span> <span class="toc-text">join() 带来的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setDaemon"><span class="toc-number">2.2.</span> <span class="toc-text">setDaemon()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于-Python-的小-Tip"><span class="toc-number">3.</span> <span class="toc-text">关于 Python 的小 Tip</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Python Multithreading 退出的小问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">z1ggy's blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-05-03T03:12:44.000Z" itemprop="datePublished">2019-05-03</time>
+        
+        (Updated: <time datetime="2019-05-03T03:16:53.069Z" itemprop="dateModified">2019-05-03</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Python/">Python</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Python/">Python</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最近在做 socket 编程作业的时候遇到了一个小问题。作业要求在 console 输入 Ctrl-C 之后程序能够正常处理好 socket 的关闭，最后再正常退出。思路上就是常见的，先 catch signal 之后再用相应的 handler 部分来做资源关闭。但尝试了几个方法之后，发现在给入 signal 之后，要么程序停住，等待 client 侧断开；要么 main thread 没有退出。</p>
+<p>这个问题的重点不在于 socket，而是在 main thread 和 child thread 都在无法自我结束的情况下，如何接受信号，退出程序。下面先讲讲我的 「错误」 思路。 </p>
+<h2 id="我的-「错误」-思路"><a href="#我的-「错误」-思路" class="headerlink" title="我的 「错误」 思路"></a>我的 「错误」 思路</h2><p>首先，server 侧的程序逻辑是，main tread 开启 server socket 等待连接，在接到连接之后，将 connection socket 交给 child thread 去进行处理。Pseudocode 如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Main thread task</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    connection, address = serverSocket.accept()</span><br><span class="line">    thread = MyThread(connection)</span><br><span class="line">    thread.start()</span><br><span class="line">    </span><br><span class="line"><span class="comment"># Child thread task</span></span><br><span class="line">MyThread(threading.Thread):</span><br><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        message = self.connection.recv()</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment"># interaction with client</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>Python 已经有一个比较高级的 module 叫做 <code>threading</code>。它是对大家已知 <code>thread</code> 的一个高级扩展，提供了一些方便的 method：例如返回所有 thread，返回 main thread 等等。在看了 threading 的文档之后，构想了三个方案：</p>
+<ol>
+<li>像其他 multithread 编程一样，接到信号后让各个 thread 自己处理完自己的事务，利用 <code>join()</code> 去等待 child thread 全部完成自己的任务后，退出程序。</li>
+<li>利用一个 global variable，将其作为 flag 放到 <code>run()</code> 中的 while 去。当我们改变这个 variable 的时候，child thread 就能从 <code>while</code> loop 中脱出，从而结束。</li>
+<li>将 child thread 设定为 daemon thread，这样在 main thread 这个 non daemon thread 结束之后，daemon thread 也被结束，从而退出整个程序。</li>
+</ol>
+<h2 id="问题点"><a href="#问题点" class="headerlink" title="问题点"></a>问题点</h2><h3 id="join-带来的问题"><a href="#join-带来的问题" class="headerlink" title="join() 带来的问题"></a><code>join()</code> 带来的问题</h3><p>第一个方案是绝对行不通的，因为 child thread 因为 <code>while</code> loop 是处于 busy 状态的，在 <code>join</code> 之后 main thread 被 block，child thread 又不能退出，成了一个死局。</p>
+<p>第二个方案是基于第一个方案的漏洞做的改进。在用一个 global variable 作为控制 while loop 的 condition 之后，我们就可以等待 child thread 正常退出了。如果你的 child thread 内部没有其他阻碍退出的逻辑，那么这个方式是很好的。因为我们可以按照自己想要的方式去处理好打开的资源。</p>
+<p>但是在我自己的这个情况下，这个方法也是不行的。因为 <code>socket.recv()</code> 会将 thread block，等待 client 侧的 message。我这里还没有设置 timeout，所以就算 while loop 结束了，child thread 还是被 block。这也是为什么，等到 client 再次发送信息之后，server 侧才能退出的原因。</p>
+<p>还有一个方法就是利用 <code>os._exit()</code> 而非 <code>sys.exit()</code> 退出。<code>os._exit()</code> 会直接将程序关闭，不做任何其他的处理。一般用于 child thread 关闭程序。</p>
+<h3 id="setDaemon"><a href="#setDaemon" class="headerlink" title="setDaemon()"></a><code>setDaemon()</code></h3><p>那么第二个方案问题在哪里呢？第二个方案其实没有问题，我在退出 main thread 之前利用 <code>threading</code> 提供的机能处理好了各个 child thread 的 client sockets，最后退出程序。</p>
+<p>那么哪里出了问题呢？语法。<br>在 Python 的文档中提到，<code>setDaemon()</code> 是一个已经过时的 method，让大家把它当做一个 property 使用就好了。所以一开始我使用了 <code>setDaemon = True</code> 来进行设定，没有报错，但是实际上没有被设为 daemon。还是应该使用 <code>setDaemon(True)</code> 这个语法。也可能是有其他的 property 名，一下子没找到，就懒得查了。</p>
+<p>使用 daemon thread 的时候得想好如何处理打开的资源。因为 non daemon thread 一旦全部退出，daemon thread 也就随之关闭了。</p>
+<h2 id="关于-Python-的小-Tip"><a href="#关于-Python-的小-Tip" class="headerlink" title="关于 Python 的小 Tip"></a>关于 Python 的小 Tip</h2><p>我们在向 process 发送 signal 的时候，是哪个 thread 接到了 signal 呢？</p>
+<p>这个问题可能影响到我们如何处理 daemon thread 资源的问题。<br>我从<a href="https://blog.csdn.net/slvher/article/details/50188323" target="_blank" rel="noopener">这个博客</a>里得到了提示。里面提到，当我们同时引用了 <code>threading</code> 和 <code>signal</code> 的时候，之后只有 main thread 可以设置 signal handler，也只有它可以接收到 signals。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#我的-「错误」-思路"><span class="toc-number">1.</span> <span class="toc-text">我的 「错误」 思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题点"><span class="toc-number">2.</span> <span class="toc-text">问题点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#join-带来的问题"><span class="toc-number">2.1.</span> <span class="toc-text">join() 带来的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setDaemon"><span class="toc-number">2.2.</span> <span class="toc-text">setDaemon()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于-Python-的小-Tip"><span class="toc-number">3.</span> <span class="toc-text">关于 Python 的小 Tip</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&text=Python Multithreading 退出的小问题"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&title=Python Multithreading 退出的小问题"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&is_video=false&description=Python Multithreading 退出的小问题"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Python Multithreading 退出的小问题&body=Check out this article: https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&title=Python Multithreading 退出的小问题"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&title=Python Multithreading 退出的小问题"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&title=Python Multithreading 退出的小问题"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&title=Python Multithreading 退出的小问题"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://z1ggy-o.github.io/2019/05/03/python-multithreading-exit/&name=Python Multithreading 退出的小问题&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019
+    z1ggy
+    | Theme: <a href="https://github.com/probberechts/hexo-theme-cactus">Cactus</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
