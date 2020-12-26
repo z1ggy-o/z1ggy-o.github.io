@@ -1,16 +1,26 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>ziggy&#39;s brain dump</title>
-        <link>http://example.org/</link>
-        <description>ziggy&#39;s brain dump</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 08 Nov 2020 09:48:14 &#43;0900</lastBuildDate>
-            <atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+        <link>https://example.com/</link>
+        <description>About my personal life</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 26 Dec 2020 20:15:00 &#43;0900</lastBuildDate>
+            <atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title>
+    <link>https://example.com/he-2020-readasneeded/</link>
+    <pubDate>Sat, 26 Dec 2020 20:15:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>https://example.com/he-2020-readasneeded/</guid>
+    <description><![CDATA[Short Summary This paper proposed a NAND-flash SSD-friendly full text engine. This engine can achieve better performance than existing engines with much less memory requestsed.
+They reduce the unnecessary I/O (both the number of I/O and the volume). The engine does not cache data into memory, instead, read data every time when query arrive.
+They also tried to increase the request size to exploit SSD internal parallelism.
+What Is the Problem Search engines pose great challenges to storage systems:]]></description>
+</item><item>
     <title>My First Post</title>
-    <link>http://example.org/my-first-post/</link>
+    <link>https://example.com/my-first-post/</link>
     <pubDate>Sun, 08 Nov 2020 09:48:14 &#43;0900</pubDate>
     <author>Author</author>
-    <guid>http://example.org/my-first-post/</guid>
+    <guid>https://example.com/my-first-post/</guid>
     <description><![CDATA[I rebuilt my personal blog by using hugo.
 I have cleaned all my old blogs (not so much actually).
 I will write something related to my research reading or personal learning. Hope I can meet you soon.]]></description>
