@@ -11,7 +11,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://example.com/" />
 <meta property="og:image" content="https://example.com/logo.png"/>
-<meta property="og:updated_time" content="2020-12-26T21:03:19+09:00" />
+<meta property="og:updated_time" content="2020-12-31T22:37:00+09:00" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://example.com/logo.png"/>
 
@@ -96,6 +96,11 @@
 <main class="main">
                 <div class="container"><div class="page home" posts><div class="home-profile"><h2 class="home-subtitle"><div id="id-1" class="typeit"></div></h2></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/wang-2020-bcw/">BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Guangyu Zhu</a></span>&nbsp;<span class="post-publish">published on <time datetime="2020-12-31">2020-12-31</time></span>&nbsp;<span class="post-category">included in <a href="/categories/papers/"><i class="far fa-folder fa-fw"></i>papers</a></span></div><div class="content">Short Summary HDDs are under utilized in hybrid cloud storage systems which makes SSD to handle most of the requests. This shorts the life of SSDs and also wasts the utilization of HDDs.
+The authors of this paper find that the write requets can have $μ$s-level latency when using HDD if the buffer in HDD is not full. They leverage this finding to let HDD to handle write requests if the requests can fit into the in disk buffer.</div><div class="post-footer">
+        <a href="/wang-2020-bcw/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/he-2020-readasneeded/">Read as Needed: Building WiSER, a Flash-Optimized Search Engine</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Guangyu Zhu</a></span>&nbsp;<span class="post-publish">published on <time datetime="2020-12-26">2020-12-26</time></span>&nbsp;<span class="post-category">included in <a href="/categories/papers/"><i class="far fa-folder fa-fw"></i>papers</a></span></div><div class="content">Short Summary This paper proposed a NAND-flash SSD-friendly full text engine. This engine can achieve better performance than existing engines with much less memory requestsed.
 They reduce the unnecessary I/O (both the number of I/O and the volume). The engine does not cache data into memory, instead, read data every time when query arrive.

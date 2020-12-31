@@ -3,7 +3,15 @@
         <title>papers - Category - ziggy&#39;s brain dump</title>
         <link>https://example.com/categories/papers/</link>
         <description>papers - Category - ziggy&#39;s brain dump</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 26 Dec 2020 20:15:00 &#43;0900</lastBuildDate><atom:link href="https://example.com/categories/papers/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 31 Dec 2020 22:37:00 &#43;0900</lastBuildDate><atom:link href="https://example.com/categories/papers/" rel="self" type="application/rss+xml" /><item>
+    <title>BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</title>
+    <link>https://example.com/wang-2020-bcw/</link>
+    <pubDate>Thu, 31 Dec 2020 22:37:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>https://example.com/wang-2020-bcw/</guid>
+    <description><![CDATA[Short Summary HDDs are under utilized in hybrid cloud storage systems which makes SSD to handle most of the requests. This shorts the life of SSDs and also wasts the utilization of HDDs.
+The authors of this paper find that the write requets can have $μ$s-level latency when using HDD if the buffer in HDD is not full. They leverage this finding to let HDD to handle write requests if the requests can fit into the in disk buffer.]]></description>
+</item><item>
     <title>Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title>
     <link>https://example.com/he-2020-readasneeded/</link>
     <pubDate>Sat, 26 Dec 2020 20:15:00 &#43;0900</pubDate>
@@ -13,14 +21,5 @@
 They reduce the unnecessary I/O (both the number of I/O and the volume). The engine does not cache data into memory, instead, read data every time when query arrive.
 They also tried to increase the request size to exploit SSD internal parallelism.
 What Is the Problem Search engines pose great challenges to storage systems:]]></description>
-</item><item>
-    <title>Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title>
-    <link>https://example.com/articles/he-2020-readasneeded/</link>
-    <pubDate>Sat, 26 Dec 2020 20:08:00 &#43;0900</pubDate>
-    <author>Author</author>
-    <guid>https://example.com/articles/he-2020-readasneeded/</guid>
-    <description><![CDATA[Short Summary What Is the Problem Search engines pose great challenges to storage systems:
- low latency high data throughput high scalability  The datasets become too large to fit into the RAM. Simply use RAM as a cache cannot achieve the goal.
-SSD and NVRAM can boost performance well. For example, flash-based SSDs provide much higher throughput and lower latency compared to HDD. However, since SSDs exhibit vastly different characteristic from HDDs, we need to evolve the software on top of the storage stack to exploit the full potential of SSDs.]]></description>
 </item></channel>
 </rss>

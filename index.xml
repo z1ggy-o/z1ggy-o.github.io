@@ -3,9 +3,17 @@
         <title>ziggy&#39;s brain dump</title>
         <link>https://example.com/</link>
         <description>About my personal life</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 26 Dec 2020 20:15:00 &#43;0900</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 31 Dec 2020 22:37:00 &#43;0900</lastBuildDate>
             <atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</title>
+    <link>https://example.com/wang-2020-bcw/</link>
+    <pubDate>Thu, 31 Dec 2020 22:37:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>https://example.com/wang-2020-bcw/</guid>
+    <description><![CDATA[Short Summary HDDs are under utilized in hybrid cloud storage systems which makes SSD to handle most of the requests. This shorts the life of SSDs and also wasts the utilization of HDDs.
+The authors of this paper find that the write requets can have $μ$s-level latency when using HDD if the buffer in HDD is not full. They leverage this finding to let HDD to handle write requests if the requests can fit into the in disk buffer.]]></description>
+</item><item>
     <title>Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title>
     <link>https://example.com/he-2020-readasneeded/</link>
     <pubDate>Sat, 26 Dec 2020 20:15:00 &#43;0900</pubDate>
