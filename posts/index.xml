@@ -3,7 +3,16 @@
         <title>All Posts - ziggy&#39;s brain dump</title>
         <link>https://example.com/posts/</link>
         <description>All Posts | ziggy&#39;s brain dump</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 31 Dec 2020 22:37:00 &#43;0900</lastBuildDate><atom:link href="https://example.com/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 17 Jan 2021 00:29:00 &#43;0900</lastBuildDate><atom:link href="https://example.com/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution</title>
+    <link>https://example.com/aghayev-2019-filesystemunfit/</link>
+    <pubDate>Sun, 17 Jan 2021 00:29:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>https://example.com/aghayev-2019-filesystemunfit/</guid>
+    <description><![CDATA[Short Summary This paper mostly consists of two parts. The first part tells us why the FileStore has performance issues. And the second part tells us how Ceph team build BlueStore based on the lessons that they learnt from FileStore.
+The main ideas of BlueStore are:
+ Avoid using local file system to store and represent Ceph objects Use KV-store to provide transaction mechanism instead of build it by ourself  What&rsquo;s the problem There is a software called storage backend in Ceph.]]></description>
+</item><item>
     <title>BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</title>
     <link>https://example.com/wang-2020-bcw/</link>
     <pubDate>Thu, 31 Dec 2020 22:37:00 &#43;0900</pubDate>
