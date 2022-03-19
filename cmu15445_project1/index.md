@@ -42,7 +42,7 @@ If we can do three things right, this task is not that difficult:
 -   Know when to flush a page. (Read points are very clear).
 -   Which page metadata we need to update.
 
-****Critical hints:****
+**Critical hints:**
 
 -   Do read the header file and make sure your return value fits the function description. (I wasted few hours just because I returned `false` in a function, however, they assume we should return `true`  in that case. Do not use your own judgement, just follow the description.)
 -   What will happen if we `NewPage()` then `Unpin()` the same page immediately?

@@ -5,36 +5,34 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution - ziggy&#39;s brain dump</title><meta name="Description" content="About my personal life"><meta property="og:title" content="File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution" />
-<meta property="og:description" content="Short Summary This paper mostly consists of two parts. The first part tells us why the FileStore has performance issues. And the second part tells us how Ceph team build BlueStore based on the lessons that they learnt from FileStore.
-The main ideas of BlueStore are:
- Avoid using local file system to store and represent Ceph objects Use KV-store to provide transaction mechanism instead of build it by ourself  What&rsquo;s the problem There is a software called storage backend in Ceph." />
+        <title>CMU 15-445 2021 Fall Project#2 - ziggy&#39;s brain dump</title><meta name="Description" content="About my personal life"><meta property="og:title" content="CMU 15-445 2021 Fall Project#2" />
+<meta property="og:description" content="Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&rsquo;t think that would be very different from public the source code.
+ Task #1 - Page Layouts Because we want to persist the hash table instead of rebuild it everytime, we need to design the layout that we use to store the hash table in the disks." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://example.com/aghayev-2019-filesystemunfit/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-01-17T00:29:00&#43;09:00" />
-<meta property="article:modified_time" content="2022-03-14T21:36:38&#43;08:00" />
+<meta property="og:url" content="https://example.com/cmu15445_project2/" /><meta property="og:image" content="https://example.com/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-19T15:58:46&#43;08:00" />
+<meta property="article:modified_time" content="2022-03-19T16:22:30&#43;08:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://example.com/logo.png"/>
 
-<meta name="twitter:title" content="File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution"/>
-<meta name="twitter:description" content="Short Summary This paper mostly consists of two parts. The first part tells us why the FileStore has performance issues. And the second part tells us how Ceph team build BlueStore based on the lessons that they learnt from FileStore.
-The main ideas of BlueStore are:
- Avoid using local file system to store and represent Ceph objects Use KV-store to provide transaction mechanism instead of build it by ourself  What&rsquo;s the problem There is a software called storage backend in Ceph."/>
+<meta name="twitter:title" content="CMU 15-445 2021 Fall Project#2"/>
+<meta name="twitter:description" content="Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&rsquo;t think that would be very different from public the source code.
+ Task #1 - Page Layouts Because we want to persist the hash table instead of rebuild it everytime, we need to design the layout that we use to store the hash table in the disks."/>
 <meta name="application-name" content="ziggy&#39;s brain dump">
 <meta name="apple-mobile-web-app-title" content="ziggy&#39;s brain dump"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/aghayev-2019-filesystemunfit/" /><link rel="prev" href="https://example.com/wang-2020-bcw/" /><link rel="next" href="https://example.com/cmu15445_project1/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/cmu15445_project2/" /><link rel="prev" href="https://example.com/cmu15445_project1/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution",
+        "headline": "CMU 15-445 2021 Fall Project#2",
         "inLanguage": "en",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https:\/\/example.com\/aghayev-2019-filesystemunfit\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","wordcount":  650 ,
-        "url": "https:\/\/example.com\/aghayev-2019-filesystemunfit\/","datePublished": "2021-01-17T00:29:00+09:00","dateModified": "2022-03-14T21:36:38+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@id": "https:\/\/example.com\/cmu15445_project2\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Database","wordcount":  822 ,
+        "url": "https:\/\/example.com\/cmu15445_project2\/","datePublished": "2022-03-19T15:58:46+08:00","dateModified": "2022-03-19T16:22:30+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "xxxx","logo": "https:\/\/example.com\/images\/avatar.png"},"author": {
                 "@type": "Person",
@@ -108,10 +106,10 @@ The main ideas of BlueStore are:
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Guangyu Zhu</a></span>&nbsp;<span class="post-category">included in <a href="/categories/papers/"><i class="far fa-folder fa-fw"></i>papers</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-01-17">2021-01-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;650 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;4 minutes&nbsp;<span id="/aghayev-2019-filesystemunfit/" class="leancloud_visitors" data-flag-title="File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution">
+        </div><article class="page single"><h1 class="single-title animated flipInX">CMU 15-445 2021 Fall Project#2</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Guangyu Zhu</a></span>&nbsp;<span class="post-category">included in <a href="/categories/projects/"><i class="far fa-folder fa-fw"></i>projects</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-19">2022-03-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;822 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;4 minutes&nbsp;<span id="/cmu15445_project2/" class="leancloud_visitors" data-flag-title="CMU 15-445 2021 Fall Project#2">
                         <i class="far fa-eye fa-fw"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;views
                     </span>&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
@@ -121,127 +119,128 @@ The main ideas of BlueStore are:
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#short-summary">Short Summary</a></li>
-    <li><a href="#what-s-the-problem">What&rsquo;s the problem</a></li>
-    <li><a href="#why-the-problem-is-interesting">Why the problem is interesting</a></li>
-    <li><a href="#the-core-ideas">The Core Ideas</a>
+    <li><a href="#task-1---page-layouts">Task #1 - Page Layouts</a>
       <ul>
-        <li><a href="#the-problems-of-filestore">The problems of FileStore</a></li>
-        <li><a href="#bluestore">BlueStore</a></li>
+        <li><a href="#hash-table-directory-page">Hash Table Directory Page</a></li>
+        <li><a href="#hash-bucket-page">Hash Bucket Page</a></li>
       </ul>
     </li>
+    <li><a href="#task-2---hash-table-implementation">Task #2 - Hash Table Implementation</a>
+      <ul>
+        <li><a href="#search">Search</a></li>
+        <li><a href="#insert">Insert</a></li>
+        <li><a href="#remove">Remove</a></li>
+      </ul>
+    </li>
+    <li><a href="#task-3-concurrency-control">Task #3 Concurrency Control</a></li>
+    <li><a href="#result">Result</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h2 id="short-summary">Short Summary</h2>
-<p>This paper mostly consists of two parts. The first part tells us why the <code>FileStore</code> has performance issues.
-And the second part tells us how Ceph team build <code>BlueStore</code> based on the
-lessons that they learnt from <code>FileStore</code>.</p>
-<p>The main ideas of <code>BlueStore</code> are:</p>
+            </div><div class="content" id="content"><blockquote>
+<p>Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&rsquo;t think that would be very different from public the source code.</p>
+</blockquote>
+<h2 id="task-1---page-layouts">Task #1 - Page Layouts</h2>
+<p>Because we want to persist the hash table instead of rebuild it everytime, we need to design the layout that we use to store the hash table in the disks.</p>
+<p>We have implemented the <code>BufferPoolManager</code> in previous project. Buffer pool itself only allocate page frame for us to use. However, which kind of <code>Page</code> is stored in the page frame? In this task, we need to create two kinds of <code>Page</code>s for our hash table:</p>
+<ul>
+<li>Hash table directory page</li>
+<li>Hash table bucket page</li>
+</ul>
+<p>Since we are using the previous allocated memory space (we cast the <code>data_</code> field of <code>Page</code> to directory page or bucket page), understanding of memory management and how C/C++ pointer operation works are necessary.</p>
+<p>For bitwise operations, because the bitmap is based on char arraies, we can only do bitwise operations char by char (at least, this is what I find).</p>
+<h3 id="hash-table-directory-page">Hash Table Directory Page</h3>
+<p>This kind of page stores metadata for the hash table. The most important part is the <strong>bucket address table</strong>.</p>
+<p>At this stage, only implement the necessary functions, and they are very simple. We will come back to add more functions in the following tasks.</p>
+<h3 id="hash-bucket-page">Hash Bucket Page</h3>
+<p>Stores key-value pairs, with some metadata that helps track space usages. Here, we only support fixed-length KV pairs.</p>
+<p>There are two bitmaps that we used to indicate if a slot contains valid KV:</p>
+<ul>
+<li><code>readable_</code></li>
+<li><code>occupied_</code></li>
+</ul>
+<p><code>occupied_</code> actually has no specially meaning in enxtendible hashing because we do not need tombstone. However, we still need to maintain it, because there are some related test cases. I assume the teaching team still leave this part here so that they do not need to modify the test cases.</p>
+<p>The page layout itself is very straightforward. Only the bitwise operations are a little annoying.</p>
+<h2 id="task-2---hash-table-implementation">Task #2 - Hash Table Implementation</h2>
+<p>This task is very interesting because we use the buffer pool manager that we implemented previously to handle the storage part for thus. We only need to use these APIs to allocate pages and store the hash table in these pages.</p>
+<p>I recommand to implement the search at the very beginning then other funtions, since other operations also need search to check if a specific KV pair is existed.</p>
+<h3 id="search">Search</h3>
+<p>For a given <code>key</code>, we use the given hash function to get the hash value, then through the directory (bucket address table) to get the corresponding bucket page. After that, we do a sequential search to find the key.</p>
+<p>Because we support duplicated keys, we need to find all the KV pairs that has the given key. Do not stop at the first matched pair.</p>
+<h3 id="insert">Insert</h3>
+<p>The core conponents of insertion part is split. Highly recommand to use pen and paper to figure how bucket split works before coding.</p>
+<p>The insertion procedure is as follows:</p>
 <ol>
-<li>Avoid using local file system to store and represent Ceph objects</li>
-<li>Use KV-store to provide transaction mechanism instead of build it by ourself</li>
+<li>Find the right bucket</li>
+<li>If there is room in the bucket, insert the KV pair</li>
+<li>If there is no room -&gt; split the bucket</li>
 </ol>
-<h2 id="what-s-the-problem">What&rsquo;s the problem</h2>
-<p>There is a software called <code>storage backend</code> in Ceph. The <code>storage backend</code> is
-responsible to accept requests from upper layer of Ceph and do the real I/O on
-storage devices.</p>
-<p>Ceph used to use commonly used local file systems based storage backend (i.e.,
-FileStore). FileStore works, but not that well. There are mainly three
-drawbacks in FileStore:</p>
-<ol>
-<li>Hard to implement efficient transactions on top of existing file systems</li>
-<li>The local file system' metadata performance is not great (e.g., enumerating
-directories, ordering in the return result)</li>
-<li>Hard to adopt emerging storage hardware that abandon the venrable block
-interface (e.g., Zone divecies)</li>
-</ol>
-<h2 id="why-the-problem-is-interesting">Why the problem is interesting</h2>
-<ol>
-<li>Because storage backends do the real I/O job, the performance storage
-backends domains the performance of the whole Ceph system.</li>
-<li>For years, the developers of Ceph have had a lot of troubles when using local
-file systems to build storage backends</li>
-</ol>
-<h2 id="the-core-ideas">The Core Ideas</h2>
-<h3 id="the-problems-of-filestore">The problems of FileStore</h3>
+<p>How to split one bucket? Assume we call the split target <em>split bucket</em> and the newly created bucket <em>image bucket</em>.</p>
 <ul>
 <li>
-<p><strong>Transaction</strong>: in Ceph, all writes are transactions. There are three options for providing transaction on top of local file systems: leveraging file system internal transaction; implementing the write-ahead logging (WAL) in user space; and using a key-value store as the WAL</p>
+<p>If $ global\_depth == local\_depth $:</p>
 <ul>
-<li>leveraging file system&rsquo;s transaction is not a good idea because they usually lack of some functionalities. And also, file system is in the kernel side, it is hard to expose the interfaces.</li>
-<li>User space WAL: has consistency problem (not atom operations, because it is
-a logical WAL, it use read/write system calls to write/read data to/from
-logging part). The cost for handle the problem is expensive. Also slow
-read-modify-write and double-write (logging all data) problems.</li>
-<li>Using KV-store: This is the cure. However, there is still some unnecessary
-file system overhead like <em>journaling of journal</em> problem</li>
+<li>Increase the <code>global_depth</code> by 1, so double the table size</li>
+<li>The following steps are same as situation $ global\_depth &gt; local\_depth $</li>
 </ul>
 </li>
 <li>
-<p><strong>Slow metadata operations</strong>: enumeration is slow. The read result from a object
-sets should in order, which file systems do not do. We need to do sorting
-after read. To reduce the sorting overhead, Ceph limits the number of files in
-a directory, which introduces <em>directory splition</em>. The dir splition has
-overhead.</p>
+<p>If $global\_depth &gt; local\_depth$:</p>
+<ul>
+<li>Allocate a new page for the image bucket</li>
+<li>Adjust the entries in the bucket address table
+<ul>
+<li>leave the half of the entries pointing to the split bucket</li>
+<li>set all the remaining entries to point to the image bucket</li>
+<li>also increase the <code>local_depth</code> by 1 because we need one more bit to separate them</li>
+</ul>
 </li>
-<li>
-<p><strong>Does not support new storage hardware</strong>: new storage devices may need
-modifications in the existing file systems. If Ceph uses local file systems,
-the Ceph team can only wait for the developers of the file systems to adopt
-the new storage.</p>
+<li>Rehash KV pairs in the split bucket</li>
+<li>Reattemp the insertion
+<ul>
+<li>Should use the <code>Insert()</code> function because we may need more splits</li>
+</ul>
 </li>
 </ul>
-<p>In the paper, there are more details. In summary, the reasons of above problems are:</p>
-<ol>
-<li>File system overhead</li>
-<li>Ceph uses file system metadata to represent Ceph object metadata. (i.e.,
-object to file, object group to diectory) The file system metadata operations
-are not fast and also may have some consistent issues.</li>
-</ol>
-<h3 id="bluestore">BlueStore</h3>
-<ol>
-<li>Does not use local file system anymore. Instead, store Ceph objects into raw
-storage directly. This method avoids the overhead of file systems.</li>
-<li>Use KV-store (i.e. RocksDB) to provide transaction and manage Ceph metadata.
-This method provides much faster metadata operations and also avoid building
-transtion mechanism by Ceph developer.</li>
-<li>Because RocksDB runs on top of file systems. BlueStore has a very simply file
-system that only works for RocksDB called BlueFS. The BlueFS stores all the
-contents in logging space and cleans invalid data periodly.</li>
-</ol>
-<p>If you understand the reason of why FileStore performs not well, you can simply
-understand the choices they did when build BlueStore.</p>
-<p>BlueStore still has some issues. For example, because BlueStore do not use file
-systems, it cannot leverage the OS page cache and need to build the cache by
-itself. However, build a effective cache is hard.</p>
+</li>
+</ul>
+<p>Add your own test cases. The given test case is so small and cannot cover all situations.</p>
+<h3 id="remove">Remove</h3>
+<p>Remove itself is very simple. The complicated part is the merge procedure. The good thing is that, after finished split, the logic of merge became clear to us.</p>
+<p>The project describtion gives a fairly thorough instructions for merge. Follow the instruction is enough.</p>
+<p>Shrinking the table is very straightford since we use LSB to assign KV pairs to different buckets.</p>
+<h2 id="task-3-concurrency-control">Task #3 Concurrency Control</h2>
+<p>Try coarse-grained latch (lock) first, then reduce the latch range.</p>
+<p>No special comments for this. You can do it!</p>
+<h2 id="result">Result</h2>
+<p>Because the clang-tidy issue of Gradescope, I cannot test my code yet.
+However, I tried some local test cases that covers splits (two types) and small buffer pools (to enforce page swap). It seems the code works well in the basic one thread situation.</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-03-14&nbsp;<a class="git-hash" href="https://github.com/dillonzq/LoveIt/commit/dc4198a106179e43ca6eb30a0afe66fdde8fd956" target="_blank" title="commit by Guangyu Zhu(guangyuzhu1129@gmail.com) dc4198a106179e43ca6eb30a0afe66fdde8fd956: post: CMU 15-445 project1">
-                                    <i class="fas fa-hashtag fa-fw"></i>dc4198a</a></span>
+                <span>Updated on 2022-03-19&nbsp;<a class="git-hash" href="https://github.com/dillonzq/LoveIt/commit/90608efbda610bb0a4676f67ebb07d6d4fc48499" target="_blank" title="commit by Guangyu Zhu(guangyuzhu1129@gmail.com) 90608efbda610bb0a4676f67ebb07d6d4fc48499: CMU 15445 Project2 Hash table">
+                                    <i class="fas fa-hashtag fa-fw"></i>90608ef</a></span>
             </div>
             <div class="post-info-license"></div>
         </div>
         <div class="post-info-line">
             <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/aghayev-2019-filesystemunfit/index.md" target="_blank">Read Markdown</a>
+                            <a class="link-to-markdown" href="/cmu15445_project2/index.md" target="_blank">Read Markdown</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://example.com/aghayev-2019-filesystemunfit/" data-title="File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://example.com/aghayev-2019-filesystemunfit/"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://example.com/aghayev-2019-filesystemunfit/" data-title="File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://example.com/aghayev-2019-filesystemunfit/" data-title="File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://example.com/aghayev-2019-filesystemunfit/" data-title="File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution"><i class="fab fa-weibo fa-fw"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://example.com/cmu15445_project2/" data-title="CMU 15-445 2021 Fall Project#2" data-hashtags="Database"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://example.com/cmu15445_project2/" data-hashtag="Database"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://example.com/cmu15445_project2/" data-title="CMU 15-445 2021 Fall Project#2"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://example.com/cmu15445_project2/" data-title="CMU 15-445 2021 Fall Project#2"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@2.14.0/icons/line.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://example.com/cmu15445_project2/" data-title="CMU 15-445 2021 Fall Project#2"><i class="fab fa-weibo fa-fw"></i></a></span>
             </div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/database/">Database</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/wang-2020-bcw/" class="prev" rel="prev" title="BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server"><i class="fas fa-angle-left fa-fw"></i>BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</a>
-            <a href="/cmu15445_project1/" class="next" rel="next" title="CMU 15-445 2021 Fall Project#1">CMU 15-445 2021 Fall Project#1<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/cmu15445_project1/" class="prev" rel="prev" title="CMU 15-445 2021 Fall Project#1"><i class="fas fa-angle-left fa-fw"></i>CMU 15-445 2021 Fall Project#1</a></div>
 </div>
 <div id="comments"><div id="valine" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
