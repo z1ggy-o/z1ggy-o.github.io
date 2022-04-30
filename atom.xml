@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US">
+    <title type="text">Ziggy&#39;s Blog</title>
+    <subtitle type="html">This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</subtitle>
+    <updated>2022-04-30T21:05:09&#43;08:00</updated>
+    <id>https://example.com/</id>
+    <link rel="alternate" type="text/html" href="https://example.com/" />
+    <link rel="self" type="application/atom&#43;xml" href="https://example.com/atom.xml" />
+    <author>
+            <name>Ziggy</name>
+            <uri>https://example.com/</uri>
+            
+                <email>gy.zhu29@outlook.com</email>
+            </author>
+    <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights>
+    <generator uri="https://gohugo.io/" version="0.98.0">Hugo</generator>
+        <entry>
+            <title type="text">CMU 15-445 2021 Fall Project#1</title>
+            <link rel="alternate" type="text/html" href="https://example.com/posts/cmu15445_project1/" />
+            <id>https://example.com/posts/cmu15445_project1/</id>
+            <updated>2022-03-14T21:23:36&#43;08:00</updated>
+            <published>2022-03-14T21:23:00&#43;08:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&#39;t think that would be very different from public the source code.</summary>
+            
+                <content type="html">&lt;blockquote&gt;
+&lt;p&gt;Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&#39;t think that would be very different from public the source code.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;task-1---lru-replacement-policy&#34;&gt;Task #1 - LRU Replacement Policy&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;BufferPoolManger&lt;/code&gt; contains all the frames.
+&lt;code&gt;LRUReplacer&lt;/code&gt; is an implementation of the &lt;code&gt;Replacer&lt;/code&gt; and it helps &lt;code&gt;BufferPoolManger&lt;/code&gt; to manage these frames.&lt;/p&gt;
+&lt;p&gt;This &lt;code&gt;LRU&lt;/code&gt; policy is not very &amp;quot;LRU&amp;quot; in my opinion. Refer the test cases we can see, if we &lt;code&gt;Unpin&lt;/code&gt; the same frame twice, we do not update the access time for this frame. Which means that we only need to inserte/delete page frames to/from the LRU container. There is no positon modification (assume we use conventional list + hash table implementation).&lt;/p&gt;
+&lt;p&gt;You may need to read the code associated with task 1 and task 2 before start programming for task 1. Thus, you can understand how &lt;code&gt;BufferPoolManager&lt;/code&gt; utlizes the &lt;code&gt;LRUReplacer&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Actually, it is the &lt;code&gt;BufferPoolMangerInstance&lt;/code&gt; managing the pages in the buffer. The &lt;code&gt;LRUReplacer&lt;/code&gt; itself only contains page frames that we can use for storing new pages.
+In other words, the reference (pin) count of pages that existed in the frames that in the &lt;code&gt;LRUReplacer&lt;/code&gt; is zero, and we can swap them out in anytime.&lt;/p&gt;
+&lt;p&gt;Since we need to handle the concurret access, latches (or locks) are necessary. If you are not fimilar with locks in C++ like me, you can check the &lt;code&gt;include/common/rwlatch.h&lt;/code&gt; to learn how Bustub (i.e., the DBMS that we are implementing) uses them.&lt;/p&gt;
+&lt;h2 id=&#34;task-2---buffer-pool-manager-instance&#34;&gt;Task #2 - Buffer Pool Manager Instance&lt;/h2&gt;
+&lt;p&gt;We use &lt;code&gt;Page&lt;/code&gt; as the container to manage the pages of our DB storage engine. &lt;code&gt;Page&lt;/code&gt; objects are pre-allocated for each frame in the buffer pool. We reuse existed &lt;code&gt;Page&lt;/code&gt; objects instead of creating a new one for every newly read in pages.&lt;/p&gt;
+&lt;p&gt;We &lt;span class=&#34;underline&#34;&gt;pin&lt;/span&gt; a page when we want to use it, and we &lt;span class=&#34;underline&#34;&gt;unpin&lt;/span&gt; a page when we do not need it anymore. Because we are using the page, the buffer pool manager will not move this page out. Thus, &lt;span class=&#34;underline&#34;&gt;pin&lt;/span&gt; and &lt;span class=&#34;underline&#34;&gt;unpin&lt;/span&gt; are hints to tell the pool manager which page it can swap out if there is no free space.&lt;/p&gt;
+&lt;p&gt;Caution, &lt;code&gt;frame&lt;/code&gt; and &lt;code&gt;page&lt;/code&gt; are refering to different concepts. &lt;code&gt;page&lt;/code&gt; is a chunk of data that stored in our DBMS; &lt;code&gt;frame&lt;/code&gt; is a slot in the page buffer that has the same size as the &lt;code&gt;page&lt;/code&gt;. So, use &lt;code&gt;frame_id_t&lt;/code&gt; and &lt;code&gt;page_id_t&lt;/code&gt; at the right place.&lt;/p&gt;
+&lt;p&gt;The comments in the base code is not very clear. They use &amp;quot;page&amp;quot; to refer both data pages and page frames, which is confusing. Make sure which is the target that you want before coding.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;BufferPoolManager&lt;/code&gt; uses four components to manage pages and frames:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;page_table_&lt;/code&gt;: a map that stores the mapping relationship between &lt;code&gt;page_id&lt;/code&gt; and &lt;code&gt;frame_id&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;free_list_&lt;/code&gt;: a linked-list that stores the free frames.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;replacer_&lt;/code&gt;: a &lt;code&gt;LRUReplacer&lt;/code&gt; that stores used frames with zero pin count.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pages_&lt;/code&gt;: stores pre-allocated &lt;code&gt;Page&lt;/code&gt; objects.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In terms of concurrency control, because we only have one latch for a whole buffer, the coarse-grained lock is unavoidable.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;BufferPoolManager&lt;/code&gt; is the &lt;code&gt;friend&lt;/code&gt; of &lt;code&gt;Page&lt;/code&gt;, so we can access the &lt;code&gt;private&lt;/code&gt; members of &lt;code&gt;Page&lt;/code&gt;. (This is a good example about when to use &lt;code&gt;friend&lt;/code&gt; -- when we need to change some member variables but we do not want give setters so that every one can change them.)&lt;/p&gt;
+&lt;p&gt;If we can do three things right, this task is not that difficult:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Move page to/from LRU.&lt;/li&gt;
+&lt;li&gt;Know when to flush a page. (Read points are very clear).&lt;/li&gt;
+&lt;li&gt;Which page metadata we need to update.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Critical hints:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Do read the header file and make sure your return value fits the function description. (I wasted few hours just because I returned &lt;code&gt;false&lt;/code&gt; in a function, however, they assume we should return &lt;code&gt;true&lt;/code&gt;  in that case. Do not use your own judgement, just follow the description.)&lt;/li&gt;
+&lt;li&gt;What will happen if we &lt;code&gt;NewPage()&lt;/code&gt; then &lt;code&gt;Unpin()&lt;/code&gt; the same page immediately?&lt;/li&gt;
+&lt;li&gt;Do not use the iterator after you erased the corresponding element. The iterator is invalided, however, the compiler will not warn you.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;task-3---parallel-buffer-pool-manager&#34;&gt;Task #3 - Parallel Buffer Pool Manager&lt;/h2&gt;
+&lt;p&gt;Task 3 is very straightforward. If our &lt;code&gt;BufferPoolManagerInstance&lt;/code&gt; is implemented in the right way, the only thing we need to do here is to allocate mutiple buffer instance and call corresponding member functions for each instance.&lt;/p&gt;
+&lt;p&gt;Some people have problems with the start index assignment and update. Please make sure you do everything right as the describtion told us.&lt;/p&gt;
+&lt;h2 id=&#34;result&#34;&gt;Result&lt;/h2&gt;
+&lt;p&gt;Passed all test cases with full grades.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/z1ggy-o/static%5Fresources/main/img/202203142113296.png&#34; alt=&#34;Project#1 grades&#34;&gt;&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://example.com/categories/projects/" term="projects" label="projects" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://example.com/tags/database/" term="Database" label="Database" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">CMU 15-445 2021 Fall Project#2</title>
+            <link rel="alternate" type="text/html" href="https://example.com/posts/cmu15445_project2/" />
+            <id>https://example.com/posts/cmu15445_project2/</id>
+            <updated>2022-03-19T15:58:46&#43;08:00</updated>
+            <published>2022-03-19T15:58:46&#43;08:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&#39;t think that would be very different from public the source code.</summary>
+            
+                <content type="html">&lt;blockquote&gt;
+&lt;p&gt;Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&#39;t think that would be very different from public the source code.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;task-1---page-layouts&#34;&gt;Task #1 - Page Layouts&lt;/h2&gt;
+&lt;p&gt;Because we want to persist the hash table instead of rebuild it every time, we need to design the layout that we use to store the hash table in the disks.&lt;/p&gt;
+&lt;p&gt;We have implemented the &lt;code&gt;BufferPoolManager&lt;/code&gt; in previous project. Buffer pool itself only allocate page frame for us to use. However, which kind of &lt;code&gt;Page&lt;/code&gt; is stored in the page frame? In this task, we need to create two kinds of &lt;code&gt;Page&lt;/code&gt;s for our hash table:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hash table directory page&lt;/li&gt;
+&lt;li&gt;Hash table bucket page&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Since we are using the previous allocated memory space (we cast the &lt;code&gt;data_&lt;/code&gt; field of &lt;code&gt;Page&lt;/code&gt; to directory page or bucket page), understanding of memory management and how C/C++ pointer operation works are necessary.&lt;/p&gt;
+&lt;p&gt;For bitwise operations, because the bitmap is based on char arrays, we can only do bitwise operations char by char (at least, this is what I find).&lt;/p&gt;
+&lt;h3 id=&#34;hash-table-directory-page&#34;&gt;Hash Table Directory Page&lt;/h3&gt;
+&lt;p&gt;This kind of page stores metadata for the hash table. The most important part is the &lt;strong&gt;bucket address table&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;At this stage, only implement the necessary functions, and they are very simple. We will come back to add more functions in the following tasks.&lt;/p&gt;
+&lt;h3 id=&#34;hash-bucket-page&#34;&gt;Hash Bucket Page&lt;/h3&gt;
+&lt;p&gt;Stores key-value pairs, with some metadata that helps track space usages. Here, we only support fixed-length KV pairs.&lt;/p&gt;
+&lt;p&gt;There are two bitmaps that we used to indicate if a slot contains valid KV:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;readable_&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;occupied_&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;occupied_&lt;/code&gt; actually has no specially meaning in extendible hashing because we do not need tombstone. However, we still need to maintain it, because there are some related test cases. I assume the teaching team still leave this part here so that they do not need to modify the test cases.&lt;/p&gt;
+&lt;p&gt;The page layout itself is very straightforward. Only the bitwise operations are a little annoying.&lt;/p&gt;
+&lt;h2 id=&#34;task-2---hash-table-implementation&#34;&gt;Task #2 - Hash Table Implementation&lt;/h2&gt;
+&lt;p&gt;This task is very interesting because we use the buffer pool manager that we implemented previously to handle the storage part for thus. We only need to use these APIs to allocate pages and store the hash table in these pages.&lt;/p&gt;
+&lt;p&gt;I recommend to implement the search at the very beginning then other functions, since other operations also need search to check if a specific KV pair is existed.&lt;/p&gt;
+&lt;h3 id=&#34;search&#34;&gt;Search&lt;/h3&gt;
+&lt;p&gt;For a given &lt;code&gt;key&lt;/code&gt;, we use the given hash function to get the hash value, then through the directory (bucket address table) to get the corresponding bucket page. After that, we do a sequential search to find the key.&lt;/p&gt;
+&lt;p&gt;Because we support duplicated keys, we need to find all the KV pairs that has the given key. Do not stop at the first matched pair.&lt;/p&gt;
+&lt;h3 id=&#34;insert&#34;&gt;Insert&lt;/h3&gt;
+&lt;p&gt;The core components of insertion part is split. Highly recommend to use pen and paper to figure how bucket split works before coding.&lt;/p&gt;
+&lt;p&gt;The insertion procedure is as follows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Find the right bucket&lt;/li&gt;
+&lt;li&gt;If there is room in the bucket, insert the KV pair&lt;/li&gt;
+&lt;li&gt;If there is no room -&amp;gt; split the bucket&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;How to split one bucket? Assume we call the split target &lt;em&gt;split bucket&lt;/em&gt; and the newly created bucket &lt;em&gt;image bucket&lt;/em&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;If $ global\_depth == local\_depth $:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Increase the &lt;code&gt;global_depth&lt;/code&gt; by 1, so double the table size&lt;/li&gt;
+&lt;li&gt;The following steps are same as situation $ global\_depth &amp;gt; local\_depth $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If $global\_depth &amp;gt; local\_depth$:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Allocate a new page for the image bucket&lt;/li&gt;
+&lt;li&gt;Adjust the entries in the bucket address table
+&lt;ul&gt;
+&lt;li&gt;leave the half of the entries pointing to the split bucket&lt;/li&gt;
+&lt;li&gt;set all the remaining entries to point to the image bucket&lt;/li&gt;
+&lt;li&gt;also increase the &lt;code&gt;local_depth&lt;/code&gt; by 1 because we need one more bit to separate them&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Rehash KV pairs in the split bucket&lt;/li&gt;
+&lt;li&gt;Re-attemp the insertion
+&lt;ul&gt;
+&lt;li&gt;Should use the &lt;code&gt;Insert()&lt;/code&gt; function because we may need more splits&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Add your own test cases. The given test case is so small and cannot cover all situations.&lt;/p&gt;
+&lt;h3 id=&#34;remove&#34;&gt;Remove&lt;/h3&gt;
+&lt;p&gt;Remove itself is very simple. The complicated part is the merge procedure. The good thing is that, after finished split, the logic of merge became clear to us.&lt;/p&gt;
+&lt;p&gt;The project description gives a fairly thorough instructions for merge. Follow the instruction is enough.&lt;/p&gt;
+&lt;p&gt;Shrinking the table is very straightforward since we use LSB to assign KV pairs to different buckets.&lt;/p&gt;
+&lt;h2 id=&#34;task-3-concurrency-control&#34;&gt;Task #3 Concurrency Control&lt;/h2&gt;
+&lt;p&gt;Try coarse-grained latch (lock) first, then reduce the latch range.&lt;/p&gt;
+&lt;p&gt;No special comments for this. You can do it!&lt;/p&gt;
+&lt;h2 id=&#34;result&#34;&gt;Result&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/z1ggy-o/static_resources/main/img/cmu15445-project02-grades.png&#34; alt=&#34;grades&#34;&gt;&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://example.com/categories/projects/" term="projects" label="projects" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://example.com/tags/database/" term="Database" label="Database" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution</title>
+            <link rel="alternate" type="text/html" href="https://example.com/posts/aghayev-2019-filesystemunfit/" />
+            <id>https://example.com/posts/aghayev-2019-filesystemunfit/</id>
+            <updated>2022-04-30T21:04:19&#43;08:00</updated>
+            <published>2021-01-17T00:29:00&#43;09:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Short Summary This paper mostly consists of two parts. The first part tells us why the FileStore has performance issues. And the second part tells us how Ceph team build BlueStore based on the lessons that they learnt from FileStore.
+The main ideas of BlueStore are:</summary>
+            
+                <content type="html">&lt;h2 id=&#34;short-summary&#34;&gt;Short Summary&lt;/h2&gt;
+&lt;p&gt;This paper mostly consists of two parts. The first part tells us why the &lt;code&gt;FileStore&lt;/code&gt; has performance issues.
+And the second part tells us how Ceph team build &lt;code&gt;BlueStore&lt;/code&gt; based on the
+lessons that they learnt from &lt;code&gt;FileStore&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The main ideas of &lt;code&gt;BlueStore&lt;/code&gt; are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Avoid using local file system to store and represent Ceph objects&lt;/li&gt;
+&lt;li&gt;Use KV-store to provide transaction mechanism instead of build it by ourself&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;what-s-the-problem&#34;&gt;What&#39;s the problem&lt;/h2&gt;
+&lt;p&gt;There is a software called &lt;code&gt;storage backend&lt;/code&gt; in Ceph. The &lt;code&gt;storage backend&lt;/code&gt; is
+responsible to accept requests from upper layer of Ceph and do the real I/O on
+storage devices.&lt;/p&gt;
+&lt;p&gt;Ceph used to use commonly used local file systems based storage backend (i.e.,
+FileStore). FileStore works, but not that well. There are mainly three
+drawbacks in FileStore:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Hard to implement efficient transactions on top of existing file systems&lt;/li&gt;
+&lt;li&gt;The local file system&#39; metadata performance is not great (e.g., enumerating
+directories, ordering in the return result)&lt;/li&gt;
+&lt;li&gt;Hard to adopt emerging storage hardware that abandon the venrable block
+interface (e.g., Zone divecies)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;why-the-problem-is-interesting&#34;&gt;Why the problem is interesting&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Because storage backends do the real I/O job, the performance storage
+backends domains the performance of the whole Ceph system.&lt;/li&gt;
+&lt;li&gt;For years, the developers of Ceph have had a lot of troubles when using local
+file systems to build storage backends&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;the-core-ideas&#34;&gt;The Core Ideas&lt;/h2&gt;
+&lt;h3 id=&#34;the-problems-of-filestore&#34;&gt;The problems of FileStore&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Transaction&lt;/strong&gt;: in Ceph, all writes are transactions. There are three options for providing transaction on top of local file systems: leveraging file system internal transaction; implementing the write-ahead logging (WAL) in user space; and using a key-value store as the WAL&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;leveraging file system&#39;s transaction is not a good idea because they usually lack of some functionalities. And also, file system is in the kernel side, it is hard to expose the interfaces.&lt;/li&gt;
+&lt;li&gt;User space WAL: has consistency problem (not atom operations, because it is
+a logical WAL, it use read/write system calls to write/read data to/from
+logging part). The cost for handle the problem is expensive. Also slow
+read-modify-write and double-write (logging all data) problems.&lt;/li&gt;
+&lt;li&gt;Using KV-store: This is the cure. However, there is still some unnecessary
+file system overhead like &lt;em&gt;journaling of journal&lt;/em&gt; problem&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Slow metadata operations&lt;/strong&gt;: enumeration is slow. The read result from a object
+sets should in order, which file systems do not do. We need to do sorting
+after read. To reduce the sorting overhead, Ceph limits the number of files in
+a directory, which introduces &lt;em&gt;directory splition&lt;/em&gt;. The dir splition has
+overhead.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Does not support new storage hardware&lt;/strong&gt;: new storage devices may need
+modifications in the existing file systems. If Ceph uses local file systems,
+the Ceph team can only wait for the developers of the file systems to adopt
+the new storage.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In the paper, there are more details. In summary, the reasons of above problems are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;File system overhead&lt;/li&gt;
+&lt;li&gt;Ceph uses file system metadata to represent Ceph object metadata. (i.e.,
+object to file, object group to diectory) The file system metadata operations
+are not fast and also may have some consistent issues.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;bluestore&#34;&gt;BlueStore&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Does not use local file system anymore. Instead, store Ceph objects into raw
+storage directly. This method avoids the overhead of file systems.&lt;/li&gt;
+&lt;li&gt;Use KV-store (i.e. RocksDB) to provide transaction and manage Ceph metadata.
+This method provides much faster metadata operations and also avoid building
+transtion mechanism by Ceph developer.&lt;/li&gt;
+&lt;li&gt;Because RocksDB runs on top of file systems. BlueStore has a very simply file
+system that only works for RocksDB called BlueFS. The BlueFS stores all the
+contents in logging space and cleans invalid data periodly.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If you understand the reason of why FileStore performs not well, you can simply
+understand the choices they did when build BlueStore.&lt;/p&gt;
+&lt;p&gt;BlueStore still has some issues. For example, because BlueStore do not use file
+systems, it cannot leverage the OS page cache and need to build the cache by
+itself. However, build a effective cache is hard.&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://example.com/categories/paper-notes/" term="paper notes" label="paper notes" />
+                            
+                        
+                    
+                
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</title>
+            <link rel="alternate" type="text/html" href="https://example.com/posts/wang-2020-bcw/" />
+            <id>https://example.com/posts/wang-2020-bcw/</id>
+            <updated>2022-04-30T21:04:19&#43;08:00</updated>
+            <published>2020-12-31T22:37:00&#43;09:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Short Summary HDDs are under utilized in hybrid cloud storage systems which makes SSD to handle most of the requests. This shorts the life of SSDs and also wants the utilization of HDDs.
+The authors of this paper find that the write requests can have $μ$s-level latency when using HDD if the buffer in HDD is not full.</summary>
+            
+                <content type="html">&lt;h2 id=&#34;short-summary&#34;&gt;Short Summary&lt;/h2&gt;
+&lt;p&gt;HDDs are under utilized in hybrid cloud storage systems which makes SSD to handle most of
+the requests.
+This shorts the life of SSDs and also wants the utilization of HDDs.&lt;/p&gt;
+&lt;p&gt;The authors of this paper find that the write requests can have $μ$s-level latency when
+using HDD if the buffer in HDD is not full.
+They leverage this finding to let HDD to handle write requests if the requests can fit into
+the in disk buffer.&lt;/p&gt;
+&lt;p&gt;This strategy can reduce SSD pressure which prolongs SSD life and still provide relative good
+performance.&lt;/p&gt;
+&lt;h2 id=&#34;what-is-the-problem&#34;&gt;What is the problem&lt;/h2&gt;
+&lt;p&gt;In hybrid storage system (e.g. SSDs with HDDs), there is an unbalancing storage utilization problem.&lt;/p&gt;
+&lt;p&gt;More specifically, SSDs are used as the cache layer of the whole system, then data in SSDs is
+moved to HDDs. The original idea is to leverage the high performance of SSD to serve consumer
+requests first, so consumer requests can have shorter latency.&lt;/p&gt;
+&lt;p&gt;However, in a real system, SSDs handle most of the write requests and HDDs are idle in more
+than 90% of the time. This is a waste of HDD and SSD because SSD has short life limitation.
+Also, deep queue depth makes requests suffering long latency even when we using SSDs.&lt;/p&gt;
+&lt;h2 id=&#34;why-the-problem-is-interesting--important&#34;&gt;Why the problem is interesting (important)?&lt;/h2&gt;
+&lt;p&gt;The authors find a latency pattern of requests on HDD, which is introduced by the using of the in disk buffer.
+The request latency of HDD can be classified as three categories: &lt;em&gt;fast, middle&lt;/em&gt;, and &lt;em&gt;slow&lt;/em&gt;.
+Write requests data is put to the buffer first, then to the disk. When the buffer is full,
+HDD will block the coming requests until it flushes all the data in the buffer into disk.
+When there are free space in the buffer, request latency is in fast or middle range, otherwise
+in slow range.&lt;/p&gt;
+&lt;p&gt;The fast and middle latency is in $μ s$-level which similar with the performance of SSD.
+If we can control the buffer in disk to handle requests which their size is in the buffer
+size range, then we can get SSD-level performance when using HDD to handle small write
+requests.&lt;/p&gt;
+&lt;h2 id=&#34;the-idea&#34;&gt;The idea&lt;/h2&gt;
+&lt;p&gt;Dynamically dispatch write requests to SSD and HDD, which reduces SSD pressure and also
+provides reasonable performance.&lt;/p&gt;
+&lt;p&gt;To achieve the goal, there are two key components in this paper:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Make sure requests to HDD are in the fast and middle latency range&lt;/li&gt;
+&lt;li&gt;Determining which write requests should be dispatch to HDD&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To handle the first challenge, the authors provided a prediction model. The model itself
+is simply comparing the current request size with pre-defined threshold.
+We cannot know the write buffer size of HDD directly. However, we can get an approximate
+value of the buffer size through profiling. The threshold are the cumulative amount of written data for the
+fast/mid/slow stages.&lt;/p&gt;
+&lt;p&gt;Since we only want to use the fast and middle stages, we need to skip the slow stage.
+There are two methods to do this. First, &lt;code&gt;sync&lt;/code&gt; system call from host can enforce the
+buffer flush; second, HDD controller will flush the buffer when the buffer is full.
+&lt;code&gt;sync&lt;/code&gt; is a expensive operation, so the authors choose to use &lt;em&gt;padding data&lt;/em&gt; to full fill
+the buffer, which can let controller to flush the data in the buffer.&lt;/p&gt;
+&lt;p&gt;The second reason of why we need padding data is we want to make sure the prediction model
+working well. That means the prediction model needs a sequential continuous write requests.
+When HDD is idle, the controller will empty the buffer even when the buffer is not full,
+which break the prediction. Read requests also break the prediction.
+Using padding data can help the system to maintain and adjust the prediction.
+More specifically, when HDD is idle, the system use small size padding data to avoid disk
+control flush the buffer; when read requests finished, since we cannot know if the disk
+controller flushes the buffer, the system use large size padding data to quickly full fill
+the buffer, which can help recorrect the prediction model.
+These padding data will be remove during the GC procedure.&lt;/p&gt;
+&lt;p&gt;Steering requests to HDDs is much easier to understand. The latency of request is related
+to the I/O queue depth.
+We do profiling to find the relation between SSD&#39;s queue depth and the request request latency.
+In a certain queue depth, the request latency on SSD will be greater than the latency of HDDs
+fast stage. We use the queue depth value as the threshold.
+When queue depth exceeds the threshold, the system stores data to the HDD instead of SSD.&lt;/p&gt;
+&lt;h2 id=&#34;drawbacks-and-personal-questions-about-the-study&#34;&gt;Drawbacks and personal questions about the study&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Only works for small size of write requests&lt;/li&gt;
+&lt;li&gt;The consistency is not guaranteed&lt;/li&gt;
+&lt;li&gt;The disk cannot be managed as RAID (can we?)&lt;/li&gt;
+&lt;li&gt;GC is still a problem&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://example.com/categories/paper-notes/" term="paper notes" label="paper notes" />
+                            
+                        
+                    
+                
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title>
+            <link rel="alternate" type="text/html" href="https://example.com/posts/he-2020-readasneeded/" />
+            <id>https://example.com/posts/he-2020-readasneeded/</id>
+            <updated>2022-04-30T21:04:19&#43;08:00</updated>
+            <published>2020-12-26T20:15:00&#43;09:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Short Summary This paper proposed a NAND-flash SSD-friendly full text engine. This engine can achieve better performance than existing engines with much less memory requested.
+They reduce the unnecessary I/O (both the number of I/O and the volume). The engine does not cache data into memory, instead, read data every time when query arrive.</summary>
+            
+                <content type="html">&lt;h2 id=&#34;short-summary&#34;&gt;Short Summary&lt;/h2&gt;
+&lt;p&gt;This paper proposed a NAND-flash SSD-friendly full text engine. This engine can
+achieve better performance than existing engines with much less memory requested.&lt;/p&gt;
+&lt;p&gt;They reduce the unnecessary I/O (both the number of I/O and the volume). The
+engine does not cache data into memory, instead, read data every time when query
+arrive.&lt;/p&gt;
+&lt;p&gt;They also tried to increase the request size to exploit SSD internal parallelism.&lt;/p&gt;
+&lt;h2 id=&#34;what-is-the-problem&#34;&gt;What Is the Problem&lt;/h2&gt;
+&lt;p&gt;Search engines pose great challenges to storage systems:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;low latency&lt;/li&gt;
+&lt;li&gt;high data throughput&lt;/li&gt;
+&lt;li&gt;high scalability&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The datasets become too large to fit into the RAM. Simply use RAM as a cache
+cannot achieve the goal.&lt;/p&gt;
+&lt;p&gt;SSD and NVRAM can boost performance well. For example, flash-based SSDs provide
+much higher throughput and lower latency compared to HDD.
+However, since SSDs exhibit vastly different characteristic from HDDs, we need
+to evolve the software on top of the storage stack to exploit the full potential
+of SSDs.&lt;/p&gt;
+&lt;p&gt;In this paper, the authors rebuild a search engine to better utilize SSDs to
+achieve the necessary performance goals with main memory that is significantly
+smaller than the data set.&lt;/p&gt;
+&lt;h2 id=&#34;why-the-problem-is-interesting&#34;&gt;Why the Problem Is Interesting&lt;/h2&gt;
+&lt;p&gt;There are already many studies that work on making SSD-friendly softwares within storage stack. For example, RocksDB, Wisckey (KV-store); FlashGraph, Mosaic (graphs processing); and SFS, F2fS (file system).&lt;/p&gt;
+&lt;p&gt;However, there is no optimization for full-text search engines.
+Also the challenge of making SSD-friendly search engine is different with other categories of SSD-friendly softwares.&lt;/p&gt;
+&lt;h2 id=&#34;the-idea&#34;&gt;The Idea&lt;/h2&gt;
+&lt;p&gt;The key idea is: &lt;strong&gt;read as needed&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;The reason behind of the idea is SSD can provide millisecond-level read latency,
+which is fast enough to avoid cache data into main memory.&lt;/p&gt;
+&lt;p&gt;There are three challenges:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;reduce read amplification&lt;/li&gt;
+&lt;li&gt;hide I/O latency&lt;/li&gt;
+&lt;li&gt;issue large requests to exploit SSD performance&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;(This work is focus on the data structure, inverted index. This is a commonly used data structure in the information retrieve system. There are some brief introduction about the inverted index in the paper, and I do not repeat the content here.)&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Category&lt;/th&gt;
+&lt;th&gt;Techniques&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Reduce read amplification&lt;/td&gt;
+&lt;td&gt;- cross-stage data grouping&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;- two-way cost-aware bloom filters&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;- trade disk space for I/O&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Hide I/O latency&lt;/td&gt;
+&lt;td&gt;adaptive prefetching&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Issue large requests&lt;/td&gt;
+&lt;td&gt;cross-stage data grouping&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;cross-stage-data-grouping&#34;&gt;Cross-stage data grouping&lt;/h3&gt;
+&lt;p&gt;This technique is used to reduce read amplification and issue large requests.&lt;/p&gt;
+&lt;p&gt;WiSER puts data needed for different stages of a query into continuous and compact blocks on the storage device, which increases block utilization when transferring data for query.
+Inverted index of WiSER places data of different stages in the order that it will be accessed.&lt;/p&gt;
+&lt;p&gt;Previous search engines used to store data of different stages into different range, which reduces the I/O size and increases the number of I/O requests.&lt;/p&gt;
+&lt;h3 id=&#34;two-way-cost-aware-filters&#34;&gt;Two-way Cost-aware Filters&lt;/h3&gt;
+&lt;p&gt;When doing phrase queries we need to use the position information to check the terms around a specific term to improve search precision.&lt;/p&gt;
+&lt;p&gt;The naive approach is to read the positions from all the terms in the phrase
+then iterate the position list.
+To reduce the unnecessary reading, WiSER employs a bitmap-based bloom filter.
+The reason to use bitmap is to reduce the size of bloom filter. There are many
+empty entries in the filter array, use bitmap can avoid the waste.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Cost-aware&lt;/em&gt; means comparing the size of position list with that of the bloom
+filters. If the size of position list is smaller than that of bloom filters,
+WiSER reads the position list directly.&lt;/p&gt;
+&lt;p&gt;Two-way filters shares the same idea. WiSER chooses to read the smaller bloom
+filter to reduce the read amplification.&lt;/p&gt;
+&lt;h3 id=&#34;adaptive-prefetching&#34;&gt;Adaptive Prefetching&lt;/h3&gt;
+&lt;p&gt;Prefetching is one of the commonly used technique to hide the I/O latency.
+Even though, the read latency of SSD is small. Compare to DRAM, the read latency
+of SSD still much larger.&lt;/p&gt;
+&lt;p&gt;Previous search engines (e.g. Elasticsearch) use fix-sized prefecthing (i.e.
+Linux readahead) which increases the read amplification.
+WiSER defines an area called &lt;em&gt;prefetch zone&lt;/em&gt;. A prefetch zone is further divided
+into prefetch segments to avoid accessing too much data at a time. It prefetches when all prefetch zones involved in a query are larger than a threshold.&lt;/p&gt;
+&lt;p&gt;To enable adaptive prefetch, WiSER hides the size of the prefetch zone in the highest 16 bits of the offset in TermMap and calls &lt;code&gt;madvise()&lt;/code&gt; with the &lt;code&gt;MADV_SEQUENTIAL&lt;/code&gt; hint to readahead in the prefetch zone.&lt;/p&gt;
+&lt;h3 id=&#34;trade-disk-space-for-i-o&#34;&gt;Trade Disk Space for I/O&lt;/h3&gt;
+&lt;p&gt;Engines like Elasticsearch put documents into a buffer and compresses all data in the buffer together. WiSER, instead, compresses each document by themselves.&lt;/p&gt;
+&lt;p&gt;Compressing all data in the buffer together achieves better compression.
+However, decompressing a document requires reading and decompressing all documents compressed before the document, leading to more I/O and computation. WiSER trades space for less I/O by using more space but reducing the I/O while processing queries.&lt;/p&gt;
+&lt;p&gt;In the evaluation, WiSER uses 25% more storage than Elasticsearch. The authors argue that the trade-off is acceptable in spite of the low RAM requirement of WiSER.&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://example.com/categories/paper-notes/" term="paper notes" label="paper notes" />
+                            
+                        
+                    
+                
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">My First Post</title>
+            <link rel="alternate" type="text/html" href="https://example.com/posts/my-first-post/" />
+            <id>https://example.com/posts/my-first-post/</id>
+            <updated>2020-11-08T10:43:54&#43;09:00</updated>
+            <published>2020-11-08T09:48:14&#43;09:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">I rebuilt my personal blog by using hugo.
+I have cleaned all my old blogs (not so much actually).
+I will write something related to my research reading or personal learning. Hope I can meet you soon.</summary>
+            
+                <content type="html">&lt;p&gt;I rebuilt my personal blog by using hugo.&lt;/p&gt;
+&lt;p&gt;I have cleaned all my old blogs (not so much actually).&lt;/p&gt;
+&lt;p&gt;I will write something related to my research reading or personal learning.
+Hope I can meet you soon.&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                
+                    
+                
+            
+        </entry>
+    
+</feed>
