@@ -8,7 +8,7 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Ziggy&#39;s Blog</title>
-        <link>https://example.com/zh/</link>
+        <link>https://z1ggy-o.github.io/zh/</link>
         <description>This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</description>
         <generator>Hugo 0.98.0 https://gohugo.io/</generator>
         
@@ -23,9 +23,9 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sat, 30 Apr 2022 21:05:35 &#43;0800</lastBuildDate>
+        <lastBuildDate>Sun, 01 May 2022 08:40:38 &#43;0800</lastBuildDate>
         
-            <atom:link rel="self" type="application/rss&#43;xml" href="https://example.com/zh/rss.xml" />
+            <atom:link rel="self" type="application/rss&#43;xml" href="https://z1ggy-o.github.io/zh/rss.xml" />
         
         
     </channel>

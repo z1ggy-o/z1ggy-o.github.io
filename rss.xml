@@ -8,7 +8,7 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Ziggy&#39;s Blog</title>
-        <link>https://example.com/</link>
+        <link>https://z1ggy-o.github.io/</link>
         <description>This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</description>
         <generator>Hugo 0.98.0 https://gohugo.io/</generator>
         
@@ -23,98 +23,15 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
         
-        <lastBuildDate>Sat, 30 Apr 2022 21:05:35 &#43;0800</lastBuildDate>
+        <lastBuildDate>Sun, 01 May 2022 08:40:38 &#43;0800</lastBuildDate>
         
-            <atom:link rel="self" type="application/rss&#43;xml" href="https://example.com/rss.xml" />
+            <atom:link rel="self" type="application/rss&#43;xml" href="https://z1ggy-o.github.io/rss.xml" />
         
-        
-            <item>
-                <title>CMU 15-445 2021 Fall Project#1</title>
-                <link>https://example.com/posts/cmu15445_project1/</link>
-                <guid isPermaLink="true">https://example.com/posts/cmu15445_project1/</guid>
-                <pubDate>Mon, 14 Mar 2022 21:23:00 &#43;0800</pubDate>
-                
-                    <author>gy.zhu29@outlook.com (Ziggy)</author>
-                
-                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
-                
-                    <description>&lt;blockquote&gt;
-&lt;p&gt;Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&#39;t think that would be very different from public the source code.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;task-1---lru-replacement-policy&#34;&gt;Task #1 - LRU Replacement Policy&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;BufferPoolManger&lt;/code&gt; contains all the frames.
-&lt;code&gt;LRUReplacer&lt;/code&gt; is an implementation of the &lt;code&gt;Replacer&lt;/code&gt; and it helps &lt;code&gt;BufferPoolManger&lt;/code&gt; to manage these frames.&lt;/p&gt;
-&lt;p&gt;This &lt;code&gt;LRU&lt;/code&gt; policy is not very &amp;quot;LRU&amp;quot; in my opinion. Refer the test cases we can see, if we &lt;code&gt;Unpin&lt;/code&gt; the same frame twice, we do not update the access time for this frame. Which means that we only need to inserte/delete page frames to/from the LRU container. There is no positon modification (assume we use conventional list + hash table implementation).&lt;/p&gt;
-&lt;p&gt;You may need to read the code associated with task 1 and task 2 before start programming for task 1. Thus, you can understand how &lt;code&gt;BufferPoolManager&lt;/code&gt; utlizes the &lt;code&gt;LRUReplacer&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Actually, it is the &lt;code&gt;BufferPoolMangerInstance&lt;/code&gt; managing the pages in the buffer. The &lt;code&gt;LRUReplacer&lt;/code&gt; itself only contains page frames that we can use for storing new pages.
-In other words, the reference (pin) count of pages that existed in the frames that in the &lt;code&gt;LRUReplacer&lt;/code&gt; is zero, and we can swap them out in anytime.&lt;/p&gt;
-&lt;p&gt;Since we need to handle the concurret access, latches (or locks) are necessary. If you are not fimilar with locks in C++ like me, you can check the &lt;code&gt;include/common/rwlatch.h&lt;/code&gt; to learn how Bustub (i.e., the DBMS that we are implementing) uses them.&lt;/p&gt;
-&lt;h2 id=&#34;task-2---buffer-pool-manager-instance&#34;&gt;Task #2 - Buffer Pool Manager Instance&lt;/h2&gt;
-&lt;p&gt;We use &lt;code&gt;Page&lt;/code&gt; as the container to manage the pages of our DB storage engine. &lt;code&gt;Page&lt;/code&gt; objects are pre-allocated for each frame in the buffer pool. We reuse existed &lt;code&gt;Page&lt;/code&gt; objects instead of creating a new one for every newly read in pages.&lt;/p&gt;
-&lt;p&gt;We &lt;span class=&#34;underline&#34;&gt;pin&lt;/span&gt; a page when we want to use it, and we &lt;span class=&#34;underline&#34;&gt;unpin&lt;/span&gt; a page when we do not need it anymore. Because we are using the page, the buffer pool manager will not move this page out. Thus, &lt;span class=&#34;underline&#34;&gt;pin&lt;/span&gt; and &lt;span class=&#34;underline&#34;&gt;unpin&lt;/span&gt; are hints to tell the pool manager which page it can swap out if there is no free space.&lt;/p&gt;
-&lt;p&gt;Caution, &lt;code&gt;frame&lt;/code&gt; and &lt;code&gt;page&lt;/code&gt; are refering to different concepts. &lt;code&gt;page&lt;/code&gt; is a chunk of data that stored in our DBMS; &lt;code&gt;frame&lt;/code&gt; is a slot in the page buffer that has the same size as the &lt;code&gt;page&lt;/code&gt;. So, use &lt;code&gt;frame_id_t&lt;/code&gt; and &lt;code&gt;page_id_t&lt;/code&gt; at the right place.&lt;/p&gt;
-&lt;p&gt;The comments in the base code is not very clear. They use &amp;quot;page&amp;quot; to refer both data pages and page frames, which is confusing. Make sure which is the target that you want before coding.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;BufferPoolManager&lt;/code&gt; uses four components to manage pages and frames:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;page_table_&lt;/code&gt;: a map that stores the mapping relationship between &lt;code&gt;page_id&lt;/code&gt; and &lt;code&gt;frame_id&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;free_list_&lt;/code&gt;: a linked-list that stores the free frames.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;replacer_&lt;/code&gt;: a &lt;code&gt;LRUReplacer&lt;/code&gt; that stores used frames with zero pin count.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pages_&lt;/code&gt;: stores pre-allocated &lt;code&gt;Page&lt;/code&gt; objects.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;In terms of concurrency control, because we only have one latch for a whole buffer, the coarse-grained lock is unavoidable.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;BufferPoolManager&lt;/code&gt; is the &lt;code&gt;friend&lt;/code&gt; of &lt;code&gt;Page&lt;/code&gt;, so we can access the &lt;code&gt;private&lt;/code&gt; members of &lt;code&gt;Page&lt;/code&gt;. (This is a good example about when to use &lt;code&gt;friend&lt;/code&gt; -- when we need to change some member variables but we do not want give setters so that every one can change them.)&lt;/p&gt;
-&lt;p&gt;If we can do three things right, this task is not that difficult:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Move page to/from LRU.&lt;/li&gt;
-&lt;li&gt;Know when to flush a page. (Read points are very clear).&lt;/li&gt;
-&lt;li&gt;Which page metadata we need to update.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Critical hints:&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Do read the header file and make sure your return value fits the function description. (I wasted few hours just because I returned &lt;code&gt;false&lt;/code&gt; in a function, however, they assume we should return &lt;code&gt;true&lt;/code&gt;  in that case. Do not use your own judgement, just follow the description.)&lt;/li&gt;
-&lt;li&gt;What will happen if we &lt;code&gt;NewPage()&lt;/code&gt; then &lt;code&gt;Unpin()&lt;/code&gt; the same page immediately?&lt;/li&gt;
-&lt;li&gt;Do not use the iterator after you erased the corresponding element. The iterator is invalided, however, the compiler will not warn you.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;task-3---parallel-buffer-pool-manager&#34;&gt;Task #3 - Parallel Buffer Pool Manager&lt;/h2&gt;
-&lt;p&gt;Task 3 is very straightforward. If our &lt;code&gt;BufferPoolManagerInstance&lt;/code&gt; is implemented in the right way, the only thing we need to do here is to allocate mutiple buffer instance and call corresponding member functions for each instance.&lt;/p&gt;
-&lt;p&gt;Some people have problems with the start index assignment and update. Please make sure you do everything right as the describtion told us.&lt;/p&gt;
-&lt;h2 id=&#34;result&#34;&gt;Result&lt;/h2&gt;
-&lt;p&gt;Passed all test cases with full grades.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/z1ggy-o/static%5Fresources/main/img/202203142113296.png&#34; alt=&#34;Project#1 grades&#34;&gt;&lt;/p&gt;
-</description>
-                
-                
-                
-                
-                
-                    
-                        
-                            
-                                
-                                
-                                
-                                    <category domain="https://example.com/categories/projects/">projects</category>
-                                
-                            
-                        
-                    
-                        
-                            
-                                
-                                
-                                
-                                    <category domain="https://example.com/tags/database/">Database</category>
-                                
-                            
-                        
-                    
-                
-            </item>
         
             <item>
                 <title>CMU 15-445 2021 Fall Project#2</title>
-                <link>https://example.com/posts/cmu15445_project2/</link>
-                <guid isPermaLink="true">https://example.com/posts/cmu15445_project2/</guid>
+                <link>https://z1ggy-o.github.io/posts/cmu15445_project2/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/cmu15445_project2/</guid>
                 <pubDate>Sat, 19 Mar 2022 15:58:46 &#43;0800</pubDate>
                 
                     <author>gy.zhu29@outlook.com (Ziggy)</author>
@@ -210,7 +127,7 @@ In other words, the reference (pin) count of pages that existed in the frames th
                                 
                                 
                                 
-                                    <category domain="https://example.com/categories/projects/">projects</category>
+                                    <category domain="https://z1ggy-o.github.io/categories/projects/">projects</category>
                                 
                             
                         
@@ -220,7 +137,90 @@ In other words, the reference (pin) count of pages that existed in the frames th
                                 
                                 
                                 
-                                    <category domain="https://example.com/tags/database/">Database</category>
+                                    <category domain="https://z1ggy-o.github.io/tags/database/">Database</category>
+                                
+                            
+                        
+                    
+                
+            </item>
+        
+            <item>
+                <title>CMU 15-445 2021 Fall Project#1</title>
+                <link>https://z1ggy-o.github.io/posts/cmu15445_project1/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/cmu15445_project1/</guid>
+                <pubDate>Mon, 14 Mar 2022 21:23:00 &#43;0800</pubDate>
+                
+                    <author>gy.zhu29@outlook.com (Ziggy)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
+                
+                    <description>&lt;blockquote&gt;
+&lt;p&gt;Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&#39;t think that would be very different from public the source code.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;task-1---lru-replacement-policy&#34;&gt;Task #1 - LRU Replacement Policy&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;BufferPoolManger&lt;/code&gt; contains all the frames.
+&lt;code&gt;LRUReplacer&lt;/code&gt; is an implementation of the &lt;code&gt;Replacer&lt;/code&gt; and it helps &lt;code&gt;BufferPoolManger&lt;/code&gt; to manage these frames.&lt;/p&gt;
+&lt;p&gt;This &lt;code&gt;LRU&lt;/code&gt; policy is not very &amp;quot;LRU&amp;quot; in my opinion. Refer the test cases we can see, if we &lt;code&gt;Unpin&lt;/code&gt; the same frame twice, we do not update the access time for this frame. Which means that we only need to inserte/delete page frames to/from the LRU container. There is no positon modification (assume we use conventional list + hash table implementation).&lt;/p&gt;
+&lt;p&gt;You may need to read the code associated with task 1 and task 2 before start programming for task 1. Thus, you can understand how &lt;code&gt;BufferPoolManager&lt;/code&gt; utlizes the &lt;code&gt;LRUReplacer&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Actually, it is the &lt;code&gt;BufferPoolMangerInstance&lt;/code&gt; managing the pages in the buffer. The &lt;code&gt;LRUReplacer&lt;/code&gt; itself only contains page frames that we can use for storing new pages.
+In other words, the reference (pin) count of pages that existed in the frames that in the &lt;code&gt;LRUReplacer&lt;/code&gt; is zero, and we can swap them out in anytime.&lt;/p&gt;
+&lt;p&gt;Since we need to handle the concurret access, latches (or locks) are necessary. If you are not fimilar with locks in C++ like me, you can check the &lt;code&gt;include/common/rwlatch.h&lt;/code&gt; to learn how Bustub (i.e., the DBMS that we are implementing) uses them.&lt;/p&gt;
+&lt;h2 id=&#34;task-2---buffer-pool-manager-instance&#34;&gt;Task #2 - Buffer Pool Manager Instance&lt;/h2&gt;
+&lt;p&gt;We use &lt;code&gt;Page&lt;/code&gt; as the container to manage the pages of our DB storage engine. &lt;code&gt;Page&lt;/code&gt; objects are pre-allocated for each frame in the buffer pool. We reuse existed &lt;code&gt;Page&lt;/code&gt; objects instead of creating a new one for every newly read in pages.&lt;/p&gt;
+&lt;p&gt;We &lt;span class=&#34;underline&#34;&gt;pin&lt;/span&gt; a page when we want to use it, and we &lt;span class=&#34;underline&#34;&gt;unpin&lt;/span&gt; a page when we do not need it anymore. Because we are using the page, the buffer pool manager will not move this page out. Thus, &lt;span class=&#34;underline&#34;&gt;pin&lt;/span&gt; and &lt;span class=&#34;underline&#34;&gt;unpin&lt;/span&gt; are hints to tell the pool manager which page it can swap out if there is no free space.&lt;/p&gt;
+&lt;p&gt;Caution, &lt;code&gt;frame&lt;/code&gt; and &lt;code&gt;page&lt;/code&gt; are refering to different concepts. &lt;code&gt;page&lt;/code&gt; is a chunk of data that stored in our DBMS; &lt;code&gt;frame&lt;/code&gt; is a slot in the page buffer that has the same size as the &lt;code&gt;page&lt;/code&gt;. So, use &lt;code&gt;frame_id_t&lt;/code&gt; and &lt;code&gt;page_id_t&lt;/code&gt; at the right place.&lt;/p&gt;
+&lt;p&gt;The comments in the base code is not very clear. They use &amp;quot;page&amp;quot; to refer both data pages and page frames, which is confusing. Make sure which is the target that you want before coding.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;BufferPoolManager&lt;/code&gt; uses four components to manage pages and frames:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;page_table_&lt;/code&gt;: a map that stores the mapping relationship between &lt;code&gt;page_id&lt;/code&gt; and &lt;code&gt;frame_id&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;free_list_&lt;/code&gt;: a linked-list that stores the free frames.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;replacer_&lt;/code&gt;: a &lt;code&gt;LRUReplacer&lt;/code&gt; that stores used frames with zero pin count.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pages_&lt;/code&gt;: stores pre-allocated &lt;code&gt;Page&lt;/code&gt; objects.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In terms of concurrency control, because we only have one latch for a whole buffer, the coarse-grained lock is unavoidable.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;BufferPoolManager&lt;/code&gt; is the &lt;code&gt;friend&lt;/code&gt; of &lt;code&gt;Page&lt;/code&gt;, so we can access the &lt;code&gt;private&lt;/code&gt; members of &lt;code&gt;Page&lt;/code&gt;. (This is a good example about when to use &lt;code&gt;friend&lt;/code&gt; -- when we need to change some member variables but we do not want give setters so that every one can change them.)&lt;/p&gt;
+&lt;p&gt;If we can do three things right, this task is not that difficult:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Move page to/from LRU.&lt;/li&gt;
+&lt;li&gt;Know when to flush a page. (Read points are very clear).&lt;/li&gt;
+&lt;li&gt;Which page metadata we need to update.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Critical hints:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Do read the header file and make sure your return value fits the function description. (I wasted few hours just because I returned &lt;code&gt;false&lt;/code&gt; in a function, however, they assume we should return &lt;code&gt;true&lt;/code&gt;  in that case. Do not use your own judgement, just follow the description.)&lt;/li&gt;
+&lt;li&gt;What will happen if we &lt;code&gt;NewPage()&lt;/code&gt; then &lt;code&gt;Unpin()&lt;/code&gt; the same page immediately?&lt;/li&gt;
+&lt;li&gt;Do not use the iterator after you erased the corresponding element. The iterator is invalided, however, the compiler will not warn you.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;task-3---parallel-buffer-pool-manager&#34;&gt;Task #3 - Parallel Buffer Pool Manager&lt;/h2&gt;
+&lt;p&gt;Task 3 is very straightforward. If our &lt;code&gt;BufferPoolManagerInstance&lt;/code&gt; is implemented in the right way, the only thing we need to do here is to allocate mutiple buffer instance and call corresponding member functions for each instance.&lt;/p&gt;
+&lt;p&gt;Some people have problems with the start index assignment and update. Please make sure you do everything right as the describtion told us.&lt;/p&gt;
+&lt;h2 id=&#34;result&#34;&gt;Result&lt;/h2&gt;
+&lt;p&gt;Passed all test cases with full grades.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/z1ggy-o/static%5Fresources/main/img/202203142113296.png&#34; alt=&#34;Project#1 grades&#34;&gt;&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://z1ggy-o.github.io/categories/projects/">projects</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://z1ggy-o.github.io/tags/database/">Database</category>
                                 
                             
                         
@@ -230,8 +230,8 @@ In other words, the reference (pin) count of pages that existed in the frames th
         
             <item>
                 <title>File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution</title>
-                <link>https://example.com/posts/aghayev-2019-filesystemunfit/</link>
-                <guid isPermaLink="true">https://example.com/posts/aghayev-2019-filesystemunfit/</guid>
+                <link>https://z1ggy-o.github.io/posts/aghayev-2019-filesystemunfit/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/aghayev-2019-filesystemunfit/</guid>
                 <pubDate>Sun, 17 Jan 2021 00:29:00 &#43;0900</pubDate>
                 
                     <author>gy.zhu29@outlook.com (Ziggy)</author>
@@ -332,7 +332,7 @@ itself. However, build a effective cache is hard.&lt;/p&gt;
                                 
                                 
                                 
-                                    <category domain="https://example.com/categories/paper-notes/">paper notes</category>
+                                    <category domain="https://z1ggy-o.github.io/categories/paper-notes/">paper notes</category>
                                 
                             
                         
@@ -344,8 +344,8 @@ itself. However, build a effective cache is hard.&lt;/p&gt;
         
             <item>
                 <title>BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</title>
-                <link>https://example.com/posts/wang-2020-bcw/</link>
-                <guid isPermaLink="true">https://example.com/posts/wang-2020-bcw/</guid>
+                <link>https://z1ggy-o.github.io/posts/wang-2020-bcw/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/wang-2020-bcw/</guid>
                 <pubDate>Thu, 31 Dec 2020 22:37:00 &#43;0900</pubDate>
                 
                     <author>gy.zhu29@outlook.com (Ziggy)</author>
@@ -434,7 +434,7 @@ When queue depth exceeds the threshold, the system stores data to the HDD instea
                                 
                                 
                                 
-                                    <category domain="https://example.com/categories/paper-notes/">paper notes</category>
+                                    <category domain="https://z1ggy-o.github.io/categories/paper-notes/">paper notes</category>
                                 
                             
                         
@@ -446,8 +446,8 @@ When queue depth exceeds the threshold, the system stores data to the HDD instea
         
             <item>
                 <title>Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title>
-                <link>https://example.com/posts/he-2020-readasneeded/</link>
-                <guid isPermaLink="true">https://example.com/posts/he-2020-readasneeded/</guid>
+                <link>https://z1ggy-o.github.io/posts/he-2020-readasneeded/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/he-2020-readasneeded/</guid>
                 <pubDate>Sat, 26 Dec 2020 20:15:00 &#43;0900</pubDate>
                 
                     <author>gy.zhu29@outlook.com (Ziggy)</author>
@@ -566,7 +566,7 @@ However, decompressing a document requires reading and decompressing all documen
                                 
                                 
                                 
-                                    <category domain="https://example.com/categories/paper-notes/">paper notes</category>
+                                    <category domain="https://z1ggy-o.github.io/categories/paper-notes/">paper notes</category>
                                 
                             
                         
@@ -578,8 +578,8 @@ However, decompressing a document requires reading and decompressing all documen
         
             <item>
                 <title>My First Post</title>
-                <link>https://example.com/posts/my-first-post/</link>
-                <guid isPermaLink="true">https://example.com/posts/my-first-post/</guid>
+                <link>https://z1ggy-o.github.io/posts/my-first-post/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/my-first-post/</guid>
                 <pubDate>Sun, 08 Nov 2020 09:48:14 &#43;0900</pubDate>
                 
                     <author>gy.zhu29@outlook.com (Ziggy)</author>
