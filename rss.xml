@@ -23,10 +23,101 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
         
-        <lastBuildDate>Sun, 01 May 2022 14:18:25 &#43;0800</lastBuildDate>
+        <lastBuildDate>Mon, 02 May 2022 09:07:54 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://z1ggy-o.github.io/rss.xml" />
         
+        
+            <item>
+                <title>CMU 15-445 2021 Fall Project#3</title>
+                <link>https://z1ggy-o.github.io/posts/cmu15445-project03/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/cmu15445-project03/</guid>
+                <pubDate>Sat, 30 Apr 2022 20:37:56 &#43;0800</pubDate>
+                
+                    <author>gy.zhu29@outlook.com (Ziggy)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
+                
+                    <description>&lt;p&gt;In this project, we will Implement &lt;strong&gt;executors&lt;/strong&gt; for taking query plan nodes and executing them.&lt;/p&gt;
+&lt;p&gt;We are using the iterator query processing model (i.e., the Volcano model). Each executor implements a loop that continues calling &lt;code&gt;Next&lt;/code&gt; on its children to retrieve tuples and process them one-by-one.&lt;/p&gt;
+&lt;h2 id=&#34;how-executor-works&#34;&gt;How &lt;code&gt;executor&lt;/code&gt; works&lt;/h2&gt;
+&lt;p&gt;Before start coding, we need to learn a lot from the related source code first. The instruction does not show all the details and I believe they did this intentionally.&lt;/p&gt;
+&lt;p&gt;As discussed in the lecture, DBMSs will convert a SQL statement into a query plan, which is a tree consisted by operator nodes. The executors that we implement define how we process these operators.&lt;/p&gt;
+&lt;p&gt;Inside an operator, we get the expression of the operator. Thus, to implement an executor, we need to get the expression of that plan node, and evaluate these expression in the right way to get the result.&lt;/p&gt;
+&lt;p&gt;In this project, I recommend you to read the test code first before anything else. The test code tells us the structure of the code base and how they are combined together.&lt;/p&gt;
+&lt;p&gt;The &lt;em&gt;plan node&lt;/em&gt; and &lt;em&gt;execution engine&lt;/em&gt; are the most important components.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ExecutionEngine&lt;/code&gt; is defined in &lt;code&gt;execution_engine.h&lt;/code&gt; and there is only one single API -- &lt;code&gt;Execute()&lt;/code&gt;. In this function, it calls &lt;code&gt;ExecuteFactory&lt;/code&gt; to create executor object and return a smart pointer to the caller.&lt;/li&gt;
+&lt;li&gt;There is a &lt;code&gt;SetUp()&lt;/code&gt; function in &lt;code&gt;executor_test_util.h&lt;/code&gt; that does all the initializations for us. That&#39;s why we can use &lt;code&gt;GetExecutionEngine()&lt;/code&gt; and &lt;code&gt;GetExecutorContext()&lt;/code&gt; in the test file directly. (I was very curious about this.)&lt;/li&gt;
+&lt;li&gt;Different operators have their own plan node. The executor can fetch information it needs from the passed in plan node. Thus, do check all the members of the plan node.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;sequential-scan&#34;&gt;Sequential Scan&lt;/h2&gt;
+&lt;p&gt;This task needs us to read a lot code to know how these components work. In short, what we need to do is read all the tuples from the &lt;code&gt;TableHeap&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Once you know how to read a tuple from a given table, this task is almost done. However, do remember to use the output scheme to build the output tuple. Also, use the given predicate to filtrate out unsatisfied tuples.&lt;/p&gt;
+&lt;h2 id=&#34;insertion&#34;&gt;Insertion&lt;/h2&gt;
+&lt;p&gt;In this part we need to do both:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Insert new tuples into the table&lt;/li&gt;
+&lt;li&gt;Insert new indexes for these new tuples&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;There can have several tuples to be inserted in one query, and each table can have several indexes (based on different index keys).&lt;/p&gt;
+&lt;p&gt;All the components that we need to insert tuples and indexes can be find through the &lt;code&gt;catalog&lt;/code&gt; of the table. More specifically:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;We can get table information from the catalog. Through the table information, we can get the container of the table (&lt;code&gt;TableHeap&lt;/code&gt;), which provides the APIs to modify the table.&lt;/li&gt;
+&lt;li&gt;We can get index information from the catalog. Similarly, through the index information, we can get the container of the index (&lt;code&gt;Index&lt;/code&gt;), which provides the APIs to modify the index.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Because all the APIs are provided by the code base or ourself (i.e., the underlying buffer pool management and extendible hash index), there is no much code we need to write for insertion.&lt;/p&gt;
+&lt;h2 id=&#34;update&#34;&gt;Update&lt;/h2&gt;
+&lt;p&gt;Update is very similar with insertion. As described in the project instruction, the APIs that create updated tuples has been provided, so the tuple update part is very simple.&lt;/p&gt;
+&lt;p&gt;We need to consider when and how to update the indexes. A hint for this is that the index of attributes in the table index is the same in the table, which means we can know if the index keys are updated.&lt;/p&gt;
+&lt;h2 id=&#34;delete&#34;&gt;Delete&lt;/h2&gt;
+&lt;p&gt;Delete itself is very straightforward. Just delete the tuple and related indexes.&lt;/p&gt;
+&lt;h2 id=&#34;nested-loop-join&#34;&gt;Nested Loop Join&lt;/h2&gt;
+&lt;p&gt;Need to read the test case code to learn how to build the joined tuples. More specifically, there are two &lt;code&gt;Expression&lt;/code&gt;s that we need in this task, one is from the predicate, which is used for check if two tuples are matched; another is from the output schema columns, we need to use it to create the output tuples.&lt;/p&gt;
+&lt;h2 id=&#34;hash-join&#34;&gt;Hash Join&lt;/h2&gt;
+&lt;p&gt;Hash join is more complicated than nested loop join. The good news (?) is that, we assume the hash table can fit in the memory, so the basic hash join algorithm is enough.&lt;/p&gt;
+&lt;p&gt;The basic hash join algorithm has two phases: build and probe.
+Before we check any tuple of the inner table, we need to build the hash table for the outer table first. This phase should be done at the beginning.&lt;/p&gt;
+&lt;p&gt;Then, for each tuple of the inner table, we can use the hash table to find the matched tuples.
+We need to create a hash table by ourself. This is the most difficult part. As the instruction told us, we should check &lt;code&gt;SimpleAggregationHashTable&lt;/code&gt; to learn how to create one for hash joining. You should also check &lt;code&gt;aggregation_plan.h&lt;/code&gt;, which contains some components that &lt;code&gt;SimpleAggregationHashTable&lt;/code&gt; uses. This part of work may need deeper knowledge about C++ than other tasks.&lt;/p&gt;
+&lt;p&gt;We also need to get the hash keys using the given expressions. (P.S. the instruction in the website may not be updated. There is no &lt;code&gt;GetLeftJoinKey()&lt;/code&gt; and &lt;code&gt;GetRightJoinKey()&lt;/code&gt; member functions in the code base that I am using.)&lt;/p&gt;
+&lt;h2 id=&#34;aggregation&#34;&gt;Aggregation&lt;/h2&gt;
+&lt;p&gt;Since the hash table is given by the code base, we only need to use these expressions that the plan node gives to us.
+We only need to care about the &lt;code&gt;GROUP BY&lt;/code&gt; and &lt;code&gt;HAVING&lt;/code&gt; clauses. Aggregations are handled by the given code.&lt;/p&gt;
+&lt;h2 id=&#34;distinct&#34;&gt;Distinct&lt;/h2&gt;
+&lt;p&gt;After we know how to build our own hash table through the exercise of hash join, this task becomes quite easy. We only need to create another hash table, and use it to get distinct tuples.&lt;/p&gt;
+&lt;h2 id=&#34;result&#34;&gt;Result&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/z1ggy-o/static_resources/main/img/cmu15445-project03-grades.png&#34; alt=&#34;image.png&#34;&gt;
+At the time of my submission, I was ranked first on the leaderboard. ^^&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://z1ggy-o.github.io/categories/projects/">projects</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://z1ggy-o.github.io/tags/database/">Database</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>CMU 15-445 2021 Fall Project#2</title>
