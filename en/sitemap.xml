@@ -2,8 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://z1ggy-o.github.io/categories/articles/</loc>
+    <lastmod>2022-05-12T15:34:43+08:00</lastmod>
+  </url><url>
     <loc>https://z1ggy-o.github.io/categories/</loc>
-    <lastmod>2022-05-09T23:07:27+08:00</lastmod>
+    <lastmod>2022-05-12T15:34:43+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -15,20 +18,14 @@
                 href="https://z1ggy-o.github.io/categories/"
                 />
   </url><url>
-    <loc>https://z1ggy-o.github.io/posts/cmu15445-project04/</loc>
-    <lastmod>2022-05-09T23:07:27+08:00</lastmod>
-  </url><url>
     <loc>https://z1ggy-o.github.io/tags/database/</loc>
-    <lastmod>2022-05-09T23:07:27+08:00</lastmod>
+    <lastmod>2022-05-12T15:34:43+08:00</lastmod>
   </url><url>
     <loc>https://z1ggy-o.github.io/posts/</loc>
-    <lastmod>2022-05-09T23:07:27+08:00</lastmod>
-  </url><url>
-    <loc>https://z1ggy-o.github.io/categories/projects/</loc>
-    <lastmod>2022-05-09T23:07:27+08:00</lastmod>
+    <lastmod>2022-05-12T15:34:43+08:00</lastmod>
   </url><url>
     <loc>https://z1ggy-o.github.io/tags/</loc>
-    <lastmod>2022-05-09T23:07:27+08:00</lastmod>
+    <lastmod>2022-05-12T15:34:43+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -41,7 +38,7 @@
                 />
   </url><url>
     <loc>https://z1ggy-o.github.io/</loc>
-    <lastmod>2022-05-09T23:07:27+08:00</lastmod>
+    <lastmod>2022-05-12T15:34:43+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -52,6 +49,15 @@
                 hreflang="en"
                 href="https://z1ggy-o.github.io/"
                 />
+  </url><url>
+    <loc>https://z1ggy-o.github.io/posts/isolation-levels-and-phtantom/</loc>
+    <lastmod>2022-05-12T15:34:43+08:00</lastmod>
+  </url><url>
+    <loc>https://z1ggy-o.github.io/posts/cmu15445-project04/</loc>
+    <lastmod>2022-05-09T23:07:27+08:00</lastmod>
+  </url><url>
+    <loc>https://z1ggy-o.github.io/categories/projects/</loc>
+    <lastmod>2022-05-09T23:07:27+08:00</lastmod>
   </url><url>
     <loc>https://z1ggy-o.github.io/posts/cmu15445-project03/</loc>
     <lastmod>2022-05-09T23:07:27+08:00</lastmod>
