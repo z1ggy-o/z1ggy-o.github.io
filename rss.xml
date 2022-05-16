@@ -23,10 +23,68 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
         
-        <lastBuildDate>Thu, 12 May 2022 15:35:15 &#43;0800</lastBuildDate>
+        <lastBuildDate>Mon, 16 May 2022 18:03:53 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://z1ggy-o.github.io/rss.xml" />
         
+        
+            <item>
+                <title>MapReduce: simplified data processing on large clusters</title>
+                <link>https://z1ggy-o.github.io/posts/paper-notes/dean-2004-mapreducesimplifieddata/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/paper-notes/dean-2004-mapreducesimplifieddata/</guid>
+                <pubDate>Mon, 16 May 2022 17:44:18 &#43;0800</pubDate>
+                
+                    <author>gy.zhu29@outlook.com (Ziggy)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
+                
+                    <description>&lt;h2 id=&#34;motivation&#34;&gt;MOTIVATION&lt;/h2&gt;
+&lt;p&gt;Google does a lot of straightforward computations in their workload. However, since the input data is large, they need to distribute the computations in order to finish the job in a reasonable amount of time.&lt;/p&gt;
+&lt;p&gt;To parallelize the computation, to distribute the data, and to handle failures make the original simple computation code complex. Thus, we need a better way to handle these issues, so the programmer only needs to focus on the computation task itself and does not need to be a distributed systems expert.&lt;/p&gt;
+&lt;h2 id=&#34;contribution&#34;&gt;CONTRIBUTION&lt;/h2&gt;
+&lt;p&gt;They implement a library that can provide a simple interface that enables automatic parallelization and distribution of large-scale computations. In addition, the library handles machine failures without interaction with programmers.&lt;/p&gt;
+&lt;h2 id=&#34;solution&#34;&gt;SOLUTION&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Inspired by the &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;reduce&lt;/code&gt; primitives present in functional languages, they provide a restricted programming model that parallelizes the computation automatically (the computation must be deterministic).&lt;/li&gt;
+&lt;li&gt;Both Map and Reduce functions are written by the user. The input data will be partitioned into M splits, and each Map task handles one of them. The intermediate output of the Map function is divided into R pieces. The Reduce task will read the intermediate output of the Map function and generate the final output files.&lt;/li&gt;
+&lt;li&gt;For a cluster of machines, we have only one master machine, and the others are worker machines. The master machine assigns tasks (Map or Reduce) to workers and tracks the state of each task. The worker machines communicate with the master when work is finished or communicate with other workers to read data to process.&lt;/li&gt;
+&lt;li&gt;Fault tolerance is handled by periodical communication and re-computation when a machine fails. Because the computation is deterministic, recomputing the same task is okay.&lt;/li&gt;
+&lt;li&gt;Many optimizations are applied in their implementation. Check the paper for details.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;evaluation&#34;&gt;EVALUATION&lt;/h2&gt;
+&lt;p&gt;They used a cluster that consisted of around 1800 machines. Each machine has only 4GB of memory, and two 160GB IDE disks with a gigabit Ethernet link.&lt;/p&gt;
+&lt;p&gt;They tasted grep and sort workloads with 10^{10} 100-byte records (around 1TB). The results are shown in the terms of data throughput with the timeline.&lt;/p&gt;
+&lt;h2 id=&#34;main-finding-of-the-paper&#34;&gt;MAIN FINDING OF THE PAPER&lt;/h2&gt;
+&lt;p&gt;It is useful to abstract a common pattern of certain computing tasks, and create an infrastructure to handle the common issues.&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://z1ggy-o.github.io/categories/paper-notes/">paper notes</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://z1ggy-o.github.io/tags/distributed-systems/">distributed-systems</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>幻读，到底是怎么一回事儿</title>
@@ -129,7 +187,7 @@
                                 
                                 
                                 
-                                    <category domain="https://z1ggy-o.github.io/tags/database/">Database</category>
+                                    <category domain="https://z1ggy-o.github.io/tags/dbms/">DBMS</category>
                                 
                             
                         
@@ -192,7 +250,7 @@
                                 
                                 
                                 
-                                    <category domain="https://z1ggy-o.github.io/tags/database/">Database</category>
+                                    <category domain="https://z1ggy-o.github.io/tags/dbms/">DBMS</category>
                                 
                             
                         
@@ -283,7 +341,7 @@ At the time of my submission, I was ranked first on the leaderboard. ^^&lt;/p&gt
                                 
                                 
                                 
-                                    <category domain="https://z1ggy-o.github.io/tags/database/">Database</category>
+                                    <category domain="https://z1ggy-o.github.io/tags/dbms/">DBMS</category>
                                 
                             
                         
@@ -400,7 +458,7 @@ At the time of my submission, I was ranked first on the leaderboard. ^^&lt;/p&gt
                                 
                                 
                                 
-                                    <category domain="https://z1ggy-o.github.io/tags/database/">Database</category>
+                                    <category domain="https://z1ggy-o.github.io/tags/dbms/">DBMS</category>
                                 
                             
                         
@@ -483,7 +541,7 @@ In other words, the reference (pin) count of pages that existed in the frames th
                                 
                                 
                                 
-                                    <category domain="https://z1ggy-o.github.io/tags/database/">Database</category>
+                                    <category domain="https://z1ggy-o.github.io/tags/dbms/">DBMS</category>
                                 
                             
                         
@@ -493,8 +551,8 @@ In other words, the reference (pin) count of pages that existed in the frames th
         
             <item>
                 <title>File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution</title>
-                <link>https://z1ggy-o.github.io/posts/aghayev-2019-filesystemunfit/</link>
-                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/aghayev-2019-filesystemunfit/</guid>
+                <link>https://z1ggy-o.github.io/posts/paper-notes/aghayev-2019-filesystemunfit/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/paper-notes/aghayev-2019-filesystemunfit/</guid>
                 <pubDate>Sun, 17 Jan 2021 00:29:00 &#43;0900</pubDate>
                 
                     <author>gy.zhu29@outlook.com (Ziggy)</author>
@@ -607,8 +665,8 @@ itself. However, build a effective cache is hard.&lt;/p&gt;
         
             <item>
                 <title>BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</title>
-                <link>https://z1ggy-o.github.io/posts/wang-2020-bcw/</link>
-                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/wang-2020-bcw/</guid>
+                <link>https://z1ggy-o.github.io/posts/paper-notes/wang-2020-bcw/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/paper-notes/wang-2020-bcw/</guid>
                 <pubDate>Thu, 31 Dec 2020 22:37:00 &#43;0900</pubDate>
                 
                     <author>gy.zhu29@outlook.com (Ziggy)</author>
@@ -709,8 +767,8 @@ When queue depth exceeds the threshold, the system stores data to the HDD instea
         
             <item>
                 <title>Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title>
-                <link>https://z1ggy-o.github.io/posts/he-2020-readasneeded/</link>
-                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/he-2020-readasneeded/</guid>
+                <link>https://z1ggy-o.github.io/posts/paper-notes/he-2020-readasneeded/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/paper-notes/he-2020-readasneeded/</guid>
                 <pubDate>Sat, 26 Dec 2020 20:15:00 &#43;0900</pubDate>
                 
                     <author>gy.zhu29@outlook.com (Ziggy)</author>
