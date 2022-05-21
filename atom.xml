@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US">
     <title type="text">Ziggy&#39;s Blog</title>
     <subtitle type="html">This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</subtitle>
-    <updated>2022-05-16T18:03:53&#43;08:00</updated>
+    <updated>2022-05-21T14:21:08&#43;08:00</updated>
     <id>https://z1ggy-o.github.io/</id>
     <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://z1ggy-o.github.io/atom.xml" />
@@ -16,6 +16,100 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights>
     <generator uri="https://gohugo.io/" version="0.98.0">Hugo</generator>
+        <entry>
+            <title type="text">MIT 6.824 Lab1: MapReduce</title>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/projects/mit6.824-lab1/" />
+            <id>https://z1ggy-o.github.io/posts/projects/mit6.824-lab1/</id>
+            <updated>2022-05-21T14:20:11&#43;08:00</updated>
+            <published>2022-05-21T13:37:58&#43;08:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">In this lab, we implement a simplified MapReduce framework.
+There are one coordinator process and multiple worker processes. The coordinator manages tasks and the worker pass the input data to the given user map and reduce function.
+There is no pipeline, which means we will finish all map tasks first then start working on reduce tasks.</summary>
+            
+                <content type="html">&lt;p&gt;In this lab, we implement a simplified MapReduce framework.&lt;/p&gt;
+&lt;p&gt;There are one coordinator process and multiple worker processes. The coordinator manages tasks and the worker pass the input data to the given user map and reduce function.&lt;/p&gt;
+&lt;p&gt;There is no pipeline, which means we will finish all map tasks first then start working on reduce tasks.&lt;/p&gt;
+&lt;p&gt;This lab is simply, if you are unfamiliar with Go as I am, then most of your time will spend on learning Go, not implementing MR.&lt;/p&gt;
+&lt;h2 id=&#34;coordinator&#34;&gt;Coordinator&lt;/h2&gt;
+&lt;p&gt;Information to maintain:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Idle tasks&lt;/li&gt;
+&lt;li&gt;The state of each running task (pending tasks)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Things need to do:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The coordinator is actually only a server that provides RPC methods for worker processes&lt;/li&gt;
+&lt;li&gt;As a result, the coordinator is actually a &amp;quot;remote&amp;quot; shared resource. We only check task states when workers call the cooresponding methods&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There are basically only two methods we need to provide:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A query method:
+&lt;ul&gt;
+&lt;li&gt;Give a task to the worker (either map or reduce)&lt;/li&gt;
+&lt;li&gt;Record the state of the task, include starting time (or deadline).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A finish method:
+&lt;ul&gt;
+&lt;li&gt;A worker use this method to ack the end of a task.&lt;/li&gt;
+&lt;li&gt;Change process phases can also be handled here.&lt;/li&gt;
+&lt;li&gt;If all tasks are finished, we can exit.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;worker&#34;&gt;Worker&lt;/h2&gt;
+&lt;p&gt;Workers are very straightforward. They keep asking for a task from the coordinator. When the task is finished, worker send a ack to the coordinator.&lt;/p&gt;
+&lt;p&gt;If we do not care graceful exit, the worker process can exit if the &lt;code&gt;call()&lt;/code&gt; function return false.&lt;/p&gt;
+&lt;h3 id=&#34;map-task&#34;&gt;Map Task&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Get filename with a unique id&lt;/li&gt;
+&lt;li&gt;Read the file and call &lt;code&gt;mapf()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Separate KV pairs into different groups (buckets) and store them into different files
+3.1 Need get nReduce from the coordinator
+3.2 Filename is created by task id and bucket id, e.g., &amp;quot;im-taskid-bucketid&amp;quot; or &amp;quot;mr-X-Y&amp;quot; as the instruction hints told us&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;reduce-task&#34;&gt;Reduce Task&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Read intermediate data from files that created by map tasks&lt;/li&gt;
+&lt;li&gt;Sort the read in KV pairs (we can use map directly in this lab because data is fit in the memory)&lt;/li&gt;
+&lt;li&gt;Call reduce for each distinct key&lt;/li&gt;
+&lt;li&gt;Write the result out filename &amp;quot;mr-out-n&amp;quot;, n is the task unique id&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/categories/projects/" term="projects" label="projects" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/tags/distributed-systems/" term="distributed-systems" label="distributed-systems" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">MapReduce: simplified data processing on large clusters</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/dean-2004-mapreducesimplifieddata/" />
@@ -80,9 +174,9 @@ To parallelize the computation, to distribute the data, and to handle failures m
     
         <entry>
             <title type="text">幻读，到底是怎么一回事儿</title>
-            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/isolation-levels-and-phtantom/" />
-            <id>https://z1ggy-o.github.io/posts/isolation-levels-and-phtantom/</id>
-            <updated>2022-05-16T18:02:16&#43;08:00</updated>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/articles/isolation-levels-and-phtantom/" />
+            <id>https://z1ggy-o.github.io/posts/articles/isolation-levels-and-phtantom/</id>
+            <updated>2022-05-21T14:20:11&#43;08:00</updated>
             <published>2022-05-12T15:11:54&#43;08:00</published>
             <author>
                     <name>Ziggy</name>
@@ -192,9 +286,9 @@ To parallelize the computation, to distribute the data, and to handle failures m
     
         <entry>
             <title type="text">CMU 15-445 2021 Fall Project#4</title>
-            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/cmu15445-project04/" />
-            <id>https://z1ggy-o.github.io/posts/cmu15445-project04/</id>
-            <updated>2022-05-16T18:02:16&#43;08:00</updated>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/projects/cmu15445-project04/" />
+            <id>https://z1ggy-o.github.io/posts/projects/cmu15445-project04/</id>
+            <updated>2022-05-21T14:20:11&#43;08:00</updated>
             <published>2022-05-09T22:54:38&#43;08:00</published>
             <author>
                     <name>Ziggy</name>
@@ -259,9 +353,9 @@ The concept is not that hard. However, there are many implementation details we 
     
         <entry>
             <title type="text">CMU 15-445 2021 Fall Project#3</title>
-            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/cmu15445-project03/" />
-            <id>https://z1ggy-o.github.io/posts/cmu15445-project03/</id>
-            <updated>2022-05-16T18:02:16&#43;08:00</updated>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/projects/cmu15445-project03/" />
+            <id>https://z1ggy-o.github.io/posts/projects/cmu15445-project03/</id>
+            <updated>2022-05-21T14:20:11&#43;08:00</updated>
             <published>2022-04-30T20:37:56&#43;08:00</published>
             <author>
                     <name>Ziggy</name>
@@ -354,9 +448,9 @@ At the time of my submission, I was ranked first on the leaderboard. ^^&lt;/p&gt
     
         <entry>
             <title type="text">CMU 15-445 2021 Fall Project#2</title>
-            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/cmu15445_project2/" />
-            <id>https://z1ggy-o.github.io/posts/cmu15445_project2/</id>
-            <updated>2022-05-16T18:02:16&#43;08:00</updated>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/projects/cmu15445_project2/" />
+            <id>https://z1ggy-o.github.io/posts/projects/cmu15445_project2/</id>
+            <updated>2022-05-21T14:20:11&#43;08:00</updated>
             <published>2022-03-19T15:58:46&#43;08:00</published>
             <author>
                     <name>Ziggy</name>
@@ -474,9 +568,9 @@ At the time of my submission, I was ranked first on the leaderboard. ^^&lt;/p&gt
     
         <entry>
             <title type="text">CMU 15-445 2021 Fall Project#1</title>
-            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/cmu15445_project1/" />
-            <id>https://z1ggy-o.github.io/posts/cmu15445_project1/</id>
-            <updated>2022-05-16T18:02:16&#43;08:00</updated>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/projects/cmu15445_project1/" />
+            <id>https://z1ggy-o.github.io/posts/projects/cmu15445_project1/</id>
+            <updated>2022-05-21T14:20:11&#43;08:00</updated>
             <published>2022-03-14T21:23:00&#43;08:00</published>
             <author>
                     <name>Ziggy</name>
@@ -920,9 +1014,9 @@ However, decompressing a document requires reading and decompressing all documen
     
         <entry>
             <title type="text">My First Post</title>
-            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/my-first-post/" />
-            <id>https://z1ggy-o.github.io/posts/my-first-post/</id>
-            <updated>2020-11-08T10:43:54&#43;09:00</updated>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/articles/my-first-post/" />
+            <id>https://z1ggy-o.github.io/posts/articles/my-first-post/</id>
+            <updated>2022-05-21T14:20:11&#43;08:00</updated>
             <published>2020-11-08T09:48:14&#43;09:00</published>
             <author>
                     <name>Ziggy</name>
