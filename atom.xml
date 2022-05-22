@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US">
     <title type="text">Ziggy&#39;s Blog</title>
     <subtitle type="html">This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</subtitle>
-    <updated>2022-05-21T14:21:08&#43;08:00</updated>
+    <updated>2022-05-22T19:20:12&#43;08:00</updated>
     <id>https://z1ggy-o.github.io/</id>
     <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://z1ggy-o.github.io/atom.xml" />
@@ -16,6 +16,73 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights>
     <generator uri="https://gohugo.io/" version="0.98.0">Hugo</generator>
+        <entry>
+            <title type="text">The Google file system</title>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/ghemawat-2003-googlefilesystem/" />
+            <id>https://z1ggy-o.github.io/posts/paper-notes/ghemawat-2003-googlefilesystem/</id>
+            <updated>2022-05-22T19:19:16&#43;08:00</updated>
+            <published>2022-05-22T19:11:56&#43;08:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">MOTIVATION Google needs a new distributed file system to meet the rapidly growing demands of Google’s data processing needs (e.g., the MapReduce).
+Because Google is facing some technical challenges different with general use cases, they think it is better to develop a system that fits them well instead of following the traditional choices.</summary>
+            
+                <content type="html">&lt;h2 id=&#34;motivation&#34;&gt;MOTIVATION&lt;/h2&gt;
+&lt;p&gt;Google needs a new distributed file system to meet the rapidly growing demands of Google’s data processing needs (e.g., the MapReduce).&lt;/p&gt;
+&lt;p&gt;Because Google is facing some technical challenges different with general use cases, they think it is better to develop a system that fits them well instead of following the traditional choices. For example, they chosen to trade off consistency for better performance.&lt;/p&gt;
+&lt;h2 id=&#34;contribution&#34;&gt;CONTRIBUTION&lt;/h2&gt;
+&lt;p&gt;They designed and implemented a distributed file system, GFS. This system can leverage clusters consisted with large number of the machines. The design puts a lot of efforts on fault tolerance and availability because they think component failures are the norm rather than the exception.&lt;/p&gt;
+&lt;p&gt;This system is developed only for Google’s own programs. As a result, GFS does not provide POSIX APIs. Programs are designed and implemented based on GFS, which simplifies the design of GFS.&lt;/p&gt;
+&lt;h2 id=&#34;solution&#34;&gt;SOLUTION&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;GFS uses a single master multiple chunkservers architecture. The master maintains all file system metadata and the chunkservers handle the file data. The master periodically communicates with each chunkserver in HeartBeat messages to give it instructions and collect its state.&lt;/li&gt;
+&lt;li&gt;Considering the characteristics of the workloads in Google (append only, sequential read), they decide to divide files into fixed-size chunks (64MB). Each chunk has a globally unique chunk handle assigned by the master, that’s how we can find a chunk of a specific file.&lt;/li&gt;
+&lt;li&gt;The client gives file name and in file offset to the master. Then, the master will send back the corresponding chunk handle and the chunkservers that have that chunk. After that, clients will communicate with chunkservers directly. This approach avoids the single master becoming the bottleneck.&lt;/li&gt;
+&lt;li&gt;To ensure high availability and also improve parallelism, each file chunk is replicated on multiple chunservers on different racks. The metadata in master is protected by the operation log, also this log is replicated on multiple machines.&lt;/li&gt;
+&lt;li&gt;When write happens, the data mutation propagates along the chunkservers incrementally. As a result, the write becomes faster, but clients can read stale data.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;evaluation&#34;&gt;EVALUATION&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Micro-benchmarks on a small cluster with 16 chunkserver. Tested the read, write, and record append performance.&lt;/li&gt;
+&lt;li&gt;Two real world clusters in Google. One for production, another one for research and development.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;limitation&#34;&gt;LIMITATION&lt;/h2&gt;
+&lt;p&gt;With the increasing volume of data, the single master design can no longer cope with the demands.&lt;/p&gt;
+&lt;h2 id=&#34;main-takeaway&#34;&gt;MAIN TAKEAWAY&lt;/h2&gt;
+&lt;p&gt;There are times when we can discard generalization and design a dedicated system for a specific scenario, which leads to a more simply design.&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/categories/paper-notes/" term="paper notes" label="paper notes" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/tags/distributed-systems/" term="distributed-systems" label="distributed-systems" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">MIT 6.824 Lab1: MapReduce</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/projects/mit6.824-lab1/" />
