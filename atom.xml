@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US">
     <title type="text">Ziggy&#39;s Blog</title>
     <subtitle type="html">This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</subtitle>
-    <updated>2022-05-22T19:20:12&#43;08:00</updated>
+    <updated>2022-05-23T17:14:47&#43;08:00</updated>
     <id>https://z1ggy-o.github.io/</id>
     <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://z1ggy-o.github.io/atom.xml" />
@@ -17,10 +17,84 @@
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights>
     <generator uri="https://gohugo.io/" version="0.98.0">Hugo</generator>
         <entry>
-            <title type="text">The Google file system</title>
+            <title type="text">Note: The design of a practical system for fault-tolerant virtual machines</title>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/scales-2010-designpracticalsystem/" />
+            <id>https://z1ggy-o.github.io/posts/paper-notes/scales-2010-designpracticalsystem/</id>
+            <updated>2022-05-23T17:14:14&#43;08:00</updated>
+            <published>2022-05-23T17:00:39&#43;08:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">MOTIVATION 1 A common approach to implementing fault-tolerant servers is the primary/backup approach. One way of replicating the state on the backup server is to ship changes to all state of the primary (e.g., CPU, memory, and I/Os devices) to the backup. However this approach needs high network bandwidth, and also leads to significant performance issues.</summary>
+            
+                <content type="html">&lt;h2 id=&#34;motivation-1&#34;&gt;MOTIVATION &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://z1ggy-o.github.io/posts/paper-notes/scales-2010-designpracticalsystem/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
+&lt;p&gt;A common approach to implementing fault-tolerant servers is the primary/backup approach. One way of replicating the state on the backup server is to ship changes to all state of the primary (e.g., CPU, memory, and I/Os devices) to the backup. However this approach needs high network bandwidth, and also leads to significant performance issues.&lt;/p&gt;
+&lt;h2 id=&#34;contribution&#34;&gt;CONTRIBUTION&lt;/h2&gt;
+&lt;p&gt;Shipping all the changes to the backup server asks for high network bandwidth. To reduce the demand of network, we can use the &amp;quot;state-machine approach&amp;quot;, which models the servers as deterministic state machines that are kept in sync by starting them from the same initial state and ensuring that they receive the same input requests in the same order.&lt;/p&gt;
+&lt;p&gt;There are three challenges:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;correctly capturing all the input and non-determinism&lt;/li&gt;
+&lt;li&gt;correctly applying the inputs and non-determinism to the backup&lt;/li&gt;
+&lt;li&gt;low performance degradation&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To handle these challenges, they implemented a fault-tolerant virtual machines in VMware vSphere 4.0. This system reduces the performance of real applications by less than 10%, and needs less than 20 Mb/s network bandwidth.&lt;/p&gt;
+&lt;h2 id=&#34;solution&#34;&gt;SOLUTION&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;There is one primary VM and one backup VM on different hosts. All input goes to the primary. And the input is sent to the backup VM via logging channel (network).&lt;/li&gt;
+&lt;li&gt;A VM has a broad set of inputs and some additional information is needed for non-deterministic operations. They use the &lt;em&gt;VMware deterministic replay&lt;/em&gt; to records the inputs of a VM and all possible non-determinism associated with the VM execution in a stream of log entries written to a log file.&lt;/li&gt;
+&lt;li&gt;They design a protocol to ensure the failover (i.e., switching to the backup) is transparent to the clients. The core idea is that before send an output to the external world, we must need to make sure the backup VM has received the log entry that produces the output.&lt;/li&gt;
+&lt;li&gt;The failure detection is handled by UDP heartbeating messages and  logging traffic.&lt;/li&gt;
+&lt;li&gt;To avoid &amp;quot;split-brain&amp;quot; situation, they store a flag in the shared storage, so VMs can know if there is any other running primary.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;limitation&#34;&gt;LIMITATION&lt;/h2&gt;
+&lt;p&gt;The limitation is that the implementation only works for uni-processor machines because recording and replaying the execution of a multi-processor VM can lead to significant performance issues (accessing to shared memory is non-deterministic operation).&lt;/p&gt;
+&lt;h2 id=&#34;main-takeaway&#34;&gt;MAIN TAKEAWAY&lt;/h2&gt;
+&lt;p&gt;It is helpful to distinguish between internal and external and internal events of the system. For an infrastructure, only external events can really affect other applications.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;D. J. Scales, M. Nelson, and G. Venkitachalam, “The design of a practical system for fault-tolerant virtual machines,” SIGOPS Oper. Syst. Rev., vol. 44, no. 4, pp. 30–39, Dec. 2010, doi: 10.1145/1899928.1899932.&amp;#160;&lt;a href=&#34;https://z1ggy-o.github.io/posts/paper-notes/scales-2010-designpracticalsystem/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/categories/paper-notes/" term="paper notes" label="paper notes" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/tags/distributed-systems/" term="distributed-systems" label="distributed-systems" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">Note: The Google file system</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/ghemawat-2003-googlefilesystem/" />
             <id>https://z1ggy-o.github.io/posts/paper-notes/ghemawat-2003-googlefilesystem/</id>
-            <updated>2022-05-22T19:19:16&#43;08:00</updated>
+            <updated>2022-05-23T17:14:14&#43;08:00</updated>
             <published>2022-05-22T19:11:56&#43;08:00</published>
             <author>
                     <name>Ziggy</name>
@@ -178,10 +252,10 @@ There is no pipeline, which means we will finish all map tasks first then start 
         </entry>
     
         <entry>
-            <title type="text">MapReduce: simplified data processing on large clusters</title>
+            <title type="text">Note: MapReduce: simplified data processing on large clusters</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/dean-2004-mapreducesimplifieddata/" />
             <id>https://z1ggy-o.github.io/posts/paper-notes/dean-2004-mapreducesimplifieddata/</id>
-            <updated>2022-05-16T18:02:16&#43;08:00</updated>
+            <updated>2022-05-23T17:14:14&#43;08:00</updated>
             <published>2022-05-16T17:44:18&#43;08:00</published>
             <author>
                     <name>Ziggy</name>
@@ -720,10 +794,10 @@ In other words, the reference (pin) count of pages that existed in the frames th
         </entry>
     
         <entry>
-            <title type="text">File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution</title>
+            <title type="text">Note: File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/aghayev-2019-filesystemunfit/" />
             <id>https://z1ggy-o.github.io/posts/paper-notes/aghayev-2019-filesystemunfit/</id>
-            <updated>2022-05-16T17:58:04&#43;08:00</updated>
+            <updated>2022-05-23T17:14:14&#43;08:00</updated>
             <published>2021-01-17T00:29:00&#43;09:00</published>
             <author>
                     <name>Ziggy</name>
@@ -838,10 +912,10 @@ itself. However, build a effective cache is hard.&lt;/p&gt;
         </entry>
     
         <entry>
-            <title type="text">BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</title>
+            <title type="text">Note: BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/wang-2020-bcw/" />
             <id>https://z1ggy-o.github.io/posts/paper-notes/wang-2020-bcw/</id>
-            <updated>2022-05-16T17:58:04&#43;08:00</updated>
+            <updated>2022-05-23T17:14:14&#43;08:00</updated>
             <published>2020-12-31T22:37:00&#43;09:00</published>
             <author>
                     <name>Ziggy</name>
@@ -944,10 +1018,10 @@ When queue depth exceeds the threshold, the system stores data to the HDD instea
         </entry>
     
         <entry>
-            <title type="text">Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title>
+            <title type="text">Note: Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/he-2020-readasneeded/" />
             <id>https://z1ggy-o.github.io/posts/paper-notes/he-2020-readasneeded/</id>
-            <updated>2022-05-16T17:58:04&#43;08:00</updated>
+            <updated>2022-05-23T17:14:14&#43;08:00</updated>
             <published>2020-12-26T20:15:00&#43;09:00</published>
             <author>
                     <name>Ziggy</name>

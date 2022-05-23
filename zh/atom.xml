@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="cn-ZH">
     <title type="text">Ziggy&#39;s Blog</title>
     <subtitle type="html">This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</subtitle>
-    <updated>2022-05-22T19:20:12&#43;08:00</updated>
+    <updated>2022-05-23T17:14:47&#43;08:00</updated>
     <id>https://z1ggy-o.github.io/zh/</id>
     <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/zh/" />
     <link rel="self" type="application/atom&#43;xml" href="https://z1ggy-o.github.io/zh/atom.xml" />
