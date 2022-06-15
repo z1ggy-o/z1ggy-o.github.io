@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US">
     <title type="text">Ziggy&#39;s Blog</title>
     <subtitle type="html">This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</subtitle>
-    <updated>2022-05-23T17:14:47&#43;08:00</updated>
+    <updated>2022-06-15T09:25:42&#43;08:00</updated>
     <id>https://z1ggy-o.github.io/</id>
     <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://z1ggy-o.github.io/atom.xml" />
@@ -16,6 +16,77 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights>
     <generator uri="https://gohugo.io/" version="0.98.0">Hugo</generator>
+        <entry>
+            <title type="text">ATC&#39;10 ZooKeeper: Wait-free Coordination for Internet-scale Systems</title>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/hunt-2010-zookeeperwaitfreecoordination/" />
+            <id>https://z1ggy-o.github.io/posts/paper-notes/hunt-2010-zookeeperwaitfreecoordination/</id>
+            <updated>2022-06-15T09:25:25&#43;08:00</updated>
+            <published>2022-05-23T17:00:39&#43;08:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Motivation Large-scale distributed applications require different forms of coordination.
+Usually, people develop services for each of the different coordination needs. As a result, developers are constrained to a fixed set of primitives.
+Contribution  Exposes APIs that enables application developers to implement their own primitives, without changes to the service core.</summary>
+            
+                <content type="html">&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Large-scale distributed applications require different forms of coordination.&lt;/p&gt;
+&lt;p&gt;Usually, people develop services for each of the different coordination needs. As a result, developers are constrained to a fixed set of primitives.&lt;/p&gt;
+&lt;h2 id=&#34;contribution&#34;&gt;Contribution&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Exposes APIs that enables application developers to implement their own primitives, without changes to the service core.&lt;/li&gt;
+&lt;li&gt;Achieve high performance by relaxing consistency guarantees&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;p&gt;ZooKeeper provides to its clients the abstraction of a set of data nodes (znodes). These data nodes are organized like a traditional file system.&lt;/p&gt;
+&lt;p&gt;ZooKeeper provides a set of simplified APIs to access these data nodes. Application develops can use these APIs to implement different forms of coordination that they want.&lt;/p&gt;
+&lt;p&gt;ZooKeeper servers use an atomic broadcast protocol, Zab (similar to Raft) to sync state between each other.&lt;/p&gt;
+&lt;p&gt;It is vague about how to implement ZooKeeper. However, since it is an open source project, the source code is always available.&lt;/p&gt;
+&lt;p&gt;In short, ZooKeeper guarantees correct coordination with high performance through:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Using wait-free data objects instead of blocking.&lt;/li&gt;
+&lt;li&gt;FIFO client ordering of all operations.&lt;/li&gt;
+&lt;li&gt;Linearizing all writes to the leader, then propagate to other servers (they call this A-linearizability).&lt;/li&gt;
+&lt;li&gt;Read locally. Can have stale data, however, much faster.&lt;/li&gt;
+&lt;li&gt;Asynchronous enables batching to reduce networking and storage I/O overhead.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;main-finding-of-the-paper&#34;&gt;Main finding of the paper&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Abstraction of basic building components can help create more general systems.&lt;/li&gt;
+&lt;li&gt;ZooKeeper is one of the best examples that shows us how to weak consistency in favor of higher performance.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/categories/paper-notes/" term="paper notes" label="paper notes" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/tags/distributed-systems/" term="distributed-systems" label="distributed-systems" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">Note: The design of a practical system for fault-tolerant virtual machines</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/scales-2010-designpracticalsystem/" />
