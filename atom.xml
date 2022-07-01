@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US">
     <title type="text">Ziggy&#39;s Blog</title>
     <subtitle type="html">This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</subtitle>
-    <updated>2022-06-15T09:25:42&#43;08:00</updated>
+    <updated>2022-07-01T20:34:20&#43;08:00</updated>
     <id>https://z1ggy-o.github.io/</id>
     <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://z1ggy-o.github.io/atom.xml" />
@@ -17,10 +17,103 @@
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights>
     <generator uri="https://gohugo.io/" version="0.98.0">Hugo</generator>
         <entry>
-            <title type="text">ATC&#39;10 ZooKeeper: Wait-free Coordination for Internet-scale Systems</title>
+            <title type="text">VLDB&#39;14 - Staring into the abyss: An evaluation of concurrency control with one thousand cores</title>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/yu-2014-staringabyssevaluation/" />
+            <id>https://z1ggy-o.github.io/posts/paper-notes/yu-2014-staringabyssevaluation/</id>
+            <updated>2022-07-01T20:33:27&#43;08:00</updated>
+            <published>2022-07-01T20:21:38&#43;08:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Motivation We are moving to the many-core architecture era, however, many design of database systems are still based on optimizing of single-threaded performance.
+To understand how to design high performance DBMS for the future many-core architecture to achieve high scalability, addressing bottlenecks in the system is necessary.</summary>
+            
+                <content type="html">&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;We are moving to the many-core architecture era, however, many design of database systems are still based on optimizing of single-threaded performance.&lt;/p&gt;
+&lt;p&gt;To understand how to design high performance DBMS for the future many-core architecture to achieve high scalability, addressing bottlenecks in the system is necessary.&lt;/p&gt;
+&lt;p&gt;This paper focus on concurrency control schemes.
+(spoiler:  the [following research]([[@An empirical evaluation of in-memory multi-version concurrency control]]) of [[Andrew Pavlo]] found out concurrency control schemes are not the most important component that affect the scalability of main memory DBMS on many-core environment )&lt;/p&gt;
+&lt;h2 id=&#34;contribution&#34;&gt;Contribution&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Evaluation of the scalability of seven commonly used concurrency control schemes (OLTP, in-memory DBMS)&lt;/li&gt;
+&lt;li&gt;Evaluation is processed on a simulated machine with 1000 cores (actually is a cluster of 22 real machines)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;This is evaluation paper, thus there is no solutions but evaluation analyses.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;All concurrency control schemes fail to scale to a large number of cores. The bottlenecks are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;lock thrashing&lt;/li&gt;
+&lt;li&gt;preemptive aborts&lt;/li&gt;
+&lt;li&gt;deadlocks&lt;/li&gt;
+&lt;li&gt;timestamp allocation&lt;/li&gt;
+&lt;li&gt;memory-to-memory copying&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Lock thrashing happens in any waiting-based algorithm. Using the &amp;quot;non-waiting&amp;quot; can alleviate this problem, however, we will have more aborting.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In high contention workloads, a non-waiting deadlock prevention scheme is better than deadlock detection. (Restart is fast in main memory DBMS)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Memory allocation (includes timestamp allocation) is usually managed by a centric data structure, which becomes the bottleneck. Avoiding shared, centric data structure is important to achieve higher scalability.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add new hardware to offload some tasks (e.g., memory copying) from CPU is a feasible way to improve the scalability&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;evaluation&#34;&gt;Evaluation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;The evaluation platform is based on a CPU simulator, Graphite (from MIT).&lt;/li&gt;
+&lt;li&gt;The authors implemented a lightweight main memory DBMS only for this testing.&lt;/li&gt;
+&lt;li&gt;Workloads are YCSB and TPC-C&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;main-finding-of-the-paper&#34;&gt;Main finding of the paper&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Like other systems, to improve the scalability, how to avoid shared data is the key.&lt;/li&gt;
+&lt;li&gt;&amp;quot;Measure, Then Build&amp;quot;, and a thorough measurement is always needed. This paper is good enough on analyzing concurrency control schemes, however, the following research revels that this is not the most important part...&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/categories/paper-notes/" term="paper notes" label="paper notes" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/tags/dbms/" term="DBMS" label="DBMS" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">ATC&#39;10 - ZooKeeper: Wait-free Coordination for Internet-scale Systems</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/hunt-2010-zookeeperwaitfreecoordination/" />
             <id>https://z1ggy-o.github.io/posts/paper-notes/hunt-2010-zookeeperwaitfreecoordination/</id>
-            <updated>2022-06-15T09:25:25&#43;08:00</updated>
+            <updated>2022-07-01T20:33:27&#43;08:00</updated>
             <published>2022-05-23T17:00:39&#43;08:00</published>
             <author>
                     <name>Ziggy</name>
