@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US">
     <title type="text">Ziggy&#39;s Blog</title>
     <subtitle type="html">This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</subtitle>
-    <updated>2022-07-01T20:34:20&#43;08:00</updated>
+    <updated>2022-07-01T20:42:58&#43;08:00</updated>
     <id>https://z1ggy-o.github.io/</id>
     <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://z1ggy-o.github.io/atom.xml" />
@@ -16,6 +16,82 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights>
     <generator uri="https://gohugo.io/" version="0.98.0">Hugo</generator>
+        <entry>
+            <title type="text">VLDB&#39;17 - An empirical evaluation of in-memory multi-version concurrency control</title>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/wu-2017-empiricalevaluationinmemory/" />
+            <id>https://z1ggy-o.github.io/posts/paper-notes/wu-2017-empiricalevaluationinmemory/</id>
+            <updated>2022-07-01T20:41:44&#43;08:00</updated>
+            <published>2022-07-01T20:36:05&#43;08:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Motivation  MVCC is the most popular scheme used in DBMSs developed in the last decade. However, there is no standards about how to implement MVCC. Many DBMSs tell people that they use MVCC and how they implement it. There are several design choices people need to make, however, no one tells why they choose such way to implement their MVCC.</summary>
+            
+                <content type="html">&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;MVCC is the most popular scheme used in DBMSs developed in the last decade. However, there is no standards about how to implement MVCC.&lt;/li&gt;
+&lt;li&gt;Many DBMSs tell people that they use MVCC and how they implement it. There are several design choices people need to make, however, no one tells why they choose such way to implement their MVCC.&lt;/li&gt;
+&lt;li&gt;This paper gives a comprehensive evaluation about MVCC in main memory DBMSs and shows the trade-offs of different design choices.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;contribution&#34;&gt;Contribution&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;A good introduction about MVCC.&lt;/li&gt;
+&lt;li&gt;Evaluation about how concurrency control protocol, version storage, garbage collection, and index management affect performance on a real in-memory DBMS.&lt;/li&gt;
+&lt;li&gt;Evaluation of different configurations that used by main stream DBMSs.&lt;/li&gt;
+&lt;li&gt;Advisings about how to achieve higher scalability.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;This is an evaluation paper. There is no &amp;quot;solution&amp;quot; but evaluation analyses.&lt;/li&gt;
+&lt;li&gt;People mainly focus on concurrency control protocols when they talk about scalability. However, the evaluation results show that the version storage scheme is also one of the most important components to scaling an in-memory MVCC DBMS in a multi-core environment.&lt;/li&gt;
+&lt;li&gt;Delta storage scheme is good for write-intensive workloads especially only a subset of the attributes is modified. However, delta storage can have slow performance on read-heavy analytical workloads because it spends more time on traversing version chains.&lt;/li&gt;
+&lt;li&gt;Most DBMSs choose to use tuple-level GC. However, the evaluation result shows that transaction-level can provide higher performance (at least in main memory DBMS) because it has smaller memory footprint.&lt;/li&gt;
+&lt;li&gt;In terms of index management, logical pointer is always a better choice than physical pointers.&lt;/li&gt;
+&lt;li&gt;The design choices that Oracle/MySQL and NuoDB made seems have the best performance.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;evaluation&#34;&gt;Evaluation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;They uses a DBMS implemented in CMU, called Peloton.&lt;/li&gt;
+&lt;li&gt;The evaluation platform has 40 cores with 128 GB memory.&lt;/li&gt;
+&lt;li&gt;Workloads are YCSB and TPC-C (both OLTP)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;the-main-finding-of-this-paper&#34;&gt;The main finding of this paper&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;If you want to learn MVCC, read this one.&lt;/li&gt;
+&lt;li&gt;Still, &amp;quot;Measure, Then build&amp;quot;.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/categories/paper-notes/" term="paper notes" label="paper notes" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/tags/dbms/" term="DBMS" label="DBMS" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">VLDB&#39;14 - Staring into the abyss: An evaluation of concurrency control with one thousand cores</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/yu-2014-staringabyssevaluation/" />
