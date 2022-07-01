@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US">
     <title type="text">Ziggy&#39;s Blog</title>
     <subtitle type="html">This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</subtitle>
-    <updated>2022-07-01T20:42:58&#43;08:00</updated>
+    <updated>2022-07-01T21:37:33&#43;08:00</updated>
     <id>https://z1ggy-o.github.io/</id>
     <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://z1ggy-o.github.io/atom.xml" />
@@ -16,6 +16,77 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights>
     <generator uri="https://gohugo.io/" version="0.98.0">Hugo</generator>
+        <entry>
+            <title type="text">SOSP&#39;97 - Frangipani: a scalable distributed file system</title>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/hekkath-1997-frangipaniscalabledistributed/" />
+            <id>https://z1ggy-o.github.io/posts/paper-notes/hekkath-1997-frangipaniscalabledistributed/</id>
+            <updated>2022-07-01T21:36:44&#43;08:00</updated>
+            <published>2022-07-01T21:30:21&#43;08:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Motivation  File system administration for a large, growing computer installation is a laborious task. A scalable distributed file system that can handle system recovery, reconfiguration, and load balancing with little human involvement is what we want.  Contribution  A real system that shows us how to do cache coherence and distributed transactions.</summary>
+            
+                <content type="html">&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;File system administration for a large, growing computer installation is a laborious task.&lt;/li&gt;
+&lt;li&gt;A scalable distributed file system that can handle system recovery, reconfiguration, and load balancing with little human involvement is what we want.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;contribution&#34;&gt;Contribution&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;A real system that shows us how to do cache coherence and distributed transactions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;The file system part is implemented as a kernel module, which enables the file system to take advantage of all the existing OS functionalities, e.g., page cache.&lt;/li&gt;
+&lt;li&gt;Data is stored into a virtual disks, which is a distributed storage pool that shared by all file system servers.&lt;/li&gt;
+&lt;li&gt;All file system operations are protected by a lock server. Client will invalid the cache when it release the lock. As a result, client can only see clean data and the cache coherence is ensured.&lt;/li&gt;
+&lt;li&gt;Because the client decides when to give the lock back, Frangipani can provide transactional file-system operations. (take locks on all data object we need first, only release these locks when all operations are finished.)&lt;/li&gt;
+&lt;li&gt;Write-ahead logging is used for crash recovery. Because all the data are stored in the shared distributed storage, the log can be read by other servers and recover easily.&lt;/li&gt;
+&lt;li&gt;The underlying distributed storage and the lock server are both using Paxos to ensure availability.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;evaluation&#34;&gt;Evaluation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;They evaluated the system with some basic file system operations, such as create directories, copy files, and scan files e.t.c.&lt;/li&gt;
+&lt;li&gt;They tested both the local performance and the scalability of the proposed system.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;the-main-finding-of-the-paper&#34;&gt;The Main Finding of the Paper&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Complex clients sharing simple storage can have better scalability.&lt;/li&gt;
+&lt;li&gt;Distributed lock can be used to achieve cache coherence and distributed transaction.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/categories/paper-notes/" term="paper notes" label="paper notes" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/tags/distributed-systems/" term="distributed-systems" label="distributed-systems" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">VLDB&#39;17 - An empirical evaluation of in-memory multi-version concurrency control</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/wu-2017-empiricalevaluationinmemory/" />
