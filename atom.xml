@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US">
     <title type="text">Ziggy&#39;s Blog</title>
     <subtitle type="html">This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</subtitle>
-    <updated>2022-07-01T21:37:33&#43;08:00</updated>
+    <updated>2022-07-03T18:01:39&#43;08:00</updated>
     <id>https://z1ggy-o.github.io/</id>
     <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://z1ggy-o.github.io/atom.xml" />
@@ -16,6 +16,103 @@
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights>
     <generator uri="https://gohugo.io/" version="0.98.0">Hugo</generator>
+        <entry>
+            <title type="text">Note - x86 汇编语言（1）：计算机基础和实模式</title>
+            <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/articles/x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/" />
+            <id>https://z1ggy-o.github.io/posts/articles/x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/</id>
+            <updated>2022-07-03T18:00:42&#43;08:00</updated>
+            <published>2022-07-03T17:29:01&#43;08:00</published>
+            <author>
+                    <name>Ziggy</name>
+                    <uri>https:github.z1ggy-o.io</uri>
+                    <email>gy.zhu29@outlook.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">最近读完了《x86 汇编语言：从实模式到保护模式》一书。感觉此书是了解 Intel 架构 CPU 运行方式…</summary>
+            
+                <content type="html">&lt;hr&gt;
+&lt;p&gt;最近读完了《x86 汇编语言：从实模式到保护模式》一书。感觉此书是了解 Intel 架构 CPU 运行方式的好材料。所以，我准备用三个篇章来写一份读书笔记，简略的介绍一下内存寻址方式，以及处理器对多任务的支持。笔记的内容意在指出书中的框架重点，作为一个快速复习和检索的工具，而非详实的内容。&lt;/p&gt;
+&lt;p&gt;本篇是该系列的第一个章节，专注于计算机的运行，8086 处理器，以及实模式。内容较为简单直接。&lt;/p&gt;
+&lt;h2 id=&#34;计算机的基本结构和运行本质&#34;&gt;计算机的基本结构和运行本质&lt;/h2&gt;
+&lt;p&gt;我们当今使用的计算机结构为冯诺依曼结构。这个结构的特点就是以存储为中心。具体些说，这个结构中，我们将程序指令和数据以二进制的形式，不加区分地放在内存中。&lt;/p&gt;
+&lt;p&gt;程序的编写者将提前编写好的程序载入内存，并告诉计算机将要执行的指令所在的位置，计算机便会到指定的地方找到指令并根据指令运行。抽象来说，计算机运行有 4 个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;取指&lt;/li&gt;
+&lt;li&gt;译码&lt;/li&gt;
+&lt;li&gt;执行&lt;/li&gt;
+&lt;li&gt;回写&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可见，整个运行的过程主要就是两个内容：内存的读写，和计算。为了支持这个运作方式，硬件上，我们的计算机有五个重要的部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;运算器：进行计算&lt;/li&gt;
+&lt;li&gt;控制器：引导指令运行顺序&lt;/li&gt;
+&lt;li&gt;储存器：存放指令和数据&lt;/li&gt;
+&lt;li&gt;输入设备：和计算机进行沟通&lt;/li&gt;
+&lt;li&gt;输出设备：同上&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;虽然我们每天接触的计算机看似非凡超能，但是它其实是一个十分单纯的机器。从通电的一刻开始，计算机就是在不断地重复我们上面讲的四个运行步骤。&lt;/p&gt;
+&lt;h2 id=&#34;以计算机的启动过程为例&#34;&gt;以计算机的启动过程为例&lt;/h2&gt;
+&lt;p&gt;我们使用的计算机，在每次通电的时候，都会从一个提前指定好的内存地址开始，进行取指和运算。&lt;/p&gt;
+&lt;p&gt;那个起始位置，存放的就是 &lt;a href=&#34;https://en.wikipedia.org/wiki/BIOS&#34;&gt;BIOS&lt;/a&gt; 的第一行指令。BIOS 在完成自己的工作后，其最后的一部分指令就是把其他的程序读取到指定的内存位置，并让计算机从那个位置继续运行。&lt;/p&gt;
+&lt;p&gt;一般来说，BIOS 的最后一部分指令会将启动磁盘的第一个扇区读取到内存中，并跳转执行。也是因为这个原因，我们把启动磁盘的第一个扇区叫做主引导扇区。&lt;/p&gt;
+&lt;p&gt;因为我们可以方便地向磁盘写入数据，主引导扇区是我们最先能接触到的代码区域。它的容量不大，其中的指令一般是继续从磁盘中读取其他程序并运行。例如，它可以载入 bootloader 并最终引导操作系统。&lt;/p&gt;
+&lt;h2 id=&#34;8086-的基本结构&#34;&gt;8086 的基本结构&lt;/h2&gt;
+&lt;p&gt;8086 是一枚极其成功的处理器。它极大地影响了 Intel 接下来的处理器功能设计。可以说，更加新型的 Intel 处理器都是在 8086 的底子上进行功能的完善和添加。&lt;/p&gt;
+&lt;p&gt;8086 是一枚 16 位的处理器。它的寄存器，以及内外部的数据线的位宽都是 16 位，不过外部地址线是 20 位的，这给了它更强的寻址能力，也引出了分段模型。&lt;/p&gt;
+&lt;p&gt;8086 一共有三种不同的寻址模式 (即数据的读取和存放方式)：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;寄存器寻址&lt;/li&gt;
+&lt;li&gt;立即寻址&lt;/li&gt;
+&lt;li&gt;内存寻址&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;从寻址模式上可以看出，除了内存之外，寄存器也是一个相当重要部件。而对于这个章节的内容来说，最重要的寄存器就是指令寄存器 IP，以及多个段寄存器。&lt;/p&gt;
+&lt;p&gt;指令寄存器之所以重要，是因为处理器根据它的内容来进行取指。而段寄存器之所以重要，是因为我们需要借助它们来进行内存寻址。&lt;/p&gt;
+&lt;h2 id=&#34;8086-的分段模型&#34;&gt;8086 的分段模型&lt;/h2&gt;
+&lt;p&gt;上面我们提到除了外部地址线是 20 位的，8086 的其他部件都是 16 位。之所以提出内存的分段访问模型，就是为了能够实现 20 位的寻址能力。&lt;/p&gt;
+&lt;p&gt;其方式为：段寄存器内的值左移 4 位，加上 16 位段内偏移。如此一来，便拼凑出了 20 位的地址。处理器会根据此地址直接和内存沟通，实现数据的读写。&lt;/p&gt;
+&lt;p&gt;段寄存器内的值叫做段基地址。通过修改段寄存器内的段基地址，我们就可以在逻辑上将内存分段，每个段最大有 16 位的寻址能力。分段不仅使得我们有了更强的寻址能力，也让程序载入重定位变得更加容易：程序编写的时候使用相对某个段的相对地址，使得载入位置变得随意。&lt;/p&gt;
+&lt;p&gt;具体的寻址指令就不在此叙述，处理器的使用手册才是它们的归宿。这里想要表述的是，8086 的工作模式比较单纯，它无条件的信任我们给出的指令，并予以执行。&lt;/p&gt;
+&lt;h2 id=&#34;intel-处理器的实模式&#34;&gt;Intel 处理器的实模式&lt;/h2&gt;
+&lt;p&gt;实模式，又叫实地址模式。它其实就是 8086 的运行模式。这个“实”字其实有两个含义：&lt;/p&gt;
+&lt;p&gt;第一个含义是，我们在指令中给出的内存地址，即为处理器使用的地址。我们直接向段寄存器赋值段基地址。&lt;/p&gt;
+&lt;p&gt;实模式的另一个含义，其实也是上面提到的 8086 的特点，就是它无条件的相信我们给出的指令。在实模式下，所有的段都可以随意读、写，其中存放的内容也可以被随意执行。&lt;/p&gt;
+&lt;p&gt;接下来我们要讲的保护模式，就是对针对各个段的读写，以及执行加以权限控制的模式。&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;我们现在使用的冯诺依曼结构计算机，将数据和指令无差别地以二进制存放在存储装置中的。&lt;/li&gt;
+&lt;li&gt;计算机很单纯。它就是在不断地读取指令，运行指令，然后将运行结果存放。&lt;/li&gt;
+&lt;li&gt;8086 处理器通过段寄存器实现了分段模型进行内存访问，作为一个 16 位处理器，提供了 20 位的寻址能力。&lt;/li&gt;
+&lt;li&gt;8086 很单纯。它允许我们任意地读、写、执行内存中的内容。&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/categories/articles/" term="articles" label="articles" />
+                            
+                        
+                    
+                
+                    
+                        
+                            
+                            
+                            
+                                <category scheme="https://z1ggy-o.github.io/tags/computer-organization/" term="Computer Organization" label="Computer Organization" />
+                            
+                        
+                    
+                
+            
+        </entry>
+    
         <entry>
             <title type="text">SOSP&#39;97 - Frangipani: a scalable distributed file system</title>
             <link rel="alternate" type="text/html" href="https://z1ggy-o.github.io/posts/paper-notes/hekkath-1997-frangipaniscalabledistributed/" />
