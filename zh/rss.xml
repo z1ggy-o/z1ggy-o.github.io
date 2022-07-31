@@ -10,7 +10,7 @@
         <title>Ziggy&#39;s Blog</title>
         <link>https://z1ggy-o.github.io/zh/</link>
         <description>This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</description>
-        <generator>Hugo 0.98.0 https://gohugo.io/</generator>
+        <generator>Hugo 0.101.0 https://gohugo.io/</generator>
         
             <language>cn-ZH</language>
         
@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Sun, 10 Jul 2022 17:02:41 &#43;0800</lastBuildDate>
+        <lastBuildDate>Sun, 31 Jul 2022 13:44:24 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://z1ggy-o.github.io/zh/rss.xml" />
         

@@ -10,7 +10,7 @@
         <title>Ziggy&#39;s Blog</title>
         <link>https://z1ggy-o.github.io/</link>
         <description>This is the personal blog of Ziggy, which mostly focuses on CS and personal life.</description>
-        <generator>Hugo 0.98.0 https://gohugo.io/</generator>
+        <generator>Hugo 0.101.0 https://gohugo.io/</generator>
         
             <language>en-US</language>
         
@@ -23,10 +23,133 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
         
-        <lastBuildDate>Sun, 10 Jul 2022 17:02:41 &#43;0800</lastBuildDate>
+        <lastBuildDate>Sun, 31 Jul 2022 13:44:24 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://z1ggy-o.github.io/rss.xml" />
         
+        
+            <item>
+                <title>TOCS&#39;13 - Spanner: Google’s Globally Distributed Database</title>
+                <link>https://z1ggy-o.github.io/posts/paper-notes/c-2013-spanner/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/paper-notes/c-2013-spanner/</guid>
+                <pubDate>Sun, 31 Jul 2022 13:40:38 &#43;0800</pubDate>
+                
+                    <author>gy.zhu29@outlook.com (Ziggy)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
+                
+                    <description>&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Some applications need relation data model and strong consistency which BigTable cannot gives.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;So, Google want to develop a system that focuses on managing cross-datacenter replicate data with database features.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;contribution&#34;&gt;Contribution&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Provides a globally distributed database that shards data across many sets of Paxos state machine in datacenters.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Provide SQL-like interface, strong consistency, and high read performance.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Replication&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use Paxos to replicate data to several nodes, which provides higher availability.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Local Transactions (within a paxos group)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Each Paxos group leader has a lock table to implement concurrency control.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spanner chooses to use 2PL as the protocol because it is designed for long-lived txns, which performs poor under optimistic protocols.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Distributed Transactions (across paxos groups)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Each Paxos group leader has a transaction manager to support distributed txns.&lt;br&gt;
+The transaction manager is used as a participant leader.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spanner uses 2PC to support distributed txns. Paxos group leaders become the coordinator and participants.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Snapshot Isolation&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For better read performance, Spanner uses MVCC to enable read without locking&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;TrueTime&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;MVCC needs timestamp. Since Spanner is a globally distributed system, we cannot use logical timestamp (otherwise, the centric timestamp manager can be the bottleneck), we also cannot use physical time (not accurate).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To resolve this problem, Spanner introduces TrueTime, which is a time range based on physical time instead of a single time point.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;This time range can cover the error of physical clocks from different datacenters. We use GPS and atomic clocks to sync timestamp on different datacenters. So we can ensure the txn order without a centric timestamp manager.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;evaluation&#34;&gt;Evaluation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Micro benchmark that shows the performance of replication, transactions and availability on a setup that the network distance between each other is less than 1ms. (A common layout, most apps do not need to distribute all data worldwide)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Analysis of a real world workload, F1.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;the-main-takeaways&#34;&gt;The main takeaways&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;A real cool system that shows how to combine techniques from different fields together.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://z1ggy-o.github.io/categories/paper-notes/">paper notes</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://z1ggy-o.github.io/tags/distributed-systems/">distributed-systems</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>Note - x86 汇编语言（4）：分页机制</title>
