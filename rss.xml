@@ -23,10 +23,129 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
         
-        <lastBuildDate>Sun, 31 Jul 2022 21:28:46 &#43;0800</lastBuildDate>
+        <lastBuildDate>Sun, 07 Aug 2022 19:46:06 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://z1ggy-o.github.io/rss.xml" />
         
+        
+            <item>
+                <title>OSDI&#39;22 - BlockFlex: Enabling Storage Harvesting with Software-Defined Flash in Modern Cloud Platforms</title>
+                <link>https://z1ggy-o.github.io/posts/paper-notes/reidys-2022-blockflexenablingstorage/</link>
+                <guid isPermaLink="true">https://z1ggy-o.github.io/posts/paper-notes/reidys-2022-blockflexenablingstorage/</guid>
+                <pubDate>Sun, 07 Aug 2022 19:39:27 &#43;0800</pubDate>
+                
+                    <author>gy.zhu29@outlook.com (Ziggy)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
+                
+                    <description>&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Cloud computing system is high virtualized for higher resource utilization.
+Recently, cloud providers have developed harvesting techniques to allow evictable virtual machines to use unallocated resources.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;People mostly focus on how to use unallcoated computing resources and memory resources, however, there is no harversting techniques that built for storage resources.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;This paper proposes a harvesting framework for storage resources that provides isolation of space, bandwidth, and data security.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;contribution&#34;&gt;Contribution&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;They conduct a characterization study of the storage efficiency in different cloud platforms through trace logs provided by these platforms.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;They come up a new abstraction of storage virtualization for software-defined SSDs. And base on that, they build a learning-based storage harvesting framework, BlockFlex.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;First, they analyze the tracks provided by Alibaba and Google and find out that there are a lot of unused storage resources (both in capacity and bandwidth) in allocated and unallocated VMs. That’s the resource that we can use for evictable VMs temporarily.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A SSD consists of multiple channel internally. Each channel has its own storage chips and can operate independently. In the context of SSD virtualization, software-defined SSD (SDF) allows the upper-level VM to map its virtual SSD (vSSD) to a set of flash channels. That’s how we control capacity and bandwidth allocation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;BlockFlex proposes a new abstraction, ghost vSSD (gSSD), on top of SDF, attached to existed vSSD. A gSSD is represented by a data structure that records its bandwidth, capacity, expire time etc. gSSDs are organized by a set of linked list, each linked list contains gSSDs with bandwidth and capacity in a specific range. Because the allocation/deallocation does not happen frequently, this organization is enough for finding appropriate gSSDs efficiently.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create gSSDs from unsold (unallocated) VMs&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Because the storage usage of unsold VMs is quit stable. BlockFlex tags each unsold VM with a heuristic-based predicated duration time using the histogram of previous available times for the unsold VM with the same storage capacity.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create gSSDs from sold VMs&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Since sold VMs are currently using by clients, the heuristic-based prediction does not work well.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;BlockFlex allocates read, write, and erase operations at the block layer of each vSSD for online predictions. They choose LSTM as the models because they can do time-series predictions. The operation tracks are used to infer the bandwidth, throughput (IOPS), and current storage utilization, then these info is used as input for LSTMs.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;There are bandwidth predictor, capacity predictor, and duration predictors. Both bandwidth predictor and capacity predictor use the same LSTM model, but with different learning rate and hidden layer size. The predicted bandwidth and capacity are then used as the input for the duration predictors.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Reclaim gSSDs&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Upon the gSSD reclamation, the corresponding entries in the address mapping table of the vSSD will be removed.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If a gSSD will expire soon, BlockFlex will erase the flash blocks for data safety, and remove the gSSD instance.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;evaluation&#34;&gt;Evaluation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;The workloads they used are TeraSort, ML Prep, PageRank, and YCSB. The capacity is ranged from around 60GB to 220GB (not much)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;the-main-takeaway&#34;&gt;The main takeaway&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;It seems people trying to give more control of storage devices to the host side instead of using them as a black box.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://z1ggy-o.github.io/categories/paper-notes/">paper notes</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://z1ggy-o.github.io/tags/storage-systems/">storage-systems</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://z1ggy-o.github.io/tags/cloud-computing/">cloud-computing</category>
+                                
+                            
+                        
+                    
+                
+            </item>
         
             <item>
                 <title>2PC v.s. 3PC: 一句话的总结</title>

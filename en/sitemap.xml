@@ -2,14 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://z1ggy-o.github.io/posts/articles/2pc-vs-3pc/</loc>
-    <lastmod>2022-07-31T21:28:21+08:00</lastmod>
-  </url><url>
-    <loc>https://z1ggy-o.github.io/categories/articles/</loc>
-    <lastmod>2022-07-31T21:28:21+08:00</lastmod>
-  </url><url>
     <loc>https://z1ggy-o.github.io/categories/</loc>
-    <lastmod>2022-07-31T21:28:21+08:00</lastmod>
+    <lastmod>2022-08-07T19:45:27+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -21,14 +15,23 @@
                 href="https://z1ggy-o.github.io/categories/"
                 />
   </url><url>
-    <loc>https://z1ggy-o.github.io/tags/distributed-systems/</loc>
-    <lastmod>2022-07-31T21:28:21+08:00</lastmod>
+    <loc>https://z1ggy-o.github.io/tags/cloud-computing/</loc>
+    <lastmod>2022-08-07T19:45:27+08:00</lastmod>
+  </url><url>
+    <loc>https://z1ggy-o.github.io/posts/paper-notes/reidys-2022-blockflexenablingstorage/</loc>
+    <lastmod>2022-08-07T19:45:27+08:00</lastmod>
+  </url><url>
+    <loc>https://z1ggy-o.github.io/categories/paper-notes/</loc>
+    <lastmod>2022-08-07T19:45:27+08:00</lastmod>
   </url><url>
     <loc>https://z1ggy-o.github.io/posts/</loc>
-    <lastmod>2022-07-31T21:28:21+08:00</lastmod>
+    <lastmod>2022-08-07T19:45:27+08:00</lastmod>
+  </url><url>
+    <loc>https://z1ggy-o.github.io/tags/storage-systems/</loc>
+    <lastmod>2022-08-07T19:45:27+08:00</lastmod>
   </url><url>
     <loc>https://z1ggy-o.github.io/tags/</loc>
-    <lastmod>2022-07-31T21:28:21+08:00</lastmod>
+    <lastmod>2022-08-07T19:45:27+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -41,7 +44,7 @@
                 />
   </url><url>
     <loc>https://z1ggy-o.github.io/</loc>
-    <lastmod>2022-07-31T21:28:21+08:00</lastmod>
+    <lastmod>2022-08-07T19:45:27+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
@@ -53,8 +56,14 @@
                 href="https://z1ggy-o.github.io/"
                 />
   </url><url>
-    <loc>https://z1ggy-o.github.io/categories/paper-notes/</loc>
-    <lastmod>2022-07-31T13:44:03+08:00</lastmod>
+    <loc>https://z1ggy-o.github.io/posts/articles/2pc-vs-3pc/</loc>
+    <lastmod>2022-07-31T21:28:21+08:00</lastmod>
+  </url><url>
+    <loc>https://z1ggy-o.github.io/categories/articles/</loc>
+    <lastmod>2022-07-31T21:28:21+08:00</lastmod>
+  </url><url>
+    <loc>https://z1ggy-o.github.io/tags/distributed-systems/</loc>
+    <lastmod>2022-07-31T21:28:21+08:00</lastmod>
   </url><url>
     <loc>https://z1ggy-o.github.io/posts/paper-notes/c-2013-spanner/</loc>
     <lastmod>2022-07-31T13:44:03+08:00</lastmod>
