@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Weeklies on Gy's Blog</title><link>https://z1ggy-o.github.io/weekly/</link><description>Recent content in Weeklies on Gy's Blog</description><generator>Hugo -- 0.140.1</generator><language>en-us</language><lastBuildDate>Sat, 28 Dec 2024 18:26:22 +0800</lastBuildDate><atom:link href="https://z1ggy-o.github.io/weekly/index.xml" rel="self" type="application/rss+xml"/><item><title>Weekly Digest: 2024-12-28</title><link>https://z1ggy-o.github.io/weekly/2024/24-12-28/</link><pubDate>Sat, 28 Dec 2024 14:47:25 +0800</pubDate><guid>https://z1ggy-o.github.io/weekly/2024/24-12-28/</guid><description>&lt;h2 id="学到啥">学到啥&lt;/h2>
+&lt;ul>
+&lt;li>Neovim TJ Advent 系列
+&lt;ul>
+&lt;li>&lt;a href="https://www.youtube.com/watch?v=bTWWFQZqzyI">LSP in Neovim&lt;/a>
+&lt;ul>
+&lt;li>&lt;code>help: vim.lsp.*&lt;/code> 查看 neovim 内建 LSP client 所提供的 API&lt;/li>
+&lt;li>&lt;code>nvim-lspconfig&lt;/code> package 为各类语言的 LSP client 配置提供了基本的支持
+&lt;ul>
+&lt;li>&lt;code>:help lspconfig-all&lt;/code> 可以查看想要对应语言的 server 安装方法和配置方法&lt;/li>
+&lt;li>一般现在都会搭配 &lt;code>mason.nvim&lt;/code> package 来自动下载，但是了解最基本的方法更好一些&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://www.youtube.com/watch?v=mEqqkHLhlGY">LSP Format&lt;/a>
+&lt;ul>
+&lt;li>就是由 &lt;code>vim.lsp.buf.format()&lt;/code> 来对当前 buffer 实现的 format
+&lt;ul>
+&lt;li>因为是 LSP 提供的功能，有可能有一些 server 并不支持&lt;/li>
+&lt;li>TJ 介绍了一个 autocmd 的在 server attach 的时候确认是否支持 format，并动态的绑定键位&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>editorconfig&lt;/code> 是一个更加通用的格式定义工具，比起直接对 LSP 进行配置，更推荐这样的方式，因为很多我们知道的 editor，比如 neovim 就支持对它的解析。这样，书写一次规则，就可以在各个 editor 中都使用了&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://www.youtube.com/watch?v=xdXE1tOT-qg">Telescope&lt;/a>
+&lt;ul>
+&lt;li>telescope 这个 fuzzy finder 的核心就是 finder, sorter, previewer 三个部件。Finder 搜索内容，sorter 对搜索到的内容进行排序，previewer 展示内容，三者组合起来就成了一个可用的 picker 了。&lt;/li>
+&lt;li>&lt;a href="https://www.youtube.com/watch?v=xdXE1tOT-qg">Advanced Telescope&lt;/a> 里就展示了如何实现一个自定义的 picker 来满足自己的搜索需求&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="干了啥">干了啥&lt;/h2>
+&lt;ul>
+&lt;li>这周重新把 blog 组织起来。这次的目标是使用简单的工具，把时间专注到内容而不是格式上去。本篇就是这唯一更新的内容 :)&lt;/li>
+&lt;li>脚可能是上周末团建的时候扭伤了，导致只跑了一次步。估计下周也没法跑了
+&lt;ul>
+&lt;li>才刚刚为冬天跑步买了装备呢 :(&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>房子重新续约。不让中间商赚差价，每个月省了几百块的租金😁&lt;/li>
+&lt;/ul>
+&lt;h2 id="工作呢">工作呢&lt;/h2>
+&lt;ul>
+&lt;li>项目进入阶段尾声，没有什么可以公开分享的。学习了一些内部代码&lt;/li>
+&lt;/ul></description></item></channel></rss>

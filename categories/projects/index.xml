@@ -1,23 +1,17 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>projects - Category - ziggy&#39;s brain dump</title>
-        <link>https://example.com/categories/projects/</link>
-        <description>projects - Category - ziggy&#39;s brain dump</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 19 Mar 2022 15:58:46 &#43;0800</lastBuildDate><atom:link href="https://example.com/categories/projects/" rel="self" type="application/rss+xml" /><item>
-    <title>CMU 15-445 2021 Fall Project#2</title>
-    <link>https://example.com/cmu15445_project2/</link>
-    <pubDate>Sat, 19 Mar 2022 15:58:46 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>https://example.com/cmu15445_project2/</guid>
-    <description><![CDATA[Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&rsquo;t think that would be very different from public the source code.
- Task #1 - Page Layouts Because we want to persist the hash table instead of rebuild it everytime, we need to design the layout that we use to store the hash table in the disks.]]></description>
-</item><item>
-    <title>CMU 15-445 2021 Fall Project#1</title>
-    <link>https://example.com/cmu15445_project1/</link>
-    <pubDate>Mon, 14 Mar 2022 21:23:00 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>https://example.com/cmu15445_project1/</guid>
-    <description><![CDATA[Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&rsquo;t think that would be very different from public the source code.
- Task #1 - LRU Replacement Policy BufferPoolManger contains all the frames. LRUReplacer is an implementation of the Replacer and it helps BufferPoolManger to manage these frames.]]></description>
-</item></channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Projects on Gy's Blog</title><link>https://z1ggy-o.github.io/categories/projects/</link><description>Recent content in Projects on Gy's Blog</description><generator>Hugo -- 0.140.1</generator><language>en-us</language><lastBuildDate>Sat, 28 Dec 2024 14:09:27 +0800</lastBuildDate><atom:link href="https://z1ggy-o.github.io/categories/projects/index.xml" rel="self" type="application/rss+xml"/><item><title>CMU 15-445 2021 Fall Project#4</title><link>https://z1ggy-o.github.io/posts/projects/cmu15445-project04/</link><pubDate>Mon, 09 May 2022 14:54:38 +0000</pubDate><guid>https://z1ggy-o.github.io/posts/projects/cmu15445-project04/</guid><description>&lt;p>We are implementing a lock-based concurrency control scheme in this project. More specifically, the &lt;strong>strict two phase locking protocol&lt;/strong>.&lt;/p>
+&lt;p>The concept is not that hard. However, there are many implementation details we need to care about. Especially, sometimes we need to guess what is the test code wants.&lt;/p>
+&lt;p>You need to read the source code carefully. The instruction of this project is kind vague, or even wrong.&lt;/p>
+&lt;h2 id="task-1---lock-manager">Task 1 - Lock Manager&lt;/h2>
+&lt;p>Read &lt;code>transaction.h&lt;/code>, &lt;code>transaction_manager.h&lt;/code>, and &lt;code>log_manager.h&lt;/code> to learn the APIs first.&lt;/p></description></item><item><title>CMU 15-445 2021 Fall Project#3</title><link>https://z1ggy-o.github.io/posts/projects/cmu15445-project03/</link><pubDate>Sat, 30 Apr 2022 12:37:56 +0000</pubDate><guid>https://z1ggy-o.github.io/posts/projects/cmu15445-project03/</guid><description>&lt;p>In this project, we will Implement &lt;strong>executors&lt;/strong> for taking query plan nodes and executing them.&lt;/p>
+&lt;p>We are using the iterator query processing model (i.e., the Volcano model). Each executor implements a loop that continues calling &lt;code>Next&lt;/code> on its children to retrieve tuples and process them one-by-one.&lt;/p>
+&lt;h2 id="how-executor-works">How &lt;code>executor&lt;/code> works&lt;/h2>
+&lt;p>Before start coding, we need to learn a lot from the related source code first. The instruction does not show all the details and I believe they did this intentionally.&lt;/p></description></item><item><title>CMU 15-445 2021 Fall Project#2</title><link>https://z1ggy-o.github.io/posts/projects/cmu15445_project2/</link><pubDate>Sat, 19 Mar 2022 15:58:46 +0800</pubDate><guid>https://z1ggy-o.github.io/posts/projects/cmu15445_project2/</guid><description>&lt;blockquote>
+&lt;p>Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&amp;rsquo;t think that would be very different from public the source code.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="task-1---page-layouts">Task #1 - Page Layouts&lt;/h2>
+&lt;p>Because we want to persist the hash table instead of rebuild it every time, we need to design the layout that we use to store the hash table in the disks.&lt;/p></description></item><item><title>CMU 15-445 2021 Fall Project#1</title><link>https://z1ggy-o.github.io/posts/projects/cmu15445_project1/</link><pubDate>Mon, 14 Mar 2022 21:23:00 +0800</pubDate><guid>https://z1ggy-o.github.io/posts/projects/cmu15445_project1/</guid><description>&lt;blockquote>
+&lt;p>Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&amp;rsquo;t think that would be very different from public the source code.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="task-1---lru-replacement-policy">Task #1 - LRU Replacement Policy&lt;/h2>
+&lt;p>&lt;code>BufferPoolManger&lt;/code> contains all the frames.
+&lt;code>LRUReplacer&lt;/code> is an implementation of the &lt;code>Replacer&lt;/code> and it helps &lt;code>BufferPoolManger&lt;/code> to manage these frames.&lt;/p></description></item></channel></rss>

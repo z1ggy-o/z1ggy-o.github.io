@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Papers on Gy's Blog</title><link>https://z1ggy-o.github.io/papers/</link><description>Recent content in Papers on Gy's Blog</description><generator>Hugo -- 0.140.1</generator><language>en-us</language><lastBuildDate>Sat, 28 Dec 2024 18:26:22 +0800</lastBuildDate><atom:link href="https://z1ggy-o.github.io/papers/index.xml" rel="self" type="application/rss+xml"/><item><title>FAST'20 - BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</title><link>https://z1ggy-o.github.io/papers/wang-2020-bcw/</link><pubDate>Sun, 17 Sep 2023 12:51:01 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/wang-2020-bcw/</guid><description>&lt;h2 id="short-summary">Short Summary&lt;/h2>
+&lt;p>HDDs are under utilized in hybrid cloud storage systems which makes SSD to handle most of
+the requests.
+This shorts the life of SSDs and also wants the utilization of HDDs.&lt;/p>
+&lt;p>The authors of this paper find that the write requests can have $μ$s-level latency when
+using HDD if the buffer in HDD is not full.
+They leverage this finding to let HDD to handle write requests if the requests can fit into
+the in disk buffer.&lt;/p></description></item><item><title>OSDI'22 - BlockFlex: Enabling Storage Harvesting with Software-Defined Flash in Modern Cloud Platforms</title><link>https://z1ggy-o.github.io/papers/reidys-2022-blockflexenablingstorage/</link><pubDate>Sun, 07 Aug 2022 11:39:27 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/reidys-2022-blockflexenablingstorage/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>Cloud computing system is high virtualised for higher resource utilization.
+Recently, cloud providers have developed harvesting techniques to allow evictable virtual machines to use unallocated resources.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>People mostly focus on how to use unallocated computing resources and memory resources, however, there is no harvesting techniques that built for storage resources.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>This paper proposes a harvesting framework for storage resources that provides isolation of space, bandwidth, and data security.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="contribution">Contribution&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>They conduct a characterization study of the storage efficiency in different cloud platforms through trace logs provided by these platforms.&lt;/p></description></item><item><title>TOCS'13 - Spanner: Google’s Globally Distributed Database</title><link>https://z1ggy-o.github.io/papers/2.c-2013-spanner/</link><pubDate>Sun, 31 Jul 2022 05:40:38 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/2.c-2013-spanner/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>Some applications need relation data model and strong consistency which BigTable cannot gives.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>So, Google want to develop a system that focuses on managing cross-datacenter replicate data with database features.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="contribution">Contribution&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>Provides a globally distributed database that shards data across many sets of Paxos state machine in datacenters.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Provide SQL-like interface, strong consistency, and high read performance.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="solution">Solution&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>Replication&lt;/p>
+&lt;ul>
+&lt;li>Use Paxos to replicate data to several nodes, which provides higher availability.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Local Transactions (within a paxos group)&lt;/p></description></item><item><title>SOSP'97 - Frangipani: a scalable distributed file system</title><link>https://z1ggy-o.github.io/papers/hekkath-1997-frangipaniscalabledistributed/</link><pubDate>Fri, 01 Jul 2022 13:30:21 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/hekkath-1997-frangipaniscalabledistributed/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;ul>
+&lt;li>File system administration for a large, growing computer installation is a laborious task.&lt;/li>
+&lt;li>A scalable distributed file system that can handle system recovery, reconfiguration, and load balancing with little human involvement is what we want.&lt;/li>
+&lt;/ul>
+&lt;h2 id="contribution">Contribution&lt;/h2>
+&lt;ul>
+&lt;li>A real system that shows us how to do cache coherence and distributed transactions.&lt;/li>
+&lt;/ul>
+&lt;h2 id="solution">Solution&lt;/h2>
+&lt;ul>
+&lt;li>The file system part is implemented as a kernel module, which enables the file system to take advantage of all the existing OS functionalities, e.g., page cache.&lt;/li>
+&lt;li>Data is stored into a virtual disks, which is a distributed storage pool that shared by all file system servers.&lt;/li>
+&lt;li>All file system operations are protected by a lock server. Client will invalid the cache when it release the lock. As a result, client can only see clean data and the cache coherence is ensured.&lt;/li>
+&lt;li>Because the client decides when to give the lock back, Frangipani can provide transactional file-system operations. (take locks on all data object we need first, only release these locks when all operations are finished.)&lt;/li>
+&lt;li>Write-ahead logging is used for crash recovery. Because all the data are stored in the shared distributed storage, the log can be read by other servers and recover easily.&lt;/li>
+&lt;li>The underlying distributed storage and the lock server are both using Paxos to ensure availability.&lt;/li>
+&lt;/ul>
+&lt;h2 id="evaluation">Evaluation&lt;/h2>
+&lt;ul>
+&lt;li>They evaluated the system with some basic file system operations, such as create directories, copy files, and scan files e.t.c.&lt;/li>
+&lt;li>They tested both the local performance and the scalability of the proposed system.&lt;/li>
+&lt;/ul>
+&lt;h2 id="the-main-finding-of-the-paper">The Main Finding of the Paper&lt;/h2>
+&lt;ul>
+&lt;li>Complex clients sharing simple storage can have better scalability.&lt;/li>
+&lt;li>Distributed lock can be used to achieve cache coherence and distributed transaction.&lt;/li>
+&lt;/ul></description></item><item><title>VLDB'17 - An empirical evaluation of in-memory multi-version concurrency control</title><link>https://z1ggy-o.github.io/papers/wu-2017-empiricalevaluationinmemory/</link><pubDate>Fri, 01 Jul 2022 12:36:05 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/wu-2017-empiricalevaluationinmemory/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;ul>
+&lt;li>MVCC is the most popular scheme used in DBMSs developed in the last decade. However, there is no standards about how to implement MVCC.&lt;/li>
+&lt;li>Many DBMSs tell people that they use MVCC and how they implement it. There are several design choices people need to make, however, no one tells why they choose such way to implement their MVCC.&lt;/li>
+&lt;li>This paper gives a comprehensive evaluation about MVCC in main memory DBMSs and shows the trade-offs of different design choices.&lt;/li>
+&lt;/ul>
+&lt;h2 id="contribution">Contribution&lt;/h2>
+&lt;ul>
+&lt;li>A good introduction about MVCC.&lt;/li>
+&lt;li>Evaluation about how concurrency control protocol, version storage, garbage collection, and index management affect performance on a real in-memory DBMS.&lt;/li>
+&lt;li>Evaluation of different configurations that used by main stream DBMSs.&lt;/li>
+&lt;li>Advisings about how to achieve higher scalability.&lt;/li>
+&lt;/ul>
+&lt;h2 id="solution">Solution&lt;/h2>
+&lt;ul>
+&lt;li>This is an evaluation paper. There is no &amp;ldquo;solution&amp;rdquo; but evaluation analyses.&lt;/li>
+&lt;li>People mainly focus on concurrency control protocols when they talk about scalability. However, the evaluation results show that the version storage scheme is also one of the most important components to scaling an in-memory MVCC DBMS in a multi-core environment.&lt;/li>
+&lt;li>Delta storage scheme is good for write-intensive workloads especially only a subset of the attributes is modified. However, delta storage can have slow performance on read-heavy analytical workloads because it spends more time on traversing version chains.&lt;/li>
+&lt;li>Most DBMSs choose to use tuple-level GC. However, the evaluation result shows that transaction-level can provide higher performance (at least in main memory DBMS) because it has smaller memory footprint.&lt;/li>
+&lt;li>In terms of index management, logical pointer is always a better choice than physical pointers.&lt;/li>
+&lt;li>The design choices that Oracle/MySQL and NuoDB made seems have the best performance.&lt;/li>
+&lt;/ul>
+&lt;h2 id="evaluation">Evaluation&lt;/h2>
+&lt;ul>
+&lt;li>They uses a DBMS implemented in CMU, called Peloton.&lt;/li>
+&lt;li>The evaluation platform has 40 cores with 128 GB memory.&lt;/li>
+&lt;li>Workloads are YCSB and TPC-C (both OLTP)&lt;/li>
+&lt;/ul>
+&lt;h2 id="the-main-finding-of-this-paper">The main finding of this paper&lt;/h2>
+&lt;ul>
+&lt;li>If you want to learn MVCC, read this one.&lt;/li>
+&lt;li>Still, &amp;ldquo;Measure, Then build&amp;rdquo;.&lt;/li>
+&lt;/ul></description></item><item><title>VLDB'14 - Staring into the abyss: An evaluation of concurrency control with one thousand cores</title><link>https://z1ggy-o.github.io/papers/yu-2014-staringabyssevaluation/</link><pubDate>Fri, 01 Jul 2022 12:21:38 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/yu-2014-staringabyssevaluation/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;p>We are moving to the many-core architecture era, however, many design of database systems are still based on optimizing of single-threaded performance.&lt;/p>
+&lt;p>To understand how to design high performance DBMS for the future many-core architecture to achieve high scalability, addressing bottlenecks in the system is necessary.&lt;/p>
+&lt;p>This paper focus on concurrency control schemes.
+(spoiler: the [following research]([[@An empirical evaluation of in-memory multi-version concurrency control]]) of [[Andrew Pavlo]] found out concurrency control schemes are not the most important component that affect the scalability of main memory DBMS on many-core environment )&lt;/p></description></item><item><title>ATC'10 - ZooKeeper: Wait-free Coordination for Internet-scale Systems</title><link>https://z1ggy-o.github.io/papers/hunt-2010-zookeeperwaitfreecoordination/</link><pubDate>Mon, 23 May 2022 09:00:39 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/hunt-2010-zookeeperwaitfreecoordination/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;p>Large-scale distributed applications require different forms of coordination.&lt;/p>
+&lt;p>Usually, people develop services for each of the different coordination needs. As a result, developers are constrained to a fixed set of primitives.&lt;/p>
+&lt;h2 id="contribution">Contribution&lt;/h2>
+&lt;ul>
+&lt;li>Exposes APIs that enables application developers to implement their own primitives, without changes to the service core.&lt;/li>
+&lt;li>Achieve high performance by relaxing consistency guarantees&lt;/li>
+&lt;/ul>
+&lt;h2 id="solution">Solution&lt;/h2>
+&lt;p>ZooKeeper provides to its clients the abstraction of a set of data nodes (znodes). These data nodes are organized like a traditional file system.&lt;/p></description></item><item><title>SOSP '97 - The design of a practical system for fault-tolerant virtual machines</title><link>https://z1ggy-o.github.io/papers/scales-2010-designpracticalsystem/</link><pubDate>Mon, 23 May 2022 09:00:39 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/scales-2010-designpracticalsystem/</guid><description>&lt;h2 id="motivation-1">MOTIVATION &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>&lt;/h2>
+&lt;p>A common approach to implementing fault-tolerant servers is the primary/backup approach. One way of replicating the state on the backup server is to ship changes to all state of the primary (e.g., CPU, memory, and I/Os devices) to the backup. However this approach needs high network bandwidth, and also leads to significant performance issues.&lt;/p>
+&lt;h2 id="contribution">CONTRIBUTION&lt;/h2>
+&lt;p>Shipping all the changes to the backup server asks for high network bandwidth. To reduce the demand of network, we can use the &amp;ldquo;state-machine approach&amp;rdquo;, which models the servers as deterministic state machines that are kept in sync by starting them from the same initial state and ensuring that they receive the same input requests in the same order.&lt;/p></description></item><item><title>SOSP'03 - The Google file system</title><link>https://z1ggy-o.github.io/papers/ghemawat-2003-googlefilesystem/</link><pubDate>Sun, 22 May 2022 11:11:56 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/ghemawat-2003-googlefilesystem/</guid><description>&lt;h2 id="motivation">MOTIVATION&lt;/h2>
+&lt;p>Google needs a new distributed file system to meet the rapidly growing demands of Google’s data processing needs (e.g., the MapReduce).&lt;/p>
+&lt;p>Because Google is facing some technical challenges different with general use cases, they think it is better to develop a system that fits them well instead of following the traditional choices. For example, they chosen to trade off consistency for better performance.&lt;/p>
+&lt;h2 id="contribution">CONTRIBUTION&lt;/h2>
+&lt;p>They designed and implemented a distributed file system, GFS. This system can leverage clusters consisted with large number of the machines. The design puts a lot of efforts on fault tolerance and availability because they think component failures are the norm rather than the exception.&lt;/p></description></item><item><title>OSDI'04 - MapReduce: simplified data processing on large clusters</title><link>https://z1ggy-o.github.io/papers/dean-2004-mapreducesimplifieddata/</link><pubDate>Mon, 16 May 2022 09:44:18 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/dean-2004-mapreducesimplifieddata/</guid><description>&lt;h2 id="motivation">MOTIVATION&lt;/h2>
+&lt;p>Google does a lot of straightforward computations in their workload. However, since the input data is large, they need to distribute the computations in order to finish the job in a reasonable amount of time.&lt;/p>
+&lt;p>To parallelize the computation, to distribute the data, and to handle failures make the original simple computation code complex. Thus, we need a better way to handle these issues, so the programmer only needs to focus on the computation task itself and does not need to be a distributed systems expert.&lt;/p></description></item><item><title>SOSP'19 - File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution</title><link>https://z1ggy-o.github.io/papers/1.aghayev-2019-filesystemunfit/</link><pubDate>Sun, 17 Jan 2021 00:29:00 +0900</pubDate><guid>https://z1ggy-o.github.io/papers/1.aghayev-2019-filesystemunfit/</guid><description>&lt;h2 id="short-summary">Short Summary&lt;/h2>
+&lt;p>This paper mostly consists of two parts. The first part tells us why the &lt;code>FileStore&lt;/code> has performance issues.
+And the second part tells us how Ceph team build &lt;code>BlueStore&lt;/code> based on the
+lessons that they learnt from &lt;code>FileStore&lt;/code>.&lt;/p>
+&lt;p>The main ideas of &lt;code>BlueStore&lt;/code> are:&lt;/p>
+&lt;ol>
+&lt;li>Avoid using local file system to store and represent Ceph objects&lt;/li>
+&lt;li>Use KV-store to provide transaction mechanism instead of build it by ourself&lt;/li>
+&lt;/ol>
+&lt;h2 id="what-s-the-problem">What&amp;rsquo;s the problem&lt;/h2>
+&lt;p>There is a software called &lt;code>storage backend&lt;/code> in Ceph. The &lt;code>storage backend&lt;/code> is
+responsible to accept requests from upper layer of Ceph and do the real I/O on
+storage devices.&lt;/p></description></item><item><title>FAST'20 - Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title><link>https://z1ggy-o.github.io/papers/he-2020-readasneeded/</link><pubDate>Sat, 26 Dec 2020 20:15:00 +0900</pubDate><guid>https://z1ggy-o.github.io/papers/he-2020-readasneeded/</guid><description>&lt;h2 id="short-summary">Short Summary&lt;/h2>
+&lt;p>This paper proposed a NAND-flash SSD-friendly full text engine. This engine can
+achieve better performance than existing engines with much less memory requested.&lt;/p>
+&lt;p>They reduce the unnecessary I/O (both the number of I/O and the volume). The
+engine does not cache data into memory, instead, read data every time when query
+arrive.&lt;/p>
+&lt;p>They also tried to increase the request size to exploit SSD internal parallelism.&lt;/p>
+&lt;h2 id="what-is-the-problem">What Is the Problem&lt;/h2>
+&lt;p>Search engines pose great challenges to storage systems:&lt;/p></description></item></channel></rss>

@@ -1,61 +1,245 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>ziggy&#39;s brain dump</title>
-        <link>https://example.com/</link>
-        <description>About my personal life</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 19 Mar 2022 15:58:46 &#43;0800</lastBuildDate>
-            <atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml" />
-        <item>
-    <title>CMU 15-445 2021 Fall Project#2</title>
-    <link>https://example.com/cmu15445_project2/</link>
-    <pubDate>Sat, 19 Mar 2022 15:58:46 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>https://example.com/cmu15445_project2/</guid>
-    <description><![CDATA[Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&rsquo;t think that would be very different from public the source code.
- Task #1 - Page Layouts Because we want to persist the hash table instead of rebuild it everytime, we need to design the layout that we use to store the hash table in the disks.]]></description>
-</item><item>
-    <title>CMU 15-445 2021 Fall Project#1</title>
-    <link>https://example.com/cmu15445_project1/</link>
-    <pubDate>Mon, 14 Mar 2022 21:23:00 &#43;0800</pubDate>
-    <author>Author</author>
-    <guid>https://example.com/cmu15445_project1/</guid>
-    <description><![CDATA[Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&rsquo;t think that would be very different from public the source code.
- Task #1 - LRU Replacement Policy BufferPoolManger contains all the frames. LRUReplacer is an implementation of the Replacer and it helps BufferPoolManger to manage these frames.]]></description>
-</item><item>
-    <title>File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution</title>
-    <link>https://example.com/aghayev-2019-filesystemunfit/</link>
-    <pubDate>Sun, 17 Jan 2021 00:29:00 &#43;0900</pubDate>
-    <author>Author</author>
-    <guid>https://example.com/aghayev-2019-filesystemunfit/</guid>
-    <description><![CDATA[Short Summary This paper mostly consists of two parts. The first part tells us why the FileStore has performance issues. And the second part tells us how Ceph team build BlueStore based on the lessons that they learnt from FileStore.
-The main ideas of BlueStore are:
- Avoid using local file system to store and represent Ceph objects Use KV-store to provide transaction mechanism instead of build it by ourself  What&rsquo;s the problem There is a software called storage backend in Ceph.]]></description>
-</item><item>
-    <title>BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</title>
-    <link>https://example.com/wang-2020-bcw/</link>
-    <pubDate>Thu, 31 Dec 2020 22:37:00 &#43;0900</pubDate>
-    <author>Author</author>
-    <guid>https://example.com/wang-2020-bcw/</guid>
-    <description><![CDATA[Short Summary HDDs are under utilized in hybrid cloud storage systems which makes SSD to handle most of the requests. This shorts the life of SSDs and also wasts the utilization of HDDs.
-The authors of this paper find that the write requets can have $μ$s-level latency when using HDD if the buffer in HDD is not full. They leverage this finding to let HDD to handle write requests if the requests can fit into the in disk buffer.]]></description>
-</item><item>
-    <title>Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title>
-    <link>https://example.com/he-2020-readasneeded/</link>
-    <pubDate>Sat, 26 Dec 2020 20:15:00 &#43;0900</pubDate>
-    <author>Author</author>
-    <guid>https://example.com/he-2020-readasneeded/</guid>
-    <description><![CDATA[Short Summary This paper proposed a NAND-flash SSD-friendly full text engine. This engine can achieve better performance than existing engines with much less memory requestsed.
-They reduce the unnecessary I/O (both the number of I/O and the volume). The engine does not cache data into memory, instead, read data every time when query arrive.
-They also tried to increase the request size to exploit SSD internal parallelism.
-What Is the Problem Search engines pose great challenges to storage systems:]]></description>
-</item><item>
-    <title>My First Post</title>
-    <link>https://example.com/my-first-post/</link>
-    <pubDate>Sun, 08 Nov 2020 09:48:14 &#43;0900</pubDate>
-    <author>Author</author>
-    <guid>https://example.com/my-first-post/</guid>
-    <description><![CDATA[I rebuilt my personal blog by using hugo.
-I have cleaned all my old blogs (not so much actually).
-I will write something related to my research reading or personal learning. Hope I can meet you soon.]]></description>
-</item></channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Gy's Blog</title><link>https://z1ggy-o.github.io/</link><description>Recent content on Gy's Blog</description><generator>Hugo -- 0.140.1</generator><language>en-us</language><lastBuildDate>Sat, 28 Dec 2024 10:32:24 +0000</lastBuildDate><atom:link href="https://z1ggy-o.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Weekly Digest: 2024-12-28</title><link>https://z1ggy-o.github.io/weekly/2024/24-12-28/</link><pubDate>Sat, 28 Dec 2024 14:47:25 +0800</pubDate><guid>https://z1ggy-o.github.io/weekly/2024/24-12-28/</guid><description>&lt;h2 id="学到啥">学到啥&lt;/h2>
+&lt;ul>
+&lt;li>Neovim TJ Advent 系列
+&lt;ul>
+&lt;li>&lt;a href="https://www.youtube.com/watch?v=bTWWFQZqzyI">LSP in Neovim&lt;/a>
+&lt;ul>
+&lt;li>&lt;code>help: vim.lsp.*&lt;/code> 查看 neovim 内建 LSP client 所提供的 API&lt;/li>
+&lt;li>&lt;code>nvim-lspconfig&lt;/code> package 为各类语言的 LSP client 配置提供了基本的支持
+&lt;ul>
+&lt;li>&lt;code>:help lspconfig-all&lt;/code> 可以查看想要对应语言的 server 安装方法和配置方法&lt;/li>
+&lt;li>一般现在都会搭配 &lt;code>mason.nvim&lt;/code> package 来自动下载，但是了解最基本的方法更好一些&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://www.youtube.com/watch?v=mEqqkHLhlGY">LSP Format&lt;/a>
+&lt;ul>
+&lt;li>就是由 &lt;code>vim.lsp.buf.format()&lt;/code> 来对当前 buffer 实现的 format
+&lt;ul>
+&lt;li>因为是 LSP 提供的功能，有可能有一些 server 并不支持&lt;/li>
+&lt;li>TJ 介绍了一个 autocmd 的在 server attach 的时候确认是否支持 format，并动态的绑定键位&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;code>editorconfig&lt;/code> 是一个更加通用的格式定义工具，比起直接对 LSP 进行配置，更推荐这样的方式，因为很多我们知道的 editor，比如 neovim 就支持对它的解析。这样，书写一次规则，就可以在各个 editor 中都使用了&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://www.youtube.com/watch?v=xdXE1tOT-qg">Telescope&lt;/a>
+&lt;ul>
+&lt;li>telescope 这个 fuzzy finder 的核心就是 finder, sorter, previewer 三个部件。Finder 搜索内容，sorter 对搜索到的内容进行排序，previewer 展示内容，三者组合起来就成了一个可用的 picker 了。&lt;/li>
+&lt;li>&lt;a href="https://www.youtube.com/watch?v=xdXE1tOT-qg">Advanced Telescope&lt;/a> 里就展示了如何实现一个自定义的 picker 来满足自己的搜索需求&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="干了啥">干了啥&lt;/h2>
+&lt;ul>
+&lt;li>这周重新把 blog 组织起来。这次的目标是使用简单的工具，把时间专注到内容而不是格式上去。本篇就是这唯一更新的内容 :)&lt;/li>
+&lt;li>脚可能是上周末团建的时候扭伤了，导致只跑了一次步。估计下周也没法跑了
+&lt;ul>
+&lt;li>才刚刚为冬天跑步买了装备呢 :(&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>房子重新续约。不让中间商赚差价，每个月省了几百块的租金😁&lt;/li>
+&lt;/ul>
+&lt;h2 id="工作呢">工作呢&lt;/h2>
+&lt;ul>
+&lt;li>项目进入阶段尾声，没有什么可以公开分享的。学习了一些内部代码&lt;/li>
+&lt;/ul></description></item><item><title>FAST'20 - BCW: Buffer-Controlled Writes to HDDs for SSD-HDD Hybrid Storage Server</title><link>https://z1ggy-o.github.io/papers/wang-2020-bcw/</link><pubDate>Sun, 17 Sep 2023 12:51:01 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/wang-2020-bcw/</guid><description>&lt;h2 id="short-summary">Short Summary&lt;/h2>
+&lt;p>HDDs are under utilized in hybrid cloud storage systems which makes SSD to handle most of
+the requests.
+This shorts the life of SSDs and also wants the utilization of HDDs.&lt;/p>
+&lt;p>The authors of this paper find that the write requests can have $μ$s-level latency when
+using HDD if the buffer in HDD is not full.
+They leverage this finding to let HDD to handle write requests if the requests can fit into
+the in disk buffer.&lt;/p></description></item><item><title>LevelDB 源码分析笔记</title><link>https://z1ggy-o.github.io/posts/leveldb-analysis/</link><pubDate>Mon, 22 Aug 2022 13:30:19 +0000</pubDate><guid>https://z1ggy-o.github.io/posts/leveldb-analysis/</guid><description>&lt;p>最近一周花了些时间阅读了 LevelDB 的代码，了解一下 LSM-Tree 的具体实现。在阅读的过程中简略的记录了一些笔记，放在了我的 &lt;a href="https://github.com/z1ggy-o/LevelDB-Notes/tree/main/Notes">Github repo&lt;/a> 里。笔记是用蹩脚英语写的，也没有做任何的插图，建议配合&lt;a href="https://leveldb-handbook.readthedocs.io/zh/latest/basic.html">此分析文档&lt;/a>一起食用。&lt;/p></description></item><item><title>OSDI'22 - BlockFlex: Enabling Storage Harvesting with Software-Defined Flash in Modern Cloud Platforms</title><link>https://z1ggy-o.github.io/papers/reidys-2022-blockflexenablingstorage/</link><pubDate>Sun, 07 Aug 2022 11:39:27 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/reidys-2022-blockflexenablingstorage/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>Cloud computing system is high virtualised for higher resource utilization.
+Recently, cloud providers have developed harvesting techniques to allow evictable virtual machines to use unallocated resources.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>People mostly focus on how to use unallocated computing resources and memory resources, however, there is no harvesting techniques that built for storage resources.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>This paper proposes a harvesting framework for storage resources that provides isolation of space, bandwidth, and data security.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="contribution">Contribution&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>They conduct a characterization study of the storage efficiency in different cloud platforms through trace logs provided by these platforms.&lt;/p></description></item><item><title>TOCS'13 - Spanner: Google’s Globally Distributed Database</title><link>https://z1ggy-o.github.io/papers/2.c-2013-spanner/</link><pubDate>Sun, 31 Jul 2022 05:40:38 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/2.c-2013-spanner/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>Some applications need relation data model and strong consistency which BigTable cannot gives.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>So, Google want to develop a system that focuses on managing cross-datacenter replicate data with database features.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="contribution">Contribution&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>Provides a globally distributed database that shards data across many sets of Paxos state machine in datacenters.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Provide SQL-like interface, strong consistency, and high read performance.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="solution">Solution&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>Replication&lt;/p>
+&lt;ul>
+&lt;li>Use Paxos to replicate data to several nodes, which provides higher availability.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Local Transactions (within a paxos group)&lt;/p></description></item><item><title>Note - x86 汇编语言（4）：分页机制</title><link>https://z1ggy-o.github.io/books/x86-assembly-shuangwang/04.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86/</link><pubDate>Sun, 10 Jul 2022 08:39:25 +0000</pubDate><guid>https://z1ggy-o.github.io/books/x86-assembly-shuangwang/04.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86/</guid><description>&lt;hr>
+&lt;p>到了该系列笔记的最后一个章节了。之前的几个章节中，我们讨论了最直白的 8086 分段访问模型，又讲到了保护模式下的分段访问模式，现在我们来讲一讲实际生活中的默认内存管理方式&amp;ndash;分页。&lt;/p></description></item><item><title>Note - x86 汇编语言（3）：多任务支持</title><link>https://z1ggy-o.github.io/books/x86-assembly-shuangwang/03.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86/</link><pubDate>Wed, 06 Jul 2022 08:44:20 +0000</pubDate><guid>https://z1ggy-o.github.io/books/x86-assembly-shuangwang/03.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86/</guid><description>&lt;hr>
+&lt;p>这是系列笔记的第三篇。在上一篇中，我们介绍了保护模式基于段选择子的寻址方式，这一篇中我们来讲一讲该架构的另一个特点，多任务支持。&lt;/p>
+&lt;p>其余章节如下：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="../01.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/">第一部分: 计算机基础和实模式&lt;/a>&lt;/li>
+&lt;li>&lt;a href="02.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86/">第二部分：保护模式下的分段寻址和权限&lt;/a>&lt;/li>
+&lt;li>&lt;a href="03.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86/">第三部分：多任务支持&lt;/a>&lt;/li>
+&lt;li>&lt;a href="04.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86/">第四部分：分页机制&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="任务运行程序的表达">任务：运行程序的表达&lt;/h2>
+&lt;p>在之前的篇章中我们尽量避免了任务概念的出现。在 80286 之前，计算机主要以单任务（single-tasking）的方式运行。即，先集中于完成一个程序的运行，再运行下一个程序。有些类似于最初 mainframe 的 batching 的感觉。80286 首次在处理器硬件上提供了对多任务的支持，80386 时期多任务得到了广泛的应用。&lt;/p></description></item><item><title>Note - x86 汇编语言（2）：保护模式下的分段寻址方法和权限设计</title><link>https://z1ggy-o.github.io/books/x86-assembly-shuangwang/02.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86/</link><pubDate>Tue, 05 Jul 2022 09:16:52 +0000</pubDate><guid>https://z1ggy-o.github.io/books/x86-assembly-shuangwang/02.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86/</guid><description>&lt;hr>
+&lt;p>这是本系列笔记的第二个部分。这个部分里，我们来看一看保护模式的一大改变——寻址方法，以及配合而来的保护功能。另一个大改变是对多任务的支持，我们在之后的篇章里再谈。&lt;/p></description></item><item><title>Note - x86 汇编语言（1）：计算机基础和实模式</title><link>https://z1ggy-o.github.io/books/x86-assembly-shuangwang/01.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/</link><pubDate>Sun, 03 Jul 2022 09:29:01 +0000</pubDate><guid>https://z1ggy-o.github.io/books/x86-assembly-shuangwang/01.x86%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/</guid><description>&lt;hr>
+&lt;p>最近读完了《x86 汇编语言：从实模式到保护模式》一书。感觉此书是了解 Intel 架构 CPU 运行方式的好材料。所以，我准备用四个篇章来写一份读书笔记，简略地介绍一下内存寻址方式，以及处理器对多任务的支持。笔记的内容意在指出书中的框架重点，作为一个快速复习和检索的工具，而非详实的内容。&lt;/p></description></item><item><title>SOSP'97 - Frangipani: a scalable distributed file system</title><link>https://z1ggy-o.github.io/papers/hekkath-1997-frangipaniscalabledistributed/</link><pubDate>Fri, 01 Jul 2022 13:30:21 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/hekkath-1997-frangipaniscalabledistributed/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;ul>
+&lt;li>File system administration for a large, growing computer installation is a laborious task.&lt;/li>
+&lt;li>A scalable distributed file system that can handle system recovery, reconfiguration, and load balancing with little human involvement is what we want.&lt;/li>
+&lt;/ul>
+&lt;h2 id="contribution">Contribution&lt;/h2>
+&lt;ul>
+&lt;li>A real system that shows us how to do cache coherence and distributed transactions.&lt;/li>
+&lt;/ul>
+&lt;h2 id="solution">Solution&lt;/h2>
+&lt;ul>
+&lt;li>The file system part is implemented as a kernel module, which enables the file system to take advantage of all the existing OS functionalities, e.g., page cache.&lt;/li>
+&lt;li>Data is stored into a virtual disks, which is a distributed storage pool that shared by all file system servers.&lt;/li>
+&lt;li>All file system operations are protected by a lock server. Client will invalid the cache when it release the lock. As a result, client can only see clean data and the cache coherence is ensured.&lt;/li>
+&lt;li>Because the client decides when to give the lock back, Frangipani can provide transactional file-system operations. (take locks on all data object we need first, only release these locks when all operations are finished.)&lt;/li>
+&lt;li>Write-ahead logging is used for crash recovery. Because all the data are stored in the shared distributed storage, the log can be read by other servers and recover easily.&lt;/li>
+&lt;li>The underlying distributed storage and the lock server are both using Paxos to ensure availability.&lt;/li>
+&lt;/ul>
+&lt;h2 id="evaluation">Evaluation&lt;/h2>
+&lt;ul>
+&lt;li>They evaluated the system with some basic file system operations, such as create directories, copy files, and scan files e.t.c.&lt;/li>
+&lt;li>They tested both the local performance and the scalability of the proposed system.&lt;/li>
+&lt;/ul>
+&lt;h2 id="the-main-finding-of-the-paper">The Main Finding of the Paper&lt;/h2>
+&lt;ul>
+&lt;li>Complex clients sharing simple storage can have better scalability.&lt;/li>
+&lt;li>Distributed lock can be used to achieve cache coherence and distributed transaction.&lt;/li>
+&lt;/ul></description></item><item><title>VLDB'17 - An empirical evaluation of in-memory multi-version concurrency control</title><link>https://z1ggy-o.github.io/papers/wu-2017-empiricalevaluationinmemory/</link><pubDate>Fri, 01 Jul 2022 12:36:05 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/wu-2017-empiricalevaluationinmemory/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;ul>
+&lt;li>MVCC is the most popular scheme used in DBMSs developed in the last decade. However, there is no standards about how to implement MVCC.&lt;/li>
+&lt;li>Many DBMSs tell people that they use MVCC and how they implement it. There are several design choices people need to make, however, no one tells why they choose such way to implement their MVCC.&lt;/li>
+&lt;li>This paper gives a comprehensive evaluation about MVCC in main memory DBMSs and shows the trade-offs of different design choices.&lt;/li>
+&lt;/ul>
+&lt;h2 id="contribution">Contribution&lt;/h2>
+&lt;ul>
+&lt;li>A good introduction about MVCC.&lt;/li>
+&lt;li>Evaluation about how concurrency control protocol, version storage, garbage collection, and index management affect performance on a real in-memory DBMS.&lt;/li>
+&lt;li>Evaluation of different configurations that used by main stream DBMSs.&lt;/li>
+&lt;li>Advisings about how to achieve higher scalability.&lt;/li>
+&lt;/ul>
+&lt;h2 id="solution">Solution&lt;/h2>
+&lt;ul>
+&lt;li>This is an evaluation paper. There is no &amp;ldquo;solution&amp;rdquo; but evaluation analyses.&lt;/li>
+&lt;li>People mainly focus on concurrency control protocols when they talk about scalability. However, the evaluation results show that the version storage scheme is also one of the most important components to scaling an in-memory MVCC DBMS in a multi-core environment.&lt;/li>
+&lt;li>Delta storage scheme is good for write-intensive workloads especially only a subset of the attributes is modified. However, delta storage can have slow performance on read-heavy analytical workloads because it spends more time on traversing version chains.&lt;/li>
+&lt;li>Most DBMSs choose to use tuple-level GC. However, the evaluation result shows that transaction-level can provide higher performance (at least in main memory DBMS) because it has smaller memory footprint.&lt;/li>
+&lt;li>In terms of index management, logical pointer is always a better choice than physical pointers.&lt;/li>
+&lt;li>The design choices that Oracle/MySQL and NuoDB made seems have the best performance.&lt;/li>
+&lt;/ul>
+&lt;h2 id="evaluation">Evaluation&lt;/h2>
+&lt;ul>
+&lt;li>They uses a DBMS implemented in CMU, called Peloton.&lt;/li>
+&lt;li>The evaluation platform has 40 cores with 128 GB memory.&lt;/li>
+&lt;li>Workloads are YCSB and TPC-C (both OLTP)&lt;/li>
+&lt;/ul>
+&lt;h2 id="the-main-finding-of-this-paper">The main finding of this paper&lt;/h2>
+&lt;ul>
+&lt;li>If you want to learn MVCC, read this one.&lt;/li>
+&lt;li>Still, &amp;ldquo;Measure, Then build&amp;rdquo;.&lt;/li>
+&lt;/ul></description></item><item><title>VLDB'14 - Staring into the abyss: An evaluation of concurrency control with one thousand cores</title><link>https://z1ggy-o.github.io/papers/yu-2014-staringabyssevaluation/</link><pubDate>Fri, 01 Jul 2022 12:21:38 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/yu-2014-staringabyssevaluation/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;p>We are moving to the many-core architecture era, however, many design of database systems are still based on optimizing of single-threaded performance.&lt;/p>
+&lt;p>To understand how to design high performance DBMS for the future many-core architecture to achieve high scalability, addressing bottlenecks in the system is necessary.&lt;/p>
+&lt;p>This paper focus on concurrency control schemes.
+(spoiler: the [following research]([[@An empirical evaluation of in-memory multi-version concurrency control]]) of [[Andrew Pavlo]] found out concurrency control schemes are not the most important component that affect the scalability of main memory DBMS on many-core environment )&lt;/p></description></item><item><title>ATC'10 - ZooKeeper: Wait-free Coordination for Internet-scale Systems</title><link>https://z1ggy-o.github.io/papers/hunt-2010-zookeeperwaitfreecoordination/</link><pubDate>Mon, 23 May 2022 09:00:39 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/hunt-2010-zookeeperwaitfreecoordination/</guid><description>&lt;h2 id="motivation">Motivation&lt;/h2>
+&lt;p>Large-scale distributed applications require different forms of coordination.&lt;/p>
+&lt;p>Usually, people develop services for each of the different coordination needs. As a result, developers are constrained to a fixed set of primitives.&lt;/p>
+&lt;h2 id="contribution">Contribution&lt;/h2>
+&lt;ul>
+&lt;li>Exposes APIs that enables application developers to implement their own primitives, without changes to the service core.&lt;/li>
+&lt;li>Achieve high performance by relaxing consistency guarantees&lt;/li>
+&lt;/ul>
+&lt;h2 id="solution">Solution&lt;/h2>
+&lt;p>ZooKeeper provides to its clients the abstraction of a set of data nodes (znodes). These data nodes are organized like a traditional file system.&lt;/p></description></item><item><title>SOSP '97 - The design of a practical system for fault-tolerant virtual machines</title><link>https://z1ggy-o.github.io/papers/scales-2010-designpracticalsystem/</link><pubDate>Mon, 23 May 2022 09:00:39 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/scales-2010-designpracticalsystem/</guid><description>&lt;h2 id="motivation-1">MOTIVATION &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>&lt;/h2>
+&lt;p>A common approach to implementing fault-tolerant servers is the primary/backup approach. One way of replicating the state on the backup server is to ship changes to all state of the primary (e.g., CPU, memory, and I/Os devices) to the backup. However this approach needs high network bandwidth, and also leads to significant performance issues.&lt;/p>
+&lt;h2 id="contribution">CONTRIBUTION&lt;/h2>
+&lt;p>Shipping all the changes to the backup server asks for high network bandwidth. To reduce the demand of network, we can use the &amp;ldquo;state-machine approach&amp;rdquo;, which models the servers as deterministic state machines that are kept in sync by starting them from the same initial state and ensuring that they receive the same input requests in the same order.&lt;/p></description></item><item><title>SOSP'03 - The Google file system</title><link>https://z1ggy-o.github.io/papers/ghemawat-2003-googlefilesystem/</link><pubDate>Sun, 22 May 2022 11:11:56 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/ghemawat-2003-googlefilesystem/</guid><description>&lt;h2 id="motivation">MOTIVATION&lt;/h2>
+&lt;p>Google needs a new distributed file system to meet the rapidly growing demands of Google’s data processing needs (e.g., the MapReduce).&lt;/p>
+&lt;p>Because Google is facing some technical challenges different with general use cases, they think it is better to develop a system that fits them well instead of following the traditional choices. For example, they chosen to trade off consistency for better performance.&lt;/p>
+&lt;h2 id="contribution">CONTRIBUTION&lt;/h2>
+&lt;p>They designed and implemented a distributed file system, GFS. This system can leverage clusters consisted with large number of the machines. The design puts a lot of efforts on fault tolerance and availability because they think component failures are the norm rather than the exception.&lt;/p></description></item><item><title>OSDI'04 - MapReduce: simplified data processing on large clusters</title><link>https://z1ggy-o.github.io/papers/dean-2004-mapreducesimplifieddata/</link><pubDate>Mon, 16 May 2022 09:44:18 +0000</pubDate><guid>https://z1ggy-o.github.io/papers/dean-2004-mapreducesimplifieddata/</guid><description>&lt;h2 id="motivation">MOTIVATION&lt;/h2>
+&lt;p>Google does a lot of straightforward computations in their workload. However, since the input data is large, they need to distribute the computations in order to finish the job in a reasonable amount of time.&lt;/p>
+&lt;p>To parallelize the computation, to distribute the data, and to handle failures make the original simple computation code complex. Thus, we need a better way to handle these issues, so the programmer only needs to focus on the computation task itself and does not need to be a distributed systems expert.&lt;/p></description></item><item><title>幻读，到底是怎么一回事儿</title><link>https://z1ggy-o.github.io/posts/isolation-levels-and-phtantom/</link><pubDate>Thu, 12 May 2022 07:11:54 +0000</pubDate><guid>https://z1ggy-o.github.io/posts/isolation-levels-and-phtantom/</guid><description>&lt;p>幻读 (phantom phenomenon) 是数据库使用中经常提到的一个问题。一个常见的面试问题就是：某个数据库，在某个 isolation level 下，会不会出现幻读，以及其解决方法。&lt;/p>
+&lt;p>网上有许多关于幻读的文章，但是在读完之后发现，大多数的说明都浮于表面，好像作者们自己也并没有弄清楚幻读的本质。在本文中，我想利用数据库的一些高层抽象概念，来阐述幻读的本质。虽然不涉及任何的具体实现，但相信你在了解到这些概念之后，可以很快地理解幻读，以及各种幻读的处理方法。&lt;/p></description></item><item><title>CMU 15-445 2021 Fall Project#4</title><link>https://z1ggy-o.github.io/posts/projects/cmu15445-project04/</link><pubDate>Mon, 09 May 2022 14:54:38 +0000</pubDate><guid>https://z1ggy-o.github.io/posts/projects/cmu15445-project04/</guid><description>&lt;p>We are implementing a lock-based concurrency control scheme in this project. More specifically, the &lt;strong>strict two phase locking protocol&lt;/strong>.&lt;/p>
+&lt;p>The concept is not that hard. However, there are many implementation details we need to care about. Especially, sometimes we need to guess what is the test code wants.&lt;/p>
+&lt;p>You need to read the source code carefully. The instruction of this project is kind vague, or even wrong.&lt;/p>
+&lt;h2 id="task-1---lock-manager">Task 1 - Lock Manager&lt;/h2>
+&lt;p>Read &lt;code>transaction.h&lt;/code>, &lt;code>transaction_manager.h&lt;/code>, and &lt;code>log_manager.h&lt;/code> to learn the APIs first.&lt;/p></description></item><item><title>CMU 15-445 2021 Fall Project#3</title><link>https://z1ggy-o.github.io/posts/projects/cmu15445-project03/</link><pubDate>Sat, 30 Apr 2022 12:37:56 +0000</pubDate><guid>https://z1ggy-o.github.io/posts/projects/cmu15445-project03/</guid><description>&lt;p>In this project, we will Implement &lt;strong>executors&lt;/strong> for taking query plan nodes and executing them.&lt;/p>
+&lt;p>We are using the iterator query processing model (i.e., the Volcano model). Each executor implements a loop that continues calling &lt;code>Next&lt;/code> on its children to retrieve tuples and process them one-by-one.&lt;/p>
+&lt;h2 id="how-executor-works">How &lt;code>executor&lt;/code> works&lt;/h2>
+&lt;p>Before start coding, we need to learn a lot from the related source code first. The instruction does not show all the details and I believe they did this intentionally.&lt;/p></description></item><item><title>CMU 15-445 2021 Fall Project#2</title><link>https://z1ggy-o.github.io/posts/projects/cmu15445_project2/</link><pubDate>Sat, 19 Mar 2022 15:58:46 +0800</pubDate><guid>https://z1ggy-o.github.io/posts/projects/cmu15445_project2/</guid><description>&lt;blockquote>
+&lt;p>Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&amp;rsquo;t think that would be very different from public the source code.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="task-1---page-layouts">Task #1 - Page Layouts&lt;/h2>
+&lt;p>Because we want to persist the hash table instead of rebuild it every time, we need to design the layout that we use to store the hash table in the disks.&lt;/p></description></item><item><title>CMU 15-445 2021 Fall Project#1</title><link>https://z1ggy-o.github.io/posts/projects/cmu15445_project1/</link><pubDate>Mon, 14 Mar 2022 21:23:00 +0800</pubDate><guid>https://z1ggy-o.github.io/posts/projects/cmu15445_project1/</guid><description>&lt;blockquote>
+&lt;p>Because the course asks us to not sharing source code, here, I will only jot down some hits to help you (or maybe only me, kk) to finish the project. I will not even describe the process of any specific function, because I don&amp;rsquo;t think that would be very different from public the source code.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="task-1---lru-replacement-policy">Task #1 - LRU Replacement Policy&lt;/h2>
+&lt;p>&lt;code>BufferPoolManger&lt;/code> contains all the frames.
+&lt;code>LRUReplacer&lt;/code> is an implementation of the &lt;code>Replacer&lt;/code> and it helps &lt;code>BufferPoolManger&lt;/code> to manage these frames.&lt;/p></description></item><item><title>SOSP'19 - File Systems Unift as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution</title><link>https://z1ggy-o.github.io/papers/1.aghayev-2019-filesystemunfit/</link><pubDate>Sun, 17 Jan 2021 00:29:00 +0900</pubDate><guid>https://z1ggy-o.github.io/papers/1.aghayev-2019-filesystemunfit/</guid><description>&lt;h2 id="short-summary">Short Summary&lt;/h2>
+&lt;p>This paper mostly consists of two parts. The first part tells us why the &lt;code>FileStore&lt;/code> has performance issues.
+And the second part tells us how Ceph team build &lt;code>BlueStore&lt;/code> based on the
+lessons that they learnt from &lt;code>FileStore&lt;/code>.&lt;/p>
+&lt;p>The main ideas of &lt;code>BlueStore&lt;/code> are:&lt;/p>
+&lt;ol>
+&lt;li>Avoid using local file system to store and represent Ceph objects&lt;/li>
+&lt;li>Use KV-store to provide transaction mechanism instead of build it by ourself&lt;/li>
+&lt;/ol>
+&lt;h2 id="what-s-the-problem">What&amp;rsquo;s the problem&lt;/h2>
+&lt;p>There is a software called &lt;code>storage backend&lt;/code> in Ceph. The &lt;code>storage backend&lt;/code> is
+responsible to accept requests from upper layer of Ceph and do the real I/O on
+storage devices.&lt;/p></description></item><item><title>FAST'20 - Read as Needed: Building WiSER, a Flash-Optimized Search Engine</title><link>https://z1ggy-o.github.io/papers/he-2020-readasneeded/</link><pubDate>Sat, 26 Dec 2020 20:15:00 +0900</pubDate><guid>https://z1ggy-o.github.io/papers/he-2020-readasneeded/</guid><description>&lt;h2 id="short-summary">Short Summary&lt;/h2>
+&lt;p>This paper proposed a NAND-flash SSD-friendly full text engine. This engine can
+achieve better performance than existing engines with much less memory requested.&lt;/p>
+&lt;p>They reduce the unnecessary I/O (both the number of I/O and the volume). The
+engine does not cache data into memory, instead, read data every time when query
+arrive.&lt;/p>
+&lt;p>They also tried to increase the request size to exploit SSD internal parallelism.&lt;/p>
+&lt;h2 id="what-is-the-problem">What Is the Problem&lt;/h2>
+&lt;p>Search engines pose great challenges to storage systems:&lt;/p></description></item><item><title>2PC v.s. 3PC: 一句话的总结</title><link>https://z1ggy-o.github.io/posts/2pc-vs-3pc/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://z1ggy-o.github.io/posts/2pc-vs-3pc/</guid><description>&lt;p>最近在准备面试的过程中看到有这样一个问题，就是让比较一下 2PC 和 3PC。在网上找了一些文章来读，感觉都没有十分简洁地说明两者之间最基本的区别点。所以，在这里写一篇小文，表达一下自己对 2PC，3PC 最核心区别的理解。&lt;/p>
+&lt;p>最重要的最先说，在我看来两者的核心区别在于：&lt;strong>参与者间是否对 transaction commit/abort 建立了共识&lt;/strong>。3PC 的参与者之间对 commit 的成立是具有共识的，2PC 则没有。&lt;/p>
+&lt;h2 id="3pc-相比-2pc-带来了什么">3PC 相比 2PC 带来了什么？&lt;/h2>
+&lt;p>大家都知道，3PC 相比于 2PC 来说多了两个东西：&lt;/p>
+&lt;ol>
+&lt;li>增加了 time out&lt;/li>
+&lt;li>commit phase 被分割为了 prepare commit 和 do commit 两个部分&lt;/li>
+&lt;/ol>
+&lt;p>增加一个 prepare commit phase 带来了什么呢？是集群对 commit 这一决定的共识。&lt;/p>
+&lt;p>在 2PC 协议中，协调者单方面向参与者发送一次 commit 消息。这个消息有两个含义：&lt;/p>
+&lt;ol>
+&lt;li>让参与者进行 commit&lt;/li>
+&lt;li>所有参与者都认可此 commit&lt;/li>
+&lt;/ol>
+&lt;p>但需要注意的是，对于一个 transaction，是 commit 还是 abort 这个决定本身只有协调者知道。一旦协调者故障，这部分信息就消失了。所以我们说 2PC 的协调者是单点故障点。&lt;/p>
+&lt;p>3PC 协议中，prepare commit 消息让一个 transaction 该 commit 还是 abort 这个决定本身被传导到了所有参与者处。如此一来，如果协调者故障，参与者们可以根据 prepare commit 的情况继续工作。&lt;/p></description></item></channel></rss>

@@ -1,0 +1,102 @@
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Weekly Digest: 2024-12-28 | Gy's Blog</title>
+<meta name=keywords content="Weekly Log"><meta name=description content="学到啥
+
+Neovim TJ Advent 系列
+
+LSP in Neovim
+
+help: vim.lsp.* 查看 neovim 内建 LSP client 所提供的 API
+nvim-lspconfig package 为各类语言的 LSP client 配置提供了基本的支持
+
+:help lspconfig-all 可以查看想要对应语言的 server 安装方法和配置方法
+一般现在都会搭配 mason.nvim package 来自动下载，但是了解最基本的方法更好一些
+
+
+
+
+LSP Format
+
+就是由 vim.lsp.buf.format() 来对当前 buffer 实现的 format
+
+因为是 LSP 提供的功能，有可能有一些 server 并不支持
+TJ 介绍了一个 autocmd 的在 server attach 的时候确认是否支持 format，并动态的绑定键位
+
+
+editorconfig 是一个更加通用的格式定义工具，比起直接对 LSP 进行配置，更推荐这样的方式，因为很多我们知道的 editor，比如 neovim 就支持对它的解析。这样，书写一次规则，就可以在各个 editor 中都使用了
+
+
+Telescope
+
+telescope 这个 fuzzy finder 的核心就是 finder, sorter, previewer 三个部件。Finder 搜索内容，sorter 对搜索到的内容进行排序，previewer 展示内容，三者组合起来就成了一个可用的 picker 了。
+Advanced Telescope 里就展示了如何实现一个自定义的 picker 来满足自己的搜索需求
+
+
+
+
+
+干了啥
+
+这周重新把 blog 组织起来。这次的目标是使用简单的工具，把时间专注到内容而不是格式上去。本篇就是这唯一更新的内容 :)
+脚可能是上周末团建的时候扭伤了，导致只跑了一次步。估计下周也没法跑了
+
+才刚刚为冬天跑步买了装备呢 :(
+
+
+房子重新续约。不让中间商赚差价，每个月省了几百块的租金😁
+
+工作呢
+
+项目进入阶段尾声，没有什么可以公开分享的。学习了一些内部代码
+"><meta name=author content><link rel=canonical href=https://z1ggy-o.github.io/weekly/2024/24-12-28/><link crossorigin=anonymous href=/assets/css/stylesheet.d6fcd20a4fb86efa4dfac8ec95da60244cc8871042183da1ef28e3a762ad79c8.css integrity="sha256-1vzSCk+4bvpN+sjsldpgJEzIhxBCGD2h7yjjp2Ktecg=" rel="preload stylesheet" as=style><link rel=icon href=https://z1ggy-o.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://z1ggy-o.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://z1ggy-o.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://z1ggy-o.github.io/apple-touch-icon.png><link rel=mask-icon href=https://z1ggy-o.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://z1ggy-o.github.io/weekly/2024/24-12-28/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:url" content="https://z1ggy-o.github.io/weekly/2024/24-12-28/"><meta property="og:site_name" content="Gy's Blog"><meta property="og:title" content="Weekly Digest: 2024-12-28"><meta property="og:description" content="学到啥 Neovim TJ Advent 系列 LSP in Neovim help: vim.lsp.* 查看 neovim 内建 LSP client 所提供的 API nvim-lspconfig package 为各类语言的 LSP client 配置提供了基本的支持 :help lspconfig-all 可以查看想要对应语言的 server 安装方法和配置方法 一般现在都会搭配 mason.nvim package 来自动下载，但是了解最基本的方法更好一些 LSP Format 就是由 vim.lsp.buf.format() 来对当前 buffer 实现的 format 因为是 LSP 提供的功能，有可能有一些 server 并不支持 TJ 介绍了一个 autocmd 的在 server attach 的时候确认是否支持 format，并动态的绑定键位 editorconfig 是一个更加通用的格式定义工具，比起直接对 LSP 进行配置，更推荐这样的方式，因为很多我们知道的 editor，比如 neovim 就支持对它的解析。这样，书写一次规则，就可以在各个 editor 中都使用了 Telescope telescope 这个 fuzzy finder 的核心就是 finder, sorter, previewer 三个部件。Finder 搜索内容，sorter 对搜索到的内容进行排序，previewer 展示内容，三者组合起来就成了一个可用的 picker 了。 Advanced Telescope 里就展示了如何实现一个自定义的 picker 来满足自己的搜索需求 干了啥 这周重新把 blog 组织起来。这次的目标是使用简单的工具，把时间专注到内容而不是格式上去。本篇就是这唯一更新的内容 :) 脚可能是上周末团建的时候扭伤了，导致只跑了一次步。估计下周也没法跑了 才刚刚为冬天跑步买了装备呢 :( 房子重新续约。不让中间商赚差价，每个月省了几百块的租金😁 工作呢 项目进入阶段尾声，没有什么可以公开分享的。学习了一些内部代码 "><meta property="og:locale" content="en-us"><meta property="og:type" content="article"><meta property="article:section" content="weekly"><meta property="article:published_time" content="2024-12-28T14:47:25+08:00"><meta property="article:modified_time" content="2024-12-28T18:26:22+08:00"><meta property="article:tag" content="Weekly Log"><meta name=twitter:card content="summary"><meta name=twitter:title content="Weekly Digest: 2024-12-28"><meta name=twitter:description content="学到啥
+
+Neovim TJ Advent 系列
+
+LSP in Neovim
+
+help: vim.lsp.* 查看 neovim 内建 LSP client 所提供的 API
+nvim-lspconfig package 为各类语言的 LSP client 配置提供了基本的支持
+
+:help lspconfig-all 可以查看想要对应语言的 server 安装方法和配置方法
+一般现在都会搭配 mason.nvim package 来自动下载，但是了解最基本的方法更好一些
+
+
+
+
+LSP Format
+
+就是由 vim.lsp.buf.format() 来对当前 buffer 实现的 format
+
+因为是 LSP 提供的功能，有可能有一些 server 并不支持
+TJ 介绍了一个 autocmd 的在 server attach 的时候确认是否支持 format，并动态的绑定键位
+
+
+editorconfig 是一个更加通用的格式定义工具，比起直接对 LSP 进行配置，更推荐这样的方式，因为很多我们知道的 editor，比如 neovim 就支持对它的解析。这样，书写一次规则，就可以在各个 editor 中都使用了
+
+
+Telescope
+
+telescope 这个 fuzzy finder 的核心就是 finder, sorter, previewer 三个部件。Finder 搜索内容，sorter 对搜索到的内容进行排序，previewer 展示内容，三者组合起来就成了一个可用的 picker 了。
+Advanced Telescope 里就展示了如何实现一个自定义的 picker 来满足自己的搜索需求
+
+
+
+
+
+干了啥
+
+这周重新把 blog 组织起来。这次的目标是使用简单的工具，把时间专注到内容而不是格式上去。本篇就是这唯一更新的内容 :)
+脚可能是上周末团建的时候扭伤了，导致只跑了一次步。估计下周也没法跑了
+
+才刚刚为冬天跑步买了装备呢 :(
+
+
+房子重新续约。不让中间商赚差价，每个月省了几百块的租金😁
+
+工作呢
+
+项目进入阶段尾声，没有什么可以公开分享的。学习了一些内部代码
+"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Weeklies","item":"https://z1ggy-o.github.io/weekly/"},{"@type":"ListItem","position":2,"name":"Weekly Digest: 2024-12-28","item":"https://z1ggy-o.github.io/weekly/2024/24-12-28/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Weekly Digest: 2024-12-28","name":"Weekly Digest: 2024-12-28","description":"学到啥 Neovim TJ Advent 系列 LSP in Neovim help: vim.lsp.* 查看 neovim 内建 LSP client 所提供的 API nvim-lspconfig package 为各类语言的 LSP client 配置提供了基本的支持 :help lspconfig-all 可以查看想要对应语言的 server 安装方法和配置方法 一般现在都会搭配 mason.nvim package 来自动下载，但是了解最基本的方法更好一些 LSP Format 就是由 vim.lsp.buf.format() 来对当前 buffer 实现的 format 因为是 LSP 提供的功能，有可能有一些 server 并不支持 TJ 介绍了一个 autocmd 的在 server attach 的时候确认是否支持 format，并动态的绑定键位 editorconfig 是一个更加通用的格式定义工具，比起直接对 LSP 进行配置，更推荐这样的方式，因为很多我们知道的 editor，比如 neovim 就支持对它的解析。这样，书写一次规则，就可以在各个 editor 中都使用了 Telescope telescope 这个 fuzzy finder 的核心就是 finder, sorter, previewer 三个部件。Finder 搜索内容，sorter 对搜索到的内容进行排序，previewer 展示内容，三者组合起来就成了一个可用的 picker 了。 Advanced Telescope 里就展示了如何实现一个自定义的 picker 来满足自己的搜索需求 干了啥 这周重新把 blog 组织起来。这次的目标是使用简单的工具，把时间专注到内容而不是格式上去。本篇就是这唯一更新的内容 :) 脚可能是上周末团建的时候扭伤了，导致只跑了一次步。估计下周也没法跑了 才刚刚为冬天跑步买了装备呢 :( 房子重新续约。不让中间商赚差价，每个月省了几百块的租金😁 工作呢 项目进入阶段尾声，没有什么可以公开分享的。学习了一些内部代码 ","keywords":["Weekly Log"],"articleBody":"学到啥 Neovim TJ Advent 系列 LSP in Neovim help: vim.lsp.* 查看 neovim 内建 LSP client 所提供的 API nvim-lspconfig package 为各类语言的 LSP client 配置提供了基本的支持 :help lspconfig-all 可以查看想要对应语言的 server 安装方法和配置方法 一般现在都会搭配 mason.nvim package 来自动下载，但是了解最基本的方法更好一些 LSP Format 就是由 vim.lsp.buf.format() 来对当前 buffer 实现的 format 因为是 LSP 提供的功能，有可能有一些 server 并不支持 TJ 介绍了一个 autocmd 的在 server attach 的时候确认是否支持 format，并动态的绑定键位 editorconfig 是一个更加通用的格式定义工具，比起直接对 LSP 进行配置，更推荐这样的方式，因为很多我们知道的 editor，比如 neovim 就支持对它的解析。这样，书写一次规则，就可以在各个 editor 中都使用了 Telescope telescope 这个 fuzzy finder 的核心就是 finder, sorter, previewer 三个部件。Finder 搜索内容，sorter 对搜索到的内容进行排序，previewer 展示内容，三者组合起来就成了一个可用的 picker 了。 Advanced Telescope 里就展示了如何实现一个自定义的 picker 来满足自己的搜索需求 干了啥 这周重新把 blog 组织起来。这次的目标是使用简单的工具，把时间专注到内容而不是格式上去。本篇就是这唯一更新的内容 :) 脚可能是上周末团建的时候扭伤了，导致只跑了一次步。估计下周也没法跑了 才刚刚为冬天跑步买了装备呢 :( 房子重新续约。不让中间商赚差价，每个月省了几百块的租金😁 工作呢 项目进入阶段尾声，没有什么可以公开分享的。学习了一些内部代码 ","wordCount":"93","inLanguage":"en","datePublished":"2024-12-28T14:47:25+08:00","dateModified":"2024-12-28T18:26:22+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://z1ggy-o.github.io/weekly/2024/24-12-28/"},"publisher":{"@type":"Organization","name":"Gy's Blog","logo":{"@type":"ImageObject","url":"https://z1ggy-o.github.io/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://z1ggy-o.github.io/ accesskey=h title="Gy's Blog (Alt + H)">Gy's Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://z1ggy-o.github.io/posts/ title=Posts><span>Posts</span></a></li><li><a href=https://z1ggy-o.github.io/weekly/ title=Logs><span>Logs</span></a></li><li><a href=https://z1ggy-o.github.io/archives/ title=Archives><span>Archives</span></a></li><li><a href=https://z1ggy-o.github.io/tags/ title=Tags><span>Tags</span></a></li><li><a href=https://z1ggy-o.github.io/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://z1ggy-o.github.io/>Home</a>&nbsp;»&nbsp;<a href=https://z1ggy-o.github.io/weekly/>Weeklies</a></div><h1 class="post-title entry-hint-parent">Weekly Digest: 2024-12-28</h1><div class=post-meta><span title='2024-12-28 14:47:25 +0800 +0800'>December 28, 2024</span>&nbsp;·&nbsp;1 min</div></header><div class=post-content><h2 id=学到啥>学到啥<a hidden class=anchor aria-hidden=true href=#学到啥>#</a></h2><ul><li>Neovim TJ Advent 系列<ul><li><a href="https://www.youtube.com/watch?v=bTWWFQZqzyI">LSP in Neovim</a><ul><li><code>help: vim.lsp.*</code> 查看 neovim 内建 LSP client 所提供的 API</li><li><code>nvim-lspconfig</code> package 为各类语言的 LSP client 配置提供了基本的支持<ul><li><code>:help lspconfig-all</code> 可以查看想要对应语言的 server 安装方法和配置方法</li><li>一般现在都会搭配 <code>mason.nvim</code> package 来自动下载，但是了解最基本的方法更好一些</li></ul></li></ul></li><li><a href="https://www.youtube.com/watch?v=mEqqkHLhlGY">LSP Format</a><ul><li>就是由 <code>vim.lsp.buf.format()</code> 来对当前 buffer 实现的 format<ul><li>因为是 LSP 提供的功能，有可能有一些 server 并不支持</li><li>TJ 介绍了一个 autocmd 的在 server attach 的时候确认是否支持 format，并动态的绑定键位</li></ul></li><li><code>editorconfig</code> 是一个更加通用的格式定义工具，比起直接对 LSP 进行配置，更推荐这样的方式，因为很多我们知道的 editor，比如 neovim 就支持对它的解析。这样，书写一次规则，就可以在各个 editor 中都使用了</li></ul></li><li><a href="https://www.youtube.com/watch?v=xdXE1tOT-qg">Telescope</a><ul><li>telescope 这个 fuzzy finder 的核心就是 finder, sorter, previewer 三个部件。Finder 搜索内容，sorter 对搜索到的内容进行排序，previewer 展示内容，三者组合起来就成了一个可用的 picker 了。</li><li><a href="https://www.youtube.com/watch?v=xdXE1tOT-qg">Advanced Telescope</a> 里就展示了如何实现一个自定义的 picker 来满足自己的搜索需求</li></ul></li></ul></li></ul><h2 id=干了啥>干了啥<a hidden class=anchor aria-hidden=true href=#干了啥>#</a></h2><ul><li>这周重新把 blog 组织起来。这次的目标是使用简单的工具，把时间专注到内容而不是格式上去。本篇就是这唯一更新的内容 :)</li><li>脚可能是上周末团建的时候扭伤了，导致只跑了一次步。估计下周也没法跑了<ul><li>才刚刚为冬天跑步买了装备呢 :(</li></ul></li><li>房子重新续约。不让中间商赚差价，每个月省了几百块的租金😁</li></ul><h2 id=工作呢>工作呢<a hidden class=anchor aria-hidden=true href=#工作呢>#</a></h2><ul><li>项目进入阶段尾声，没有什么可以公开分享的。学习了一些内部代码</li></ul></div><footer class=post-footer><ul class=post-tags><li><a href=https://z1ggy-o.github.io/tags/weekly-log/>Weekly Log</a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=https://z1ggy-o.github.io/>Gy's Blog</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
