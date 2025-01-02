@@ -22,7 +22,7 @@ To parallelize the computation, to distribute the data, and to handle failures m
 在 2PC 协议中，协调者单方面向参与者发送一次 commit 消息。这个消息有两个含义：
 让参与者进行 commit 所有参与者都认可此 commit 但需要注意的是，对于一个 transaction，是 commit 还是 abort 这个决定本身只有协调者知道。一旦协调者故障，这部分信息就消失了。所以我们说 2PC 的协调者是单点故障点。
 3PC 协议中，prepare commit 消息让一个 transaction 该 commit 还是 abort 这个决定本身被传导到了所有参与者处。如此一来，如果协调者故障，参与者们可以根据 prepare commit 的情况继续工作。
-...</p></div><footer class=entry-footer>1 min&nbsp;·&nbsp;Me</footer><a class=entry-link aria-label="post link to 2PC v.s. 3PC: 一句话的总结" href=https://z1ggy-o.github.io/posts/2pc-vs-3pc/></a></article></main><footer class=footer><span>&copy; 2024 <a href=https://z1ggy-o.github.io/>Gy's Blog</a></span> ·
+...</p></div><footer class=entry-footer>1 min&nbsp;·&nbsp;Me</footer><a class=entry-link aria-label="post link to 2PC v.s. 3PC: 一句话的总结" href=https://z1ggy-o.github.io/posts/2pc-vs-3pc/></a></article></main><footer class=footer><span>&copy; 2025 <a href=https://z1ggy-o.github.io/>Gy's Blog</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
         <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
