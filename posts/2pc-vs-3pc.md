@@ -3,7 +3,7 @@ title: "2PC v.s. 3PC: 一句话的总结"
 # date: 2022-07-31 12:15:08
 # categories: 
 #   - articles
-tags: 
+tags:
   - distributed-systems
 toc: false
 # isCJKLanguage: true

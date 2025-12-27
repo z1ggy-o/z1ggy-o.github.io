@@ -1,4 +1,4 @@
-# Gy's Blog
+<!-- # Gy's Blog -->
 
 I tried static site generators such as hugo, hexo, jekylly to build my blogs.
 But I found out that I put too much effort into the static site generators
