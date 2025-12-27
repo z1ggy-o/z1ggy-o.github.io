@@ -14,7 +14,7 @@ Let's build a simple and clean life style!
 
 ## Outline
 
-- [Weekly Dumps](weekly/index.md)
+- [Weekly Dumps](weekly/)
 - [Random Posts](posts/index.md)
 - [Book Notes](books/index.md)
 - [Paper Notes](papers/index.md)
